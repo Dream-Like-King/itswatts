@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Logo } from './Logo'
 
-const links = [['Learn', 'learn'], ['Tools', 'tools'], ['Weekly notes', 'weekly'], ['About', 'about']]
+const links = [['Learn', 'learn'], ['Tools', 'tools'], ['Resources', 'resources'], ['Weekly notes', 'weekly'], ['About', 'about']]
 
 export function Navbar() {
   const [open, setOpen] = useState(false)

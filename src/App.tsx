@@ -4,6 +4,7 @@ import { WeeklyNotes } from './components/WeeklyNotes'
 import { QaToolkits } from './components/QaToolkits'
 import { GrowthHub } from './components/GrowthHub'
 import { LearningPaths } from './components/LearningPaths'
+import { ResourceLibrary } from './components/ResourceLibrary'
 import { Logo } from './components/Logo'
 import { focusAreas } from './data/site'
 
@@ -27,6 +28,8 @@ function App() {
     <WeeklyNotes />
 
     <GrowthHub />
+
+    <ResourceLibrary />
 
     <section className="focus section"><p className="eyebrow">WHAT WE’RE EXPLORING</p><div>{focusAreas.map((area) => <span key={area}>{area}</span>)}</div></section>
 
