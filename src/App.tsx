@@ -2,29 +2,31 @@ import { Navbar } from './components/Navbar'
 import { SectionHeading } from './components/SectionHeading'
 import { AskWatt } from './components/AskWatt'
 import { Logo } from './components/Logo'
-import { labItems, projects, skills } from './data/site'
+import { focusAreas, learningPaths, posts, toolkits } from './data/site'
 
 function App() {
   return <main id="top">
     <div className="hero-glow"></div><Navbar />
-    <section className="hero">
+    <section className="hero education-hero">
       <div className="hero-grid" aria-hidden="true"></div><div className="orb orb-one"></div><div className="orb orb-two"></div>
-      <div className="hero-content"><p className="eyebrow hero-eyebrow"><span></span> QUALITY ENGINEERING + AI</p><h1>Smarter answers.<br /><em>Better software.</em></h1><p className="hero-copy">It’s Watt is where quality engineering, automation, and AI come together to make technology more useful.</p><div className="hero-actions"><a className="button primary" href="#ask-watt">Ask Watt <span>↗</span></a><a className="button quiet" href="#work">Explore the work <span>↓</span></a></div></div>
-      <div className="hero-footer"><span>BASED IN THE DETAILS. BUILT FOR WHAT’S NEXT.</span><span className="scroll-mark">SCROLL TO EXPLORE <i></i></span></div>
+      <div className="hero-content"><p className="eyebrow hero-eyebrow"><span></span> AUTOMATION · AI · QUALITY ENGINEERING</p><h1>Practical QA education<br />for the <em>AI era.</em></h1><p className="hero-copy">Learn the testing habits, automation patterns, and AI workflows that help you build software people can trust.</p><div className="hero-actions"><a className="button primary" href="#learn">Start learning <span>↓</span></a><a className="button quiet" href="#weekly">Read weekly notes <span>↗</span></a></div></div>
+      <div className="hero-footer"><span>LEARN IN PUBLIC. TEST WITH PURPOSE.</span><span className="scroll-mark">EXPLORE THE HUB <i></i></span></div>
     </section>
 
-    <section className="intro section" id="about"><p className="eyebrow">WHAT IS IT’S WATT?</p><div><h2>More than a portfolio.<br />A <em>living lab</em> for better<br />digital experiences.</h2><p>Built by Derrick Watson, It’s Watt brings together thoughtful quality engineering and curious experimentation—because great software should feel intentional from the inside out.</p><a className="text-link" href="#contact">A little about Derrick <span>↗</span></a></div></section>
+    <section className="intro section" id="about"><p className="eyebrow">WELCOME TO IT’S WATT</p><div><h2>A QA learning hub<br />for <em>builders who care.</em></h2><p>It’s Watt turns real quality-engineering practice into approachable lessons, tools, and experiments. Whether you are starting in QA or leveling up your automation skills, you’ll find practical guidance you can use in your next sprint.</p><a className="text-link" href="#weekly">Follow the weekly notes <span>↓</span></a></div></section>
 
-    <section className="capabilities section"><SectionHeading eyebrow="THE FOCUS" title="Quality that moves with you." copy="From the first question to the final release, every practice has one purpose: helping teams build with confidence." /><div className="skills-grid">{skills.map((skill) => <article className="skill-card" key={skill.number}><span>{skill.number}</span><div className="plus">+</div><h3>{skill.title}</h3><p>{skill.text}</p></article>)}</div></section>
+    <section className="capabilities section" id="learn"><SectionHeading eyebrow="START HERE" title="Build your QA foundation." copy="Clear learning paths for the skills that matter most in modern quality engineering." /><div className="learning-grid">{learningPaths.map((path) => <article className="learning-card" key={path.number}><span>{path.number}</span><div className="plus">+</div><h3>{path.title}</h3><p>{path.text}</p><div className="tags">{path.tags.map((tag) => <i key={tag}>{tag}</i>)}</div><a href="#toolkits">Explore path <b>↗</b></a></article>)}</div></section>
 
-    <section className="work section" id="work"><SectionHeading eyebrow="SELECTED WORK" title="The work behind the watt." /><div className="projects-grid">{projects.map((project, index) => <article className={`project project-${index + 1}`} key={project.title}><div className="project-art"><div className="art-mark">{index === 0 ? '↗' : index === 1 ? 'ϟ' : '◎'}</div></div><div className="project-content"><p>{project.tag}</p><h3>{project.title}</h3><div><span>{project.description}</span><a href="#contact" aria-label={project.action}>↗</a></div></div></article>)}</div><a className="button outline" href="#contact">View all projects <span>↗</span></a></section>
+    <section className="toolkits section" id="tools"><SectionHeading eyebrow="QA TOOLKITS" title="Useful tools.<br /><em>No fluff.</em>" copy="Small resources designed to make your day-to-day quality work clearer, faster, and more confident." /><div className="toolkit-list">{toolkits.map(([number, title, description, status]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p><em>{status}</em></article>)}</div></section>
 
     <AskWatt />
 
-    <section className="labs section" id="labs"><SectionHeading eyebrow="IN THE LAB" title="Experiments with an edge." copy="Small, useful ideas where QA, accessibility, and AI have room to meet." /><div className="labs-list">{labItems.map(([number, title, copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p><a href="#contact">↗</a></article>)}</div></section>
+    <section className="weekly section" id="weekly"><SectionHeading eyebrow="THE WEEKLY NOTE" title="Learn something<br /><em>worth testing.</em>" copy="Short, practical thoughts on automation, AI, and quality—published as the work evolves." /><div className="posts-grid">{posts.map((post) => <article className="post-card" key={post.title}><p className="post-date">{post.date}</p><span>{post.category}</span><h3>{post.title}</h3><p>{post.description}</p><a href="#contact">Read note <b>↗</b></a></article>)}</div><a className="button outline" href="#contact">Get the next note <span>↗</span></a></section>
 
-    <section className="contact section" id="contact"><p className="eyebrow">LET’S MAKE SOMETHING BETTER</p><h2>Have a question,<br />project, or <em>bright idea?</em></h2><a href="mailto:hello@itswatt.com" className="contact-email">hello@itswatt.com <span>↗</span></a></section>
-    <footer><Logo compact /><p>© {new Date().getFullYear()} It’s Watt. Built with intent.</p><div><a href="#top">Back to top ↑</a><a href="https://github.com/Dream-Like-King" target="_blank" rel="noreferrer">GitHub ↗</a></div></footer>
+    <section className="focus section"><p className="eyebrow">WHAT WE’RE EXPLORING</p><div>{focusAreas.map((area) => <span key={area}>{area}</span>)}</div></section>
+
+    <section className="contact section" id="contact"><p className="eyebrow">STAY IN THE LOOP</p><h2>One useful QA idea<br />at a <em>time.</em></h2><p className="contact-copy">New weekly notes and practical QA tools are on the way. Follow along, explore the work, and keep learning.</p><div className="contact-links"><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer" className="contact-email">Connect on LinkedIn <span>↗</span></a><a href="https://github.com/Dream-Like-King" target="_blank" rel="noreferrer">GitHub ↗</a><a href="mailto:watson.derrick@outlook.com">Email Derrick ↗</a></div></section>
+    <footer><Logo compact /><p>© {new Date().getFullYear()} It’s Watt. Built for better software.</p><div><a href="#top">Back to top ↑</a><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></footer>
   </main>
 }
 export default App

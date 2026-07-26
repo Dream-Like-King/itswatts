@@ -1,18 +1,19 @@
-export const skills = [
-  { number: '01', title: 'Quality strategy', text: 'Practical testing that protects the experience, not just the release.' },
-  { number: '02', title: 'Automation', text: 'Reliable UI and API workflows that make quality repeatable.' },
-  { number: '03', title: 'AI workflows', text: 'Useful AI assistance built around real teams and real decisions.' },
-  { number: '04', title: 'Accessibility', text: 'Inclusive digital experiences designed with people in mind.' },
+export const learningPaths = [
+  { number: '01', title: 'Automation foundations', text: 'Choose the right test cases, write maintainable checks, and make your regression suite earn its keep.', tags: ['Playwright', 'Selenium', 'API'] },
+  { number: '02', title: 'AI for QA', text: 'Use AI to sharpen test design, documentation, and investigation without outsourcing your judgment.', tags: ['Copilot', 'Prompts', 'Strategy'] },
+  { number: '03', title: 'Quality essentials', text: 'Build the habits behind thoughtful exploratory testing, accessibility, defect reporting, and release confidence.', tags: ['Accessibility', 'Risk', 'SDLC'] },
 ]
 
-export const projects = [
-  { tag: 'AUTOMATION', title: 'Quality at speed', description: 'A modern approach to dependable regression testing, from clear coverage to maintainable automation.', action: 'Explore the work' },
-  { tag: 'AI + QA', title: 'Watt, the QA assistant', description: 'A conversational guide for exploring QA workflows, projects, and the thinking behind the work.', action: 'Meet Watt' },
-  { tag: 'ACCESSIBILITY', title: 'Built for everyone', description: 'Inclusive quality practices that help make software clearer, fairer, and easier to use.', action: 'See the approach' },
+export const toolkits = [
+  ['01', 'Test case starter', 'A practical checklist for turning a feature request into useful test scenarios.', 'Coming soon'],
+  ['02', 'Automation decision guide', 'A simple framework for deciding what to automate, what to explore, and what to leave manual.', 'Coming soon'],
+  ['03', 'QA prompt library', 'Ready-to-adapt prompts for test planning, bug investigation, and clearer QA communication.', 'Coming soon'],
 ]
 
-export const labItems = [
-  ['01', 'AI test generator', 'Turn a well-framed requirement into a thoughtful starting set of test ideas.'],
-  ['02', 'Accessibility lens', 'A lightweight way to make inclusive design part of everyday quality work.'],
-  ['03', 'QA prompt library', 'Prompt patterns for planning, investigation, and stronger test communication.'],
+export const posts = [
+  { date: 'WEEKLY NOTE · 01', category: 'AI + QA', title: 'AI can accelerate QA. It cannot replace curiosity.', description: 'How to use AI as a thinking partner without turning quality into a copy-and-paste exercise.' },
+  { date: 'WEEKLY NOTE · 02', category: 'AUTOMATION', title: 'What should you automate first?', description: 'A risk-based approach to choosing automation work that saves time instead of creating maintenance debt.' },
+  { date: 'WEEKLY NOTE · 03', category: 'QUALITY BASICS', title: 'A good bug report is a gift to your whole team.', description: 'The details that make a defect report easier to understand, reproduce, and resolve.' },
 ]
+
+export const focusAreas = ['Playwright', 'Selenium', 'API testing', 'Accessibility', 'GitHub Copilot', 'Azure DevOps', 'AI workflows']
