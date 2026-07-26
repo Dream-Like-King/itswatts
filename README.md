@@ -4,7 +4,7 @@
 # itswatts
 =======
 >>>>>>> 7d19165 (Updated files and removed unused assets)
-# It’s Watt
+# It’s Watts
 
 A responsive React + Vite + TypeScript landing page for `itswatt.com`.
 

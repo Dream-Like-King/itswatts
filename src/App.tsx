@@ -17,7 +17,7 @@ function App() {
       <div className="hero-footer"><span>LEARN IN PUBLIC. TEST WITH PURPOSE.</span><span className="scroll-mark">EXPLORE THE HUB <i></i></span></div>
     </section>
 
-    <section className="intro section" id="about"><p className="eyebrow">WELCOME TO IT’S WATT</p><div><h2>A QA learning hub<br />for <em>builders who care.</em></h2><p>It’s Watt turns real quality-engineering practice into approachable lessons, tools, and experiments. Whether you are starting in QA or leveling up your automation skills, you’ll find practical guidance you can use in your next sprint.</p><a className="text-link" href="#weekly">Follow the weekly notes <span>↓</span></a></div></section>
+    <section className="intro section" id="about"><p className="eyebrow">WELCOME TO IT’S WATTS</p><div><h2>A QA learning hub<br />for <em>builders who care.</em></h2><p>It’s Watts turns real quality-engineering practice into approachable lessons, tools, and experiments. Whether you are starting in QA or leveling up your automation skills, you’ll find practical guidance you can use in your next sprint.</p><a className="text-link" href="#weekly">Follow the weekly notes <span>↓</span></a></div></section>
 
     <LearningPaths />
 
