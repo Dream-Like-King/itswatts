@@ -4,8 +4,9 @@ import { AskWatt } from './components/AskWatt'
 import { WeeklyNotes } from './components/WeeklyNotes'
 import { QaToolkits } from './components/QaToolkits'
 import { GrowthHub } from './components/GrowthHub'
+import { LearningPaths } from './components/LearningPaths'
 import { Logo } from './components/Logo'
-import { focusAreas, learningPaths } from './data/site'
+import { focusAreas } from './data/site'
 
 function App() {
   return <main id="top">
@@ -18,7 +19,7 @@ function App() {
 
     <section className="intro section" id="about"><p className="eyebrow">WELCOME TO IT’S WATT</p><div><h2>A QA learning hub<br />for <em>builders who care.</em></h2><p>It’s Watt turns real quality-engineering practice into approachable lessons, tools, and experiments. Whether you are starting in QA or leveling up your automation skills, you’ll find practical guidance you can use in your next sprint.</p><a className="text-link" href="#weekly">Follow the weekly notes <span>↓</span></a></div></section>
 
-    <section className="capabilities section" id="learn"><SectionHeading eyebrow="START HERE" title="Build your QA foundation." copy="Clear learning paths for the skills that matter most in modern quality engineering." /><div className="learning-grid">{learningPaths.map((path) => <article className="learning-card" key={path.number}><span>{path.number}</span><div className="plus">+</div><h3>{path.title}</h3><p>{path.text}</p><div className="tags">{path.tags.map((tag) => <i key={tag}>{tag}</i>)}</div><a href="#toolkits">Explore path <b>↗</b></a></article>)}</div></section>
+    <LearningPaths />
 
     <QaToolkits />
 
