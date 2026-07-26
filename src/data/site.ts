@@ -11,9 +11,21 @@ export const toolkits = [
 ]
 
 export const posts = [
-  { date: 'WEEKLY NOTE · 01', category: 'AI + QA', title: 'AI can accelerate QA. It cannot replace curiosity.', description: 'How to use AI as a thinking partner without turning quality into a copy-and-paste exercise.' },
-  { date: 'WEEKLY NOTE · 02', category: 'AUTOMATION', title: 'What should you automate first?', description: 'A risk-based approach to choosing automation work that saves time instead of creating maintenance debt.' },
-  { date: 'WEEKLY NOTE · 03', category: 'QUALITY BASICS', title: 'A good bug report is a gift to your whole team.', description: 'The details that make a defect report easier to understand, reproduce, and resolve.' },
+  {
+    date: 'WEEKLY NOTE · 01', category: 'AI + QA', readTime: '3 MIN READ', title: 'AI can accelerate QA. It cannot replace curiosity.', description: 'How to use AI as a thinking partner without turning quality into a copy-and-paste exercise.',
+    intro: 'AI can make a QA professional faster. It can help turn rough requirements into test ideas, summarize a confusing defect, or create a first draft of documentation. But the tool does not understand your users, your risks, or the small details that make a feature feel wrong.',
+    sections: [['Use AI for a first pass', 'Let AI help you expand a requirement into scenarios, edge cases, and questions. Treat that output as a starting point—not proof that coverage is complete.'], ['Keep the human work human', 'Risk assessment, exploratory testing, and deciding what matters most still require context. Curiosity is what turns a list of test cases into meaningful quality work.'], ['A practical prompt', 'Try: “What assumptions could make this user story fail for a first-time user, a returning user, or someone using a keyboard?” Then investigate the answers in the product.']],
+  },
+  {
+    date: 'WEEKLY NOTE · 02', category: 'AUTOMATION', readTime: '4 MIN READ', title: 'What should you automate first?', description: 'A risk-based approach to choosing automation work that saves time instead of creating maintenance debt.',
+    intro: 'The best automation candidate is not always the most complicated workflow. Start with repeatable, high-value checks that give your team feedback when it matters.',
+    sections: [['Look for repetition and risk', 'A stable flow that runs every release, protects important business behavior, or frequently breaks is a strong candidate. Repetition alone is not enough—pair it with meaningful risk.'], ['Avoid automating chaos', 'A feature that is changing every day may be better served by exploratory testing until the experience settles. Automating unstable behavior too early creates maintenance work instead of confidence.'], ['Start small, learn quickly', 'Automate one clear path end to end. Make it readable, reliable, and easy for another person to understand. Then expand from a solid foundation.']],
+  },
+  {
+    date: 'WEEKLY NOTE · 03', category: 'QUALITY BASICS', readTime: '3 MIN READ', title: 'A good bug report is a gift to your whole team.', description: 'The details that make a defect report easier to understand, reproduce, and resolve.',
+    intro: 'A defect report is not just a record of what went wrong. It is a communication tool that helps the next person understand the problem without having to rediscover it.',
+    sections: [['Make the behavior easy to see', 'State what you did, what you expected, and what actually happened. Include the environment, account state, and any conditions that make the problem repeatable.'], ['Explain the impact', 'A clear title tells the team what is affected. A short impact statement explains why it matters to a user, business process, or release.'], ['Reduce the back-and-forth', 'Add useful screenshots, logs, or a short video when they make the issue clearer. The goal is not more detail—it is the right detail.']],
+  },
 ]
 
 export const focusAreas = ['Playwright', 'Selenium', 'API testing', 'Accessibility', 'GitHub Copilot', 'Azure DevOps', 'AI workflows']

@@ -1,8 +1,9 @@
 import { Navbar } from './components/Navbar'
 import { SectionHeading } from './components/SectionHeading'
 import { AskWatt } from './components/AskWatt'
+import { WeeklyNotes } from './components/WeeklyNotes'
 import { Logo } from './components/Logo'
-import { focusAreas, learningPaths, posts, toolkits } from './data/site'
+import { focusAreas, learningPaths, toolkits } from './data/site'
 
 function App() {
   return <main id="top">
@@ -17,11 +18,11 @@ function App() {
 
     <section className="capabilities section" id="learn"><SectionHeading eyebrow="START HERE" title="Build your QA foundation." copy="Clear learning paths for the skills that matter most in modern quality engineering." /><div className="learning-grid">{learningPaths.map((path) => <article className="learning-card" key={path.number}><span>{path.number}</span><div className="plus">+</div><h3>{path.title}</h3><p>{path.text}</p><div className="tags">{path.tags.map((tag) => <i key={tag}>{tag}</i>)}</div><a href="#toolkits">Explore path <b>↗</b></a></article>)}</div></section>
 
-    <section className="toolkits section" id="tools"><SectionHeading eyebrow="QA TOOLKITS" title="Useful tools.<br /><em>No fluff.</em>" copy="Small resources designed to make your day-to-day quality work clearer, faster, and more confident." /><div className="toolkit-list">{toolkits.map(([number, title, description, status]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p><em>{status}</em></article>)}</div></section>
+    <section className="toolkits section" id="tools"><SectionHeading eyebrow="QA TOOLKITS" title={<>Useful tools.<br /><em>No fluff.</em></>} copy="Small resources designed to make your day-to-day quality work clearer, faster, and more confident." /><div className="toolkit-list">{toolkits.map(([number, title, description, status]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p><em>{status}</em></article>)}</div></section>
 
     <AskWatt />
 
-    <section className="weekly section" id="weekly"><SectionHeading eyebrow="THE WEEKLY NOTE" title="Learn something<br /><em>worth testing.</em>" copy="Short, practical thoughts on automation, AI, and quality—published as the work evolves." /><div className="posts-grid">{posts.map((post) => <article className="post-card" key={post.title}><p className="post-date">{post.date}</p><span>{post.category}</span><h3>{post.title}</h3><p>{post.description}</p><a href="#contact">Read note <b>↗</b></a></article>)}</div><a className="button outline" href="#contact">Get the next note <span>↗</span></a></section>
+    <WeeklyNotes />
 
     <section className="focus section"><p className="eyebrow">WHAT WE’RE EXPLORING</p><div>{focusAreas.map((area) => <span key={area}>{area}</span>)}</div></section>
 
