@@ -1,5 +1,4 @@
 import { Navbar } from './components/Navbar'
-import { SectionHeading } from './components/SectionHeading'
 import { AskWatt } from './components/AskWatt'
 import { WeeklyNotes } from './components/WeeklyNotes'
 import { QaToolkits } from './components/QaToolkits'
@@ -9,7 +8,7 @@ import { Logo } from './components/Logo'
 import { focusAreas } from './data/site'
 
 function App() {
-  return <main id="top">
+  return <main id="content" tabIndex={-1}>
     <div className="hero-glow"></div><Navbar />
     <section className="hero education-hero">
       <div className="hero-grid" aria-hidden="true"></div><div className="orb orb-one"></div><div className="orb orb-two"></div>

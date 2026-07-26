@@ -8,7 +8,13 @@ export default async function handler(req, res) {
   try {
     const openaiResponse = await fetch('https://api.openai.com/v1/responses', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'gpt-5.6-terra', instructions: instruction, input: message.trim(), reasoning: { effort: 'low' }, text: { verbosity: 'low' }, max_output_tokens: 500, safety_identifier: typeof safetyId === 'string' ? safetyId.slice(0, 128) : undefined }) })
     const data = await openaiResponse.json()
-    if (!openaiResponse.ok) return res.status(openaiResponse.status).json({ error: data.error?.message || 'OpenAI could not complete the request.' })
+    if (!openaiResponse.ok) {
+      const isQuotaIssue = data.error?.code === 'insufficient_quota' || data.error?.type === 'insufficient_quota'
+      const error = isQuotaIssue
+        ? 'Ask Watt is temporarily offline while we refresh its learning credits. Please check back soon.'
+        : 'Ask Watt could not answer right now. Please try again in a moment.'
+      return res.status(openaiResponse.status).json({ error })
+    }
     return res.status(200).json({ answer: data.output_text || 'I could not form a response. Please try again.' })
   } catch { return res.status(500).json({ error: 'Ask Watt encountered a temporary problem. Please try again.' }) }
 }
