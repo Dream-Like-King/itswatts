@@ -2,8 +2,9 @@ import { Navbar } from './components/Navbar'
 import { SectionHeading } from './components/SectionHeading'
 import { AskWatt } from './components/AskWatt'
 import { WeeklyNotes } from './components/WeeklyNotes'
+import { QaToolkits } from './components/QaToolkits'
 import { Logo } from './components/Logo'
-import { focusAreas, learningPaths, toolkits } from './data/site'
+import { focusAreas, learningPaths } from './data/site'
 
 function App() {
   return <main id="top">
@@ -18,7 +19,7 @@ function App() {
 
     <section className="capabilities section" id="learn"><SectionHeading eyebrow="START HERE" title="Build your QA foundation." copy="Clear learning paths for the skills that matter most in modern quality engineering." /><div className="learning-grid">{learningPaths.map((path) => <article className="learning-card" key={path.number}><span>{path.number}</span><div className="plus">+</div><h3>{path.title}</h3><p>{path.text}</p><div className="tags">{path.tags.map((tag) => <i key={tag}>{tag}</i>)}</div><a href="#toolkits">Explore path <b>↗</b></a></article>)}</div></section>
 
-    <section className="toolkits section" id="tools"><SectionHeading eyebrow="QA TOOLKITS" title={<>Useful tools.<br /><em>No fluff.</em></>} copy="Small resources designed to make your day-to-day quality work clearer, faster, and more confident." /><div className="toolkit-list">{toolkits.map(([number, title, description, status]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p><em>{status}</em></article>)}</div></section>
+    <QaToolkits />
 
     <AskWatt />
 
