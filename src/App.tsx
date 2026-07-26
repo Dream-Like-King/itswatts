@@ -3,6 +3,7 @@ import { SectionHeading } from './components/SectionHeading'
 import { AskWatt } from './components/AskWatt'
 import { WeeklyNotes } from './components/WeeklyNotes'
 import { QaToolkits } from './components/QaToolkits'
+import { GrowthHub } from './components/GrowthHub'
 import { Logo } from './components/Logo'
 import { focusAreas, learningPaths } from './data/site'
 
@@ -24,6 +25,8 @@ function App() {
     <AskWatt />
 
     <WeeklyNotes />
+
+    <GrowthHub />
 
     <section className="focus section"><p className="eyebrow">WHAT WE’RE EXPLORING</p><div>{focusAreas.map((area) => <span key={area}>{area}</span>)}</div></section>
 
