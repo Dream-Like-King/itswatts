@@ -51,6 +51,6 @@ export function ResourceLibrary() {
         <a href={resource.href} download={resource.download}> {resource.download ? 'Download resource' : 'Open resource'} <b aria-hidden="true">↗</b></a>
       </article>)}
     </div>
-    <p className="resource-request">Have a QA topic you want covered? <a href="mailto:watson.derrick@outlook.com?subject=It%E2%80%99s%20Watt%20resource%20idea">Suggest a resource ↗</a></p>
+    <p className="resource-request">Have a QA topic you want covered? <a href="mailto:watson.derrick@outlook.com?subject=It%E2%80%99s%20Watts%20resource%20idea">Suggest a resource ↗</a></p>
   </section>
 }
