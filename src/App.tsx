@@ -23,7 +23,8 @@ function App() {
     return () => { window.removeEventListener('popstate', syncLearnView); window.removeEventListener('hashchange', syncLearnView) }
   }, [])
   if (isLearnOpen) return <LearnHub onClose={closeLearn} onOpenPaths={() => { closeLearn(); window.setTimeout(() => document.getElementById('learn')?.scrollIntoView({ behavior: 'smooth' }), 0) }} />
-  return <main id="content" tabIndex={-1}>
+  return <>
+    <main id="content" tabIndex={-1}>
     <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
     <section className="hero education-hero">
       <div className="hero-grid" aria-hidden="true"></div><div className="orb orb-one"></div><div className="orb orb-two"></div>
@@ -47,9 +48,10 @@ function App() {
 
     <section className="contact section" id="contact"><p className="eyebrow">STAY IN THE LOOP</p><h2>One useful QA idea<br />at a <em>time.</em></h2><p className="contact-copy">New weekly notes and practical QA tools are on the way. Follow along, explore the work, and keep learning.</p><div className="contact-links"><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer" className="contact-email">Connect on LinkedIn <span>↗</span></a><a href="https://github.com/Dream-Like-King" target="_blank" rel="noreferrer">GitHub ↗</a><a href="mailto:watson.derrick@outlook.com">Email Derrick ↗</a></div></section>
     <footer><Logo compact /><p>© {new Date().getFullYear()} It's Watts. Built for better software.</p><div><a href="#top">Back to top ↑</a><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></footer>
+    </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
     <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
-  </main>
+  </>
 }
 export default App
