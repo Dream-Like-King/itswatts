@@ -25,16 +25,16 @@ const featuredResources = [resources[2], resources[3], resources[6]]
 const filters = ['All', 'Automation', 'AI + QA', 'Quality basics'] as const
 type Filter = typeof filters[number]
 
-function ResourceCard({ resource }: { resource: Resource }) {
+function ResourceCard({ resource, onOpenChat }: { resource: Resource; onOpenChat: () => void }) {
   return <article>
     <div className="resource-meta"><span>{resource.category}</span><i>{resource.type}</i></div>
     <h3>{resource.title}</h3>
     <p>{resource.description}</p>
-    <a href={resource.href} download={resource.download}>{resource.download ? 'Download resource' : 'Open resource'} <b aria-hidden="true">↗</b></a>
+    {resource.title === 'Ask Watt' ? <button type="button" className="resource-open" onClick={onOpenChat}>Open resource <b aria-hidden="true">↗</b></button> : <a href={resource.href} download={resource.download}>{resource.download ? 'Download resource' : 'Open resource'} <b aria-hidden="true">↗</b></a>}
   </article>
 }
 
-export function ResourceLibrary() {
+export function ResourceLibrary({ onOpenChat }: { onOpenChat: () => void }) {
   const [isOpen, setIsOpen] = useState(false)
   const [filter, setFilter] = useState<Filter>('All')
   const visibleResources = useMemo(() => filter === 'All' ? resources : resources.filter((resource) => resource.category === filter), [filter])
@@ -50,14 +50,14 @@ export function ResourceLibrary() {
       <div><p className="eyebrow">RESOURCE LIBRARY</p><h2>Useful QA<br /><em>starters.</em></h2></div>
       <div><p>A compact collection of templates, tools, and guides for the work in front of you.</p><button type="button" className="button outline" onClick={() => setIsOpen(true)}>Browse all {resources.length} resources <span aria-hidden="true">↗</span></button></div>
     </div>
-    <div className="resource-grid resource-featured">{featuredResources.map((resource) => <ResourceCard key={resource.title} resource={resource} />)}</div>
+    <div className="resource-grid resource-featured">{featuredResources.map((resource) => <ResourceCard key={resource.title} resource={resource} onOpenChat={onOpenChat} />)}</div>
     <p className="resource-request">Have a QA topic you want covered? <a href="mailto:watson.derrick@outlook.com?subject=It%E2%80%99s%20Watts%20resource%20idea">Suggest a resource ↗</a></p>
     {isOpen && <div className="resource-overlay" role="presentation" onMouseDown={() => setIsOpen(false)}>
       <article className="resource-dialog" role="dialog" aria-modal="true" aria-labelledby="resource-library-title" onMouseDown={(event) => event.stopPropagation()}>
         <button className="resource-close" type="button" onClick={() => setIsOpen(false)} aria-label="Close resource library">×</button>
         <p className="eyebrow">RESOURCE LIBRARY</p><h2 id="resource-library-title">Find your next<br /><em>useful step.</em></h2>
         <div className="resource-toolbar"><div className="resource-filters" role="group" aria-label="Filter resources by topic">{filters.map((item) => <button type="button" key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}</div><p>{visibleResources.length} {visibleResources.length === 1 ? 'resource' : 'resources'}</p></div>
-        <div className="resource-grid resource-full">{visibleResources.map((resource) => <ResourceCard key={resource.title} resource={resource} />)}</div>
+      <div className="resource-grid resource-full">{visibleResources.map((resource) => <ResourceCard key={resource.title} resource={resource} onOpenChat={onOpenChat} />)}</div>
       </article>
     </div>}
   </section>
