@@ -58,7 +58,7 @@
   .chat-history { max-height:180px; }
   .chat-input input { font-size:16px; }
   .desktop-chat-fab { display:none; }
-  .mobile-dock { position:fixed !important; z-index:70; inset:auto 10px 10px !important; bottom:calc(10px + env(safe-area-inset-bottom, 0px)) !important; height:67px; padding:5px 3px; display:grid; grid-template-columns:repeat(6,1fr); align-items:center; border:1px solid var(--line); border-radius:19px; background:rgba(14,17,22,.92); box-shadow:0 12px 34px rgba(0,0,0,.38); backdrop-filter:blur(16px); transform:none !important; }
+  .mobile-dock { position:fixed !important; z-index:70; left:10px !important; right:10px !important; top:calc(100vh - 77px) !important; top:calc(100dvh - 77px) !important; bottom:auto !important; height:67px; padding:5px 3px; display:grid; grid-template-columns:repeat(6,1fr); align-items:center; border:1px solid var(--line); border-radius:19px; background:rgba(14,17,22,.92); box-shadow:0 12px 34px rgba(0,0,0,.38); backdrop-filter:blur(16px); transform:none !important; }
   .mobile-dock button { min-width:0; height:56px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; border:0; border-radius:13px; background:transparent; color:var(--dim); font:9px/1 'DM Mono',monospace; position:relative; }
   .mobile-dock button > span { color:var(--text); font-size:18px; line-height:1; }
   .mobile-dock button:active,.mobile-dock button.active { background:rgba(63,185,80,.13); color:var(--green); }
