@@ -9,7 +9,6 @@ import { ToolkitsHub } from './components/ToolkitsHub'
 import { ResourcesHub } from './components/ResourcesHub'
 import { SoftwareHub } from './components/SoftwareHub'
 import { WeeklyNotes } from './components/WeeklyNotes'
-import { LearningPaths } from './components/LearningPaths'
 import { HomeDashboard } from './components/HomeDashboard'
 import { Logo } from './components/Logo'
 
@@ -48,7 +47,7 @@ function App() {
     window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }
   return <>
-    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={openToolkits} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={openToolkits} /> : isToolkitsOpen ? <ToolkitsHub onClose={closeFocusedView} /> : isResourcesOpen ? <ResourcesHub onClose={closeFocusedView} onOpenChat={() => setIsChatOpen(true)} onOpenToolkits={openToolkits} onOpenLearn={() => openLearn()} onOpenWeekly={() => navigateHome('weekly')} /> : isSoftwareOpen ? <SoftwareHub onClose={closeFocusedView} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenPaths={() => navigateHome('learn')} onOpenTools={openToolkits} onOpenResources={openResources} onOpenPractice={openPractice} /> : <>
+    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={openToolkits} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={openToolkits} /> : isToolkitsOpen ? <ToolkitsHub onClose={closeFocusedView} /> : isResourcesOpen ? <ResourcesHub onClose={closeFocusedView} onOpenChat={() => setIsChatOpen(true)} onOpenToolkits={openToolkits} onOpenLearn={() => openLearn()} onOpenWeekly={() => navigateHome('weekly')} /> : isSoftwareOpen ? <SoftwareHub onClose={closeFocusedView} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenResources={openResources} onOpenPractice={openPractice} /> : <>
     <main id="content" tabIndex={-1}>
     <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenStory={openStory} onOpenToolkits={openToolkits} onOpenResources={openResources} onOpenSoftware={openSoftware} />
     <section className="hero education-hero">
@@ -58,8 +57,6 @@ function App() {
     </section>
 
     <HomeDashboard onOpenLearn={() => openLearn()} onOpenPractice={openPractice} onOpenToolkits={openToolkits} onOpenCareer={() => openLearn('career-paths')} />
-
-    <LearningPaths />
 
     <WeeklyNotes compact />
 
