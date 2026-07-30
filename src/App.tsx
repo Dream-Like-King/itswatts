@@ -14,7 +14,8 @@ import { focusAreas } from './data/site'
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isLearnOpen, setIsLearnOpen] = useState(() => window.location.hash === '#learn-hub')
-  const openLearn = () => { window.history.pushState(null, '', '#learn-hub'); setIsLearnOpen(true) }
+  const [learnTarget, setLearnTarget] = useState<string | null>(null)
+  const openLearn = (target?: string) => { setLearnTarget(target ?? null); window.history.pushState(null, '', '#learn-hub'); setIsLearnOpen(true) }
   const closeLearn = () => { window.history.pushState(null, '', '#top'); setIsLearnOpen(false) }
   useEffect(() => {
     const syncLearnView = () => setIsLearnOpen(window.location.hash === '#learn-hub')
@@ -22,12 +23,20 @@ function App() {
     window.addEventListener('hashchange', syncLearnView)
     return () => { window.removeEventListener('popstate', syncLearnView); window.removeEventListener('hashchange', syncLearnView) }
   }, [])
+  useEffect(() => {
+    if (!isLearnOpen || !learnTarget) return
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(learnTarget)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setLearnTarget(null)
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [isLearnOpen, learnTarget])
   const navigateHome = (target: string) => {
     closeLearn()
     window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }
   return <>
-    {isLearnOpen ? <LearnHub onClose={closeLearn} onOpenPaths={() => navigateHome('learn')} onOpenTools={() => navigateHome('tools')} /> : <>
+    {isLearnOpen ? <LearnHub onClose={closeLearn} onOpenPaths={() => navigateHome('learn')} onOpenTools={() => navigateHome('tools')} onOpenResources={() => navigateHome('resources')} /> : <>
     <main id="content" tabIndex={-1}>
     <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
     <section className="hero education-hero">
@@ -55,7 +64,7 @@ function App() {
     </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
     </>}
-    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onNavigateHome={isLearnOpen ? navigateHome : undefined} isLearningView={isLearnOpen} />
+    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={() => openLearn('career-paths')} onNavigateHome={isLearnOpen ? navigateHome : undefined} isLearningView={isLearnOpen} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
   </>
 }

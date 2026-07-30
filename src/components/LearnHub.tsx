@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { Logo } from './Logo'
 import { KnowledgeBase } from './KnowledgeBase'
 import { LearningLevels } from './LearningLevels'
+import { CareerPaths } from './CareerPaths'
 
-type LearnHubProps = { onClose: () => void; onOpenPaths: () => void; onOpenTools: () => void }
+type LearnHubProps = { onClose: () => void; onOpenPaths: () => void; onOpenTools: () => void; onOpenResources: () => void }
 
 const sdlc = [
   ['01', 'Discover', 'Clarify who the feature serves, what problem it solves, and the risks hidden in assumptions.'],
@@ -14,7 +15,7 @@ const sdlc = [
   ['06', 'Learn', 'Use production feedback, defects, and support patterns to improve the product and the next delivery cycle.'],
 ] as const
 
-export function LearnHub({ onClose, onOpenPaths, onOpenTools }: LearnHubProps) {
+export function LearnHub({ onClose, onOpenPaths, onOpenTools, onOpenResources }: LearnHubProps) {
   const [activePhase, setActivePhase] = useState(0)
   const [number, title, copy] = sdlc[activePhase]
   return <main className="learn-hub" id="top" tabIndex={-1}>
@@ -27,6 +28,7 @@ export function LearnHub({ onClose, onOpenPaths, onOpenTools }: LearnHubProps) {
 
     <LearningLevels onOpenTools={onOpenTools} />
     <KnowledgeBase />
+    <CareerPaths onOpenResources={onOpenResources} />
     <section className="learn-next"><p className="eyebrow">KEEP GOING</p><h2>Choose your next<br /><em>useful step.</em></h2><p>Explore the current Automation, AI for QA, and Quality Essentials paths. Use the Knowledge Base as you learn, then take a focused idea into your next sprint.</p><button type="button" onClick={onOpenPaths}>Explore learning paths <span>↗</span></button></section>
   </main>
 }
