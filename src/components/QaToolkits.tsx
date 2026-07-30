@@ -17,6 +17,15 @@ const promptLibrary = [
 
 const promptCategories = ['All', ...Array.from(new Set(promptLibrary.map((item) => item.category)))]
 
+const automationQuestions = [
+  'Does the flow happen often or on every release?',
+  'Would a failure create meaningful user or business risk?',
+  'Is the expected behavior stable enough to describe clearly?',
+  'Can reliable test data and environments be created or reset?',
+  'Can the test run without complex, fragile setup?',
+  'Would automated feedback arrive early enough to help the team?',
+] as const
+
 type TestIdea = { label: string; text: string }
 
 function buildTestIdeas(description: string): TestIdea[] {
@@ -48,13 +57,21 @@ function buildTestIdeas(description: string): TestIdea[] {
 
 export function QaToolkits() {
   const [activeTool, setActiveTool] = useState<'decision' | 'cases' | 'prompts'>('decision')
-  const [answers, setAnswers] = useState([false, false, false, false])
+  const [answers, setAnswers] = useState(() => automationQuestions.map(() => false))
   const [feature, setFeature] = useState('')
   const [showCases, setShowCases] = useState(false)
   const [copied, setCopied] = useState<string | null>(null)
   const [promptCategory, setPromptCategory] = useState('All')
   const score = answers.filter(Boolean).length
-  const recommendation = useMemo(() => score >= 3 ? ['Good automation candidate', 'This flow looks repeatable, high-value, and stable enough to automate. Start with the most important path, then add coverage deliberately.'] : score === 2 ? ['Use a blended approach', 'Automate the stable, repeatable parts of this flow. Pair it with exploratory testing until the experience or risk is clearer.'] : ['Explore before you automate', 'Focus on understanding the behavior, risks, and change rate first. Automation will be more useful once the workflow is stable and understood.'], [score])
+  const recommendation = useMemo(() => {
+    const [, , isStable, hasReliableData] = answers
+    if (!isStable || !hasReliableData) return score >= 3
+      ? { title: 'Explore manually first', description: 'The workflow has value, but it needs clearer behavior or more reliable data before automation can provide trustworthy feedback.', layer: 'Exploratory testing + API or log checks', next: 'Document the workflow, clarify the unstable behavior, and create dependable data or environment setup first.' }
+      : { title: 'Do not automate yet', description: 'The flow does not have enough stable, repeatable signals to justify automation work right now.', layer: 'Manual and exploratory testing', next: 'Focus on product understanding, risks, and clearer acceptance criteria before investing in automation.' }
+    if (score >= 5) return { title: 'Automate now', description: 'This is a repeatable, high-value workflow with the stability and feedback timing needed for useful automation.', layer: 'API or UI smoke test', next: 'Automate the highest-risk happy path first; use API setup where possible and add UI coverage only where the user journey matters.' }
+    if (score >= 3) return { title: 'Use a blended approach', description: 'Automate the stable, repeatable parts of the flow while continuing exploratory testing around change and uncertainty.', layer: 'API or component check + exploratory testing', next: 'Choose one stable core check to automate, then time-box exploration around the changing or risky edges.' }
+    return { title: 'Do not automate yet', description: 'The current value or feedback signal is not strong enough to justify automation work right now.', layer: 'Manual and exploratory testing', next: 'Learn more about the user impact, change rate, and likely failure points before choosing an automation target.' }
+  }, [answers, score])
   const copyPrompt = async (label: string, text: string) => {
     await navigator.clipboard?.writeText(text)
     setCopied(label)
@@ -63,12 +80,13 @@ export function QaToolkits() {
   const checklist = feature.trim() || 'this feature'
   const testIdeas = useMemo(() => buildTestIdeas(checklist), [checklist])
   const visiblePrompts = useMemo(() => promptCategory === 'All' ? promptLibrary : promptLibrary.filter((item) => item.category === promptCategory), [promptCategory])
+  const automationSummary = `Automation decision: ${recommendation.title}. Signals: ${score}/${automationQuestions.length}. Suggested starting layer: ${recommendation.layer}. First useful step: ${recommendation.next}`
 
   return <section className="toolkits section" id="tools">
     <div className="section-heading"><p className="eyebrow">QA TOOLKITS</p><h2>Useful tools.<br /><em>No fluff.</em></h2><p className="section-copy">Simple helpers for making better testing decisions before you open a ticket, write a script, or start a release.</p></div>
     <div className="tool-tabs" role="tablist" aria-label="QA tools"><button type="button" className={activeTool === 'decision' ? 'active' : ''} onClick={() => setActiveTool('decision')} role="tab" aria-selected={activeTool === 'decision'}>Automation guide</button><button type="button" className={activeTool === 'cases' ? 'active' : ''} onClick={() => setActiveTool('cases')} role="tab" aria-selected={activeTool === 'cases'}>Test case starter</button><button type="button" className={activeTool === 'prompts' ? 'active' : ''} onClick={() => setActiveTool('prompts')} role="tab" aria-selected={activeTool === 'prompts'}>QA prompts</button></div>
 
-    {activeTool === 'decision' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">AUTOMATION DECISION GUIDE</p><h3>Should this be automated?</h3><p>Answer four practical questions. This is a starting conversation—not a substitute for understanding the product.</p></div><div className="decision-card"><div className="decision-questions">{['Does the flow happen often or on every release?', 'Would a failure create meaningful user or business risk?', 'Is the expected behavior stable enough to describe clearly?', 'Can the test run without complex, fragile setup?'].map((question, index) => <label key={question}><input type="checkbox" checked={answers[index]} onChange={() => setAnswers(answers.map((answer, answerIndex) => answerIndex === index ? !answer : answer))} /><span>{question}</span><i>{answers[index] ? '✓' : '+'}</i></label>)}</div><div className="decision-result"><p className="eyebrow">RECOMMENDATION · {score}/4 SIGNALS</p><h4>{recommendation[0]}</h4><p>{recommendation[1]}</p></div></div></div>}
+    {activeTool === 'decision' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">AUTOMATION DECISION GUIDE</p><h3>Should this be automated?</h3><p>Answer six practical questions. This is a starting conversation—not a substitute for understanding the product.</p></div><div className="decision-card"><div className="decision-questions">{automationQuestions.map((question, index) => <label key={question}><input type="checkbox" checked={answers[index]} onChange={() => setAnswers((current) => current.map((answer, answerIndex) => answerIndex === index ? !answer : answer))} /><span>{question}</span><i>{answers[index] ? '✓' : '+'}</i></label>)}</div><div className="decision-result"><p className="eyebrow">RECOMMENDATION · {score}/{automationQuestions.length} SIGNALS</p><h4>{recommendation.title}</h4><p>{recommendation.description}</p><div className="decision-details"><article><span>BEST STARTING LAYER</span><b>{recommendation.layer}</b></article><article><span>FIRST USEFUL STEP</span><b>{recommendation.next}</b></article></div><button type="button" onClick={() => copyPrompt('automation-summary', automationSummary)}>{copied === 'automation-summary' ? 'Copied ✓' : 'Copy decision summary ↗'}</button></div><p className="automation-caution">Automation supports quality; it does not replace exploratory testing, accessibility checks, or product understanding.</p></div></div>}
 
     {activeTool === 'cases' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">TEST CASE STARTER</p><h3>Turn a feature into test ideas.</h3><p>Describe the feature or user story. You’ll get a practical checklist to begin your own test design.</p></div><div className="case-card"><label htmlFor="feature">FEATURE OR USER STORY</label><textarea id="feature" value={feature} onChange={(event) => { setFeature(event.target.value); setShowCases(false) }} placeholder="Example: A customer can reset their password using an email link." /><button type="button" className="button primary" onClick={() => setShowCases(true)}>Generate test ideas <span aria-hidden="true">↗</span></button>{showCases && <div className="case-results"><p className="eyebrow">STARTER CHECKLIST FOR {checklist.toUpperCase()}</p><ul>{testIdeas.map((idea) => <li key={idea.label}><b>{idea.label}:</b> {idea.text}</li>)}</ul></div>}</div></div>}
 
