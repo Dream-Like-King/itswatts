@@ -62,7 +62,7 @@
   .mobile-dock button.active::after { content:''; position:absolute; bottom:3px; width:17px; height:2px; background:var(--green); border-radius:9px; }
   .mobile-dock .dock-chat { grid-column:span 2; align-self:start; height:72px; margin-top:-29px; border:1px solid rgba(63,185,80,.7); background:var(--green); color:#0b1f12; box-shadow:0 10px 29px rgba(63,185,80,.38); font-weight:800; }
   .mobile-dock .dock-chat > span { color:var(--blue); font-size:31px; transform:rotate(10deg); animation:watt-bolt 2.2s ease-in-out infinite; }
-  .mobile-dock .dock-chat small { font:9px/1 'DM Mono',monospace; }
+  .mobile-dock .dock-chat small { font:10.5px/1 'DM Mono',monospace; }
   .dock-more { position:relative; }
   .dock-more-menu { position:absolute; right:0; bottom:73px; width:148px; padding:6px; display:grid; gap:3px; border:1px solid var(--line); border-radius:14px; background:#161b22; box-shadow:0 12px 34px rgba(0,0,0,.38); }
   .dock-more-menu button { height:42px; padding:0 10px; display:flex; flex-direction:row; justify-content:flex-start; gap:9px; font-size:10px; }
