@@ -70,7 +70,7 @@
   .dock-more-menu button > span { font-size:15px; }
 }
 
-@media (max-width:800px) and (orientation:landscape) {
+@media (max-height:500px) and (orientation:landscape) {
   .chat-overlay { padding:6px; align-items:stretch; }
   .chat-dialog { width:100%; height:100%; max-height:100dvh; grid-template-columns:.62fr 1.38fr; gap:14px; padding:14px; overflow:hidden; align-items:stretch; }
   .chat-dialog-copy { min-height:0; overflow:auto; }
@@ -82,6 +82,11 @@
   .chat-history { max-height:none; }
   .suggested-label,.prompt-list { display:none; }
   .chat-input { flex:0 0 auto; }
+}
+
+/* Prevent mobile browsers from zooming when the chat field receives focus. */
+@media (hover:none) and (pointer:coarse) {
+  .chat-input input { font-size:16px; }
 }
 
 @media (prefers-color-scheme:light) {
