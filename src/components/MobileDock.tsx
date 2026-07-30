@@ -11,6 +11,7 @@ const primaryItems = [
 
 const moreItems = [
   ['Resources', 'resources', '▦'],
+  ['Tool Guide', 'focus-tools', '◈'],
   ['Career paths', 'career-paths', '↗'],
   ['Practice Lab', 'practice', '◌'],
   ['My story', 'story', '◉'],
