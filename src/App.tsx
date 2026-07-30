@@ -10,8 +10,8 @@ import { QaToolkits } from './components/QaToolkits'
 import { GrowthHub } from './components/GrowthHub'
 import { LearningPaths } from './components/LearningPaths'
 import { ResourceLibrary } from './components/ResourceLibrary'
+import { FocusTools } from './components/FocusTools'
 import { Logo } from './components/Logo'
-import { focusAreas } from './data/site'
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false)
@@ -63,7 +63,7 @@ function App() {
 
     <ResourceLibrary onOpenChat={() => setIsChatOpen(true)} />
 
-    <section className="focus section"><p className="eyebrow">WHAT WE’RE EXPLORING</p><div>{focusAreas.map((area) => <span key={area}>{area}</span>)}</div></section>
+    <FocusTools />
 
     <section className="contact section" id="contact"><p className="eyebrow">STAY IN THE LOOP</p><h2>One useful QA idea<br />at a <em>time.</em></h2><p className="contact-copy">New weekly notes and practical QA tools are on the way. Follow along, explore the work, and keep learning.</p><div className="contact-links"><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer" className="contact-email">Connect on LinkedIn <span>↗</span></a><a href="https://github.com/Dream-Like-King" target="_blank" rel="noreferrer">GitHub ↗</a><a href="mailto:watson.derrick@outlook.com">Email Derrick ↗</a></div></section>
     <footer><Logo compact /><p>© {new Date().getFullYear()} It's Watts. Built for better software.</p><div><a href="#top">Back to top ↑</a><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></footer>

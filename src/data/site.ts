@@ -28,4 +28,21 @@ export const posts = [
   },
 ]
 
-export const focusAreas = ['Playwright', 'Selenium', 'API testing', 'Accessibility', 'GitHub Copilot', 'Azure DevOps', 'AI workflows']
+export const explorationTools = [
+  { name: 'Playwright', category: 'Automation', description: 'Browser automation for reliable end-to-end checks across modern browsers.', use: 'Use it to automate high-value user journeys and give fast feedback on regressions.' },
+  { name: 'Selenium', category: 'Automation', description: 'A widely used browser-automation ecosystem with broad language and grid support.', use: 'Useful for maintaining or extending established automation suites across teams.' },
+  { name: 'Cypress', category: 'Automation', description: 'A developer-friendly tool for testing web applications directly in the browser.', use: 'Helpful for fast front-end feedback, debugging, and component-focused checks.' },
+  { name: 'Postman', category: 'Automation', description: 'A workspace for exploring, testing, and documenting APIs.', use: 'Use it to validate requests, responses, authentication, and important API edge cases.' },
+  { name: 'API testing', category: 'Automation', description: 'Testing the services and data exchanges behind a user interface.', use: 'Use it to isolate integration problems and verify behavior before or alongside UI testing.' },
+  { name: 'Browser DevTools', category: 'Automation', description: 'Built-in browser tools for inspecting layout, network activity, storage, and errors.', use: 'Use it to investigate defects, reproduce conditions, and understand what the application is doing.' },
+  { name: 'GitHub Copilot', category: 'AI + QA', description: 'An AI coding assistant that can help draft tests, refactor helpers, and explain unfamiliar code.', use: 'Use it for a first draft, then review the assumptions, coverage, and product context yourself.' },
+  { name: 'ChatGPT', category: 'AI + QA', description: 'A conversational AI tool for generating questions, outlines, and alternative test ideas.', use: 'Use it to expand a rough story into risks and test angles—not as proof that testing is complete.' },
+  { name: 'Prompt design', category: 'AI + QA', description: 'Writing clear context, constraints, and desired output for an AI assistant.', use: 'Use it to get more relevant test-planning, defect-investigation, and documentation support.' },
+  { name: 'AI workflows', category: 'AI + QA', description: 'Repeatable ways to use AI within QA work while keeping human review in the loop.', use: 'Use them to speed up drafts and discovery while protecting judgment, evidence, and accountability.' },
+  { name: 'Azure DevOps', category: 'Delivery + SDLC', description: 'A platform for planning work, tracking defects, managing code, and supporting delivery.', use: 'Use it to connect requirements, test evidence, defects, and release conversations.' },
+  { name: 'Jira', category: 'Delivery + SDLC', description: 'A work-tracking tool for stories, tasks, bugs, and team planning.', use: 'Use it to clarify acceptance criteria, communicate defects, and keep quality work visible.' },
+  { name: 'Git & GitHub', category: 'Delivery + SDLC', description: 'Version-control tools for collaborating on code, reviews, and automation assets.', use: 'Use them to manage test code changes, review updates, and connect checks to delivery work.' },
+  { name: 'GitHub Actions', category: 'Delivery + SDLC', description: 'Automation for running checks, builds, and workflows when code changes.', use: 'Use it to run reliable test feedback in pull requests and delivery pipelines.' },
+  { name: 'TestRail', category: 'Delivery + SDLC', description: 'Test-management software for organizing coverage, evidence, and execution results.', use: 'Use it to make planned test work and release readiness easier for a team to understand.' },
+  { name: 'Accessibility', category: 'Delivery + SDLC', description: 'Testing that considers keyboard use, labels, focus, contrast, and assistive technology.', use: 'Use it throughout delivery so more people can complete the experience with confidence.' },
+] as const
