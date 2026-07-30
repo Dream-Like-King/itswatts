@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar'
 import { AskWatt } from './components/AskWatt'
 import { MobileDock } from './components/MobileDock'
 import { LearnHub } from './components/LearnHub'
+import { StoryHub } from './components/StoryHub'
 import { WeeklyNotes } from './components/WeeklyNotes'
 import { QaToolkits } from './components/QaToolkits'
 import { GrowthHub } from './components/GrowthHub'
@@ -14,14 +15,16 @@ import { focusAreas } from './data/site'
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isLearnOpen, setIsLearnOpen] = useState(() => window.location.hash === '#learn-hub')
+  const [isStoryOpen, setIsStoryOpen] = useState(() => window.location.hash === '#my-story')
   const [learnTarget, setLearnTarget] = useState<string | null>(null)
-  const openLearn = (target = 'top') => { setLearnTarget(target); window.history.pushState(null, '', '#learn-hub'); setIsLearnOpen(true) }
-  const closeLearn = () => { window.history.pushState(null, '', '#top'); setIsLearnOpen(false) }
+  const openLearn = (target = 'top') => { setLearnTarget(target); window.history.pushState(null, '', '#learn-hub'); setIsStoryOpen(false); setIsLearnOpen(true) }
+  const openStory = () => { window.history.pushState(null, '', '#my-story'); setIsLearnOpen(false); setIsStoryOpen(true); window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' })) }
+  const closeFocusedView = () => { window.history.pushState(null, '', '#top'); setIsLearnOpen(false); setIsStoryOpen(false) }
   useEffect(() => {
-    const syncLearnView = () => setIsLearnOpen(window.location.hash === '#learn-hub')
-    window.addEventListener('popstate', syncLearnView)
-    window.addEventListener('hashchange', syncLearnView)
-    return () => { window.removeEventListener('popstate', syncLearnView); window.removeEventListener('hashchange', syncLearnView) }
+    const syncFocusedView = () => { setIsLearnOpen(window.location.hash === '#learn-hub'); setIsStoryOpen(window.location.hash === '#my-story') }
+    window.addEventListener('popstate', syncFocusedView)
+    window.addEventListener('hashchange', syncFocusedView)
+    return () => { window.removeEventListener('popstate', syncFocusedView); window.removeEventListener('hashchange', syncFocusedView) }
   }, [])
   useEffect(() => {
     if (!isLearnOpen || !learnTarget) return
@@ -32,13 +35,13 @@ function App() {
     return () => window.cancelAnimationFrame(frame)
   }, [isLearnOpen, learnTarget])
   const navigateHome = (target: string) => {
-    closeLearn()
+    closeFocusedView()
     window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }
   return <>
-    {isLearnOpen ? <LearnHub onClose={closeLearn} onOpenPaths={() => navigateHome('learn')} onOpenTools={() => navigateHome('tools')} onOpenResources={() => navigateHome('resources')} /> : <>
+    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={() => navigateHome('tools')} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenPaths={() => navigateHome('learn')} onOpenTools={() => navigateHome('tools')} onOpenResources={() => navigateHome('resources')} /> : <>
     <main id="content" tabIndex={-1}>
-    <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
+    <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenStory={openStory} />
     <section className="hero education-hero">
       <div className="hero-grid" aria-hidden="true"></div><div className="orb orb-one"></div><div className="orb orb-two"></div>
       <div className="hero-content"><p className="eyebrow hero-eyebrow"><span></span> AUTOMATION · AI · QUALITY ENGINEERING</p><h1>Practical QA education<br />for the <em>AI era.</em></h1><p className="hero-copy">Learn the testing habits, automation patterns, and AI workflows that help you build software people can trust.</p><div className="hero-actions"><a className="button primary" href="#learn">Start learning <span>↓</span></a><a className="button quiet" href="#weekly">Read weekly notes <span>↗</span></a></div></div>
@@ -64,7 +67,7 @@ function App() {
     </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
     </>}
-    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={() => openLearn('career-paths')} onNavigateHome={isLearnOpen ? navigateHome : undefined} isLearningView={isLearnOpen} />
+    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={() => openLearn('career-paths')} onOpenStory={openStory} onNavigateHome={isLearnOpen || isStoryOpen ? navigateHome : undefined} focusedView={isStoryOpen ? 'story' : isLearnOpen ? 'learn' : null} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
   </>
 }
