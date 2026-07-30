@@ -33,12 +33,13 @@ export function AskWatt({ isOpen, onClose }: AskWattProps) {
   const ask = async (question: string) => {
     const trimmed = question.trim()
     if (!trimmed || isLoading) return
+    const conversation = [...messages.slice(-7), { role: 'user' as const, text: trimmed }]
     setMessages((current) => [...current, { role: 'user', text: trimmed }])
     setMessage(''); setError(''); setIsLoading(true)
     const controller = new AbortController()
     const timeout = window.setTimeout(() => controller.abort(), 30000)
     try {
-      const response = await fetch('/api/ask-watt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: trimmed, safetyId }), signal: controller.signal })
+      const response = await fetch('/api/ask-watt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: trimmed, history: conversation, safetyId }), signal: controller.signal })
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || 'Watt could not answer right now.')
       setMessages((current) => [...current, { role: 'assistant', text: data.answer }])
