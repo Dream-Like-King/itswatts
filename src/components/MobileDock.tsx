@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 type MobileDockProps = { onOpenChat: () => void; onOpenLearn: () => void }
 
@@ -49,11 +50,15 @@ export function MobileDock({ onOpenChat, onOpenLearn }: MobileDockProps) {
   }, [])
 
   const isMoreActive = moreItems.some(([, id]) => id === activeSection)
-  return <nav className="mobile-dock" aria-label="Quick navigation" ref={dockRef}>
+  const dock = <nav className="mobile-dock" aria-label="Quick navigation" ref={dockRef}>
     <button type="button" className={activeSection === 'learn' ? 'active' : ''} onClick={onOpenLearn}><span aria-hidden="true">⌁</span>Learn</button>
     {primaryItems.slice(1, 2).map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}
     <button className="dock-chat" type="button" onClick={onOpenChat} aria-label="Open Ask Watt"><span aria-hidden="true">ϟ</span><small>Ask Watt</small></button>
     <button type="button" className={activeSection === 'resources' ? 'active' : ''} onClick={() => scrollTo('resources')}><span aria-hidden="true">▦</span>Resources</button>
     <div className="dock-more"><button type="button" className={isMoreActive ? 'active' : ''} onClick={() => setIsMoreOpen((open) => !open)} aria-expanded={isMoreOpen} aria-controls="dock-more-menu"><span aria-hidden="true">•••</span>More</button>{isMoreOpen && <div className="dock-more-menu" id="dock-more-menu">{moreItems.map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}</div>}</div>
   </nav>
+
+  // Render at the page level so no scrolling content container can affect its
+  // fixed placement on mobile browsers.
+  return createPortal(dock, document.body)
 }

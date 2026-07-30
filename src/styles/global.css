@@ -41,6 +41,7 @@
 .resource-open { margin-top:auto; color:var(--green); font-size:11px; border:0; background:transparent; padding:0; text-align:left; }
 .resource-open:hover { color:#b8f0c2; }
 .mobile-dock { display:none; }
+.nav-links .nav-link-button { text-align:left; }
 .desktop-chat-fab { position:fixed; z-index:40; right:28px; bottom:28px; display:inline-flex; align-items:center; gap:11px; border:1px solid rgba(63,185,80,.7); background:rgba(14,17,22,.92); color:var(--text); padding:15px 19px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.32); backdrop-filter:blur(14px); font-size:14px; font-weight:800; transition:transform .2s,background .2s; }
 .desktop-chat-fab span { color:var(--blue); font-family:Georgia,serif; font-size:25px; transform:rotate(10deg); animation:watt-bolt 2.2s ease-in-out infinite; }.desktop-chat-fab:hover { transform:translateY(-3px); background:#1b222b; }
 @media (min-width:801px) { .nav-cta { display:none; } }
@@ -56,7 +57,7 @@
   .chat-history { max-height:180px; }
   .chat-input input { font-size:16px; }
   .desktop-chat-fab { display:none; }
-  .mobile-dock { position:fixed; z-index:70; left:10px; right:10px; bottom:max(10px,env(safe-area-inset-bottom)); height:67px; padding:5px 3px; display:grid; grid-template-columns:repeat(6,1fr); align-items:center; border:1px solid var(--line); border-radius:19px; background:rgba(14,17,22,.92); box-shadow:0 12px 34px rgba(0,0,0,.38); backdrop-filter:blur(16px); }
+  .mobile-dock { position:fixed !important; z-index:70; inset:auto 10px 10px !important; bottom:calc(10px + env(safe-area-inset-bottom, 0px)) !important; height:67px; padding:5px 3px; display:grid; grid-template-columns:repeat(6,1fr); align-items:center; border:1px solid var(--line); border-radius:19px; background:rgba(14,17,22,.92); box-shadow:0 12px 34px rgba(0,0,0,.38); backdrop-filter:blur(16px); transform:none !important; }
   .mobile-dock button { min-width:0; height:56px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; border:0; border-radius:13px; background:transparent; color:var(--dim); font:9px/1 'DM Mono',monospace; position:relative; }
   .mobile-dock button > span { color:var(--text); font-size:18px; line-height:1; }
   .mobile-dock button:active,.mobile-dock button.active { background:rgba(63,185,80,.13); color:var(--green); }
