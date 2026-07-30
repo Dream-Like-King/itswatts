@@ -15,6 +15,10 @@ export default async function handler(req, res) {
         : 'Ask Watt could not answer right now. Please try again in a moment.'
       return res.status(openaiResponse.status).json({ error })
     }
-    return res.status(200).json({ answer: data.output_text || 'I could not form a response. Please try again.' })
+    const answer = Array.isArray(data.output)
+      ? data.output.flatMap((item) => Array.isArray(item.content) ? item.content : []).filter((part) => part.type === 'output_text' && typeof part.text === 'string').map((part) => part.text).join('').trim()
+      : ''
+    if (!answer) return res.status(502).json({ error: 'Ask Watt did not receive a usable answer. Please try again in a moment.' })
+    return res.status(200).json({ answer })
   } catch { return res.status(500).json({ error: 'Ask Watt encountered a temporary problem. Please try again.' }) }
 }
