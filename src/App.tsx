@@ -15,7 +15,7 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isLearnOpen, setIsLearnOpen] = useState(() => window.location.hash === '#learn-hub')
   const [learnTarget, setLearnTarget] = useState<string | null>(null)
-  const openLearn = (target?: string) => { setLearnTarget(target ?? null); window.history.pushState(null, '', '#learn-hub'); setIsLearnOpen(true) }
+  const openLearn = (target = 'top') => { setLearnTarget(target); window.history.pushState(null, '', '#learn-hub'); setIsLearnOpen(true) }
   const closeLearn = () => { window.history.pushState(null, '', '#top'); setIsLearnOpen(false) }
   useEffect(() => {
     const syncLearnView = () => setIsLearnOpen(window.location.hash === '#learn-hub')
