@@ -7,6 +7,9 @@ const questions = [
   { question: 'How comfortable are you with common QA terms such as regression, severity, and acceptance criteria?', answers: [['I am still learning the language', 0], ['I can use them in day-to-day testing', 1], ['I use them to shape team conversations', 2]] },
   { question: 'Which statement best reflects your current testing work?', answers: [['I am learning how to explore a feature and record what I find', 0], ['I design coverage around risk, integrations, and changing behavior', 1], ['I help teams improve their quality strategy and automation approach', 2]] },
   { question: 'What would be most useful next?', answers: [['A clear foundation and small practice exercises', 0], ['Hands-on test design and automation decisions', 1], ['Systems thinking, coaching, and AI-assisted workflows', 2]] },
+  { question: 'How do you decide what needs the most testing attention?', answers: [['I am learning how to spot risk and ask useful questions', 0], ['I compare user impact, change, data, and failure likelihood', 1], ['I help the team make risk visible early and use it to guide coverage', 2]] },
+  { question: 'What is your current relationship with automation?', answers: [['I want to understand when automation is useful before writing scripts', 0], ['I can identify stable, repeatable checks that are worth automating', 1], ['I think about maintainability, feedback speed, and automation strategy across a team', 2]] },
+  { question: 'How do you use AI in QA work today?', answers: [['I am exploring safe, practical ways to use it as a learning partner', 0], ['I use it to strengthen test ideas, documentation, or investigation questions', 1], ['I build repeatable AI-assisted workflows while keeping human judgment in the loop', 2]] },
 ] as const
 
 const scenarios = [
@@ -28,6 +31,33 @@ const scenarios = [
       ['Automate every possible combination before the release', false, 'Start with the highest-risk behavior. Broad automation can come after the workflow is understood and stable.'],
     ],
   },
+  {
+    title: 'New account notification',
+    situation: 'A product team adds an email notification when an administrator creates a new user account.',
+    choices: [
+      ['Confirm that one email arrives in a test inbox', false, 'That is a helpful first check, but it does not address recipient accuracy, timing, content, or failure behavior.'],
+      ['Check recipients, role and permission changes, message content, duplicate sends, links, delivery delay, and a failed email service', true, 'Great coverage. Notifications are a user-facing integration, so both content and failure behavior matter.'],
+      ['Only test the notification after all other release work is complete', false, 'Notification behavior can be important to onboarding and support, so it deserves attention before release.'],
+    ],
+  },
+  {
+    title: 'Accessible confirmation dialog',
+    situation: 'Deleting a saved payment method now requires a confirmation dialog before the action is final.',
+    choices: [
+      ['Verify the delete button removes the payment method with a mouse', false, 'The core action is important, but the dialog introduces focus, messaging, escape, and recovery behavior to explore.'],
+      ['Test keyboard focus, screen-reader labels, cancel and escape behavior, repeat clicks, error recovery, and the final saved state', true, 'Strong choice. A destructive action needs clear, accessible confirmation and predictable recovery.'],
+      ['Skip accessibility checks because the component comes from a design system', false, 'A design system helps, but the implementation and surrounding workflow still need real-world checks.'],
+    ],
+  },
+  {
+    title: 'Customer profile API delay',
+    situation: 'A profile page now loads customer preferences from a new API that can sometimes respond slowly.',
+    choices: [
+      ['Approve the feature when the API responds quickly in a local environment', false, 'A fast local response does not show how the experience handles the conditions users may actually encounter.'],
+      ['Check loading feedback, timeout and error states, retry behavior, stale data, partial responses, and whether the rest of the page remains usable', true, 'Exactly. This explores resilience, communication, and the user experience when a dependency is not ideal.'],
+      ['Remove the loading state so the page feels simpler', false, 'A missing state may make a delayed response confusing; useful feedback builds trust.'],
+    ],
+  },
 ] as const
 
 const templates = [
@@ -44,7 +74,7 @@ export function PracticeHub({ onClose, onOpenTools }: PracticeHubProps) {
   const [scenarioIndex, setScenarioIndex] = useState(0)
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null)
   const score = answers.reduce((total, answer) => total + answer, 0)
-  const recommendation = useMemo(() => score <= 1 ? ['Beginner route', 'Start with the QA foundations, then practice describing behavior and reporting what you learn.'] : score <= 4 ? ['Intermediate route', 'Build risk-based test design, integration thinking, and confident automation decisions.'] : ['Advanced route', 'Focus on quality strategy, technical influence, and AI-assisted ways of working.'], [score])
+  const recommendation = useMemo(() => score <= 3 ? ['Beginner route', 'Start with the QA foundations, then practice describing behavior and reporting what you learn.'] : score <= 8 ? ['Intermediate route', 'Build risk-based test design, integration thinking, and confident automation decisions.'] : ['Advanced route', 'Focus on quality strategy, technical influence, and AI-assisted ways of working.'], [score])
   const scenario = scenarios[scenarioIndex]
 
   return <main className="practice-hub" id="top" tabIndex={-1}>
@@ -58,7 +88,7 @@ export function PracticeHub({ onClose, onOpenTools }: PracticeHubProps) {
     </div>
 
     <section className="practice-content" aria-live="polite">
-      {activeTab === 'roadmap' && <div className="roadmap-panel"><div><p className="eyebrow">QA ROADMAP CHECK</p><h2>Find your next<br /><em>useful step.</em></h2><p>This is not a test or a label. Choose the answers closest to where you are right now.</p></div><div className="roadmap-questions">{questions.map((item, questionIndex) => <fieldset key={item.question}><legend>{questionIndex + 1}. {item.question}</legend>{item.answers.map(([answer, value]) => <label key={answer}><input type="radio" name={`roadmap-${questionIndex}`} checked={answers[questionIndex] === value} onChange={() => setAnswers((current) => { const next = [...current]; next[questionIndex] = value; return next })} /><span>{answer}</span></label>)}</fieldset>)}</div>{answers.length === questions.length && answers.every((answer) => answer !== undefined) && <article className="roadmap-result"><p className="eyebrow">YOUR STARTING POINT</p><h3>{recommendation[0]}</h3><p>{recommendation[1]}</p><button type="button" onClick={onOpenTools}>Use the QA Toolkits <span>↗</span></button></article>}</div>}
+      {activeTab === 'roadmap' && <div className="roadmap-panel"><div><p className="eyebrow">QA ROADMAP CHECK</p><h2>Find your next<br /><em>useful step.</em></h2><p>This is not a test or a label. Choose the answers closest to where you are right now.</p></div><div className="roadmap-questions">{questions.map((item, questionIndex) => <fieldset key={item.question}><legend>{questionIndex + 1}. {item.question}</legend>{item.answers.map(([answer, value]) => <label key={answer}><input type="radio" name={`roadmap-${questionIndex}`} checked={answers[questionIndex] === value} onChange={() => setAnswers((current) => { const next = [...current]; next[questionIndex] = value; return next })} /><span>{answer}</span></label>)}</fieldset>)}</div>{answers.filter((answer) => answer !== undefined).length === questions.length && <article className="roadmap-result"><p className="eyebrow">YOUR STARTING POINT</p><h3>{recommendation[0]}</h3><p>{recommendation[1]}</p><button type="button" onClick={onOpenTools}>Use the QA Toolkits <span>↗</span></button></article>}</div>}
 
       {activeTab === 'scenarios' && <div className="scenario-panel"><div><p className="eyebrow">PRACTICE SCENARIO · {String(scenarioIndex + 1).padStart(2, '0')}/{String(scenarios.length).padStart(2, '0')}</p><h2>{scenario.title}</h2><p>{scenario.situation}</p></div><div className="scenario-choices">{scenario.choices.map(([choice, isBest, feedback], index) => <button key={choice} type="button" className={selectedChoice === index ? (isBest ? 'correct' : 'incorrect') : ''} onClick={() => setSelectedChoice(index)}><span>{String.fromCharCode(65 + index)}</span><b>{choice}</b>{selectedChoice === index && <small>{feedback}</small>}</button>)}</div><div className="scenario-controls"><button type="button" disabled={scenarioIndex === 0} onClick={() => { setScenarioIndex((index) => index - 1); setSelectedChoice(null) }}>← Previous</button><button type="button" disabled={scenarioIndex === scenarios.length - 1} onClick={() => { setScenarioIndex((index) => index + 1); setSelectedChoice(null) }}>Next scenario →</button></div></div>}
 
