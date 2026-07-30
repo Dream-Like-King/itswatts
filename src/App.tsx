@@ -55,7 +55,7 @@ function App() {
     </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
     </>}
-    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onNavigateHome={isLearnOpen ? navigateHome : undefined} />
+    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onNavigateHome={isLearnOpen ? navigateHome : undefined} isLearningView={isLearnOpen} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
   </>
 }

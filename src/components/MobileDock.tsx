@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-type MobileDockProps = { onOpenChat: () => void; onOpenLearn: () => void; onNavigateHome?: (target: string) => void }
+type MobileDockProps = { onOpenChat: () => void; onOpenLearn: () => void; onNavigateHome?: (target: string) => void; isLearningView?: boolean }
 
 const primaryItems = [
   ['Learn', 'learn', '⌁'],
@@ -16,7 +16,7 @@ const moreItems = [
 
 const trackedSections = [...primaryItems.map(([, id]) => id), ...moreItems.map(([, id]) => id)]
 
-export function MobileDock({ onOpenChat, onOpenLearn, onNavigateHome }: MobileDockProps) {
+export function MobileDock({ onOpenChat, onOpenLearn, onNavigateHome, isLearningView = false }: MobileDockProps) {
   const [activeSection, setActiveSection] = useState('learn')
   const [isMoreOpen, setIsMoreOpen] = useState(false)
   const dockRef = useRef<HTMLElement>(null)
@@ -32,6 +32,10 @@ export function MobileDock({ onOpenChat, onOpenLearn, onNavigateHome }: MobileDo
   }
 
   useEffect(() => {
+    if (isLearningView) {
+      setActiveSection('learn')
+      return
+    }
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
       if (visible) setActiveSection(visible.target.id)
@@ -41,7 +45,7 @@ export function MobileDock({ onOpenChat, onOpenLearn, onNavigateHome }: MobileDo
       if (element) observer.observe(element)
     })
     return () => observer.disconnect()
-  }, [])
+  }, [isLearningView])
 
   useEffect(() => {
     const closeMenu = (event: MouseEvent) => {
