@@ -197,6 +197,7 @@ requirement(doc, "09", "QA roadmap quiz", "Help visitors identify the most usefu
 requirement(doc, "10", "Glossary search", "Make key QA terminology easy to find and understand while building on the Knowledge Base.", "Add a prominent search or filter field, concise plain-language definitions, and links to related lessons, templates, or tools. Start with the planned foundational terms and allow the list to expand over time.", "A visitor can type a term or keyword and see relevant results immediately on desktop and mobile. Empty-result states suggest a related topic or a way to request a term.")
 requirement(doc, "11", "Practice scenarios", "Turn passive reading into short, practical QA decision-making exercises.", "Provide compact scenario cards such as What would you test first?, What information belongs in this bug report?, or Should this be automated? Each includes a recommended answer and explanation after the visitor responds.", "At least three launch scenarios work with keyboard and touch input, show useful feedback without shaming incorrect selections, and fit within a focused destination rather than extending the homepage.")
 requirement(doc, "12", "Expanded templates hub", "Give learners reusable starting points for real QA work.", "Extend the current downloads with test-case, bug-report, exploratory-testing, and release-checklist templates. Clearly describe when each template is useful and provide accessible download links.", "Visitors can preview each template’s purpose, download it successfully, and return to related learning content. Templates must use consistent It’s Watts branding and be useful without a paid tool or account.")
+requirement(doc, "13", "Mobile dock regression safeguards", "Preserve reliable mobile navigation as focused learning destinations and future sections are added.", "Keep the dock visibly anchored to the bottom of the active mobile viewport. Reconnect scroll-based active-state tracking whenever a visitor opens or exits a focused view, such as Learn, so the current section remains highlighted.", "On a narrow device in portrait and landscape, the dock stays at the bottom while scrolling. Its active icon updates for Learn, Tools, Resources, Weekly Notes, Contact, and More; the behavior also works when the visitor starts on, enters, or exits a focused learning view.")
 
 h1(doc, "4. Non-functional requirements")
 for item in [
@@ -206,6 +207,7 @@ for item in [
     "Theme support: every new panel, modal, guide, and interactive element must be tested in both system light and dark modes.",
     "Content governance: educational claims must be practical and clearly framed; certification details should be reviewed against official sources before publication.",
     "Responsive navigation: the mobile menu must provide direct access to Learn, Knowledge Base, Career Paths, Resources, and My Story without overwhelming the screen.",
+    "Mobile dock regression checks: test viewport placement and active-section highlighting after any new focused route, conditional view, or navigation change.",
 ]:
     bullet(doc, item)
 
@@ -236,7 +238,7 @@ callout(doc, "Recommendation", "Treat FR-09 through FR-12 as the next release. T
 label_bullet(doc, "Release goal", "Help a visitor identify where to start, understand unfamiliar terms, practice judgment, and leave with a reusable work template.")
 label_bullet(doc, "Homepage rule", "Use one compact ‘Build your QA foundation’ teaser that links to the roadmap or learning hub. Do not add four full feature sections to the homepage.")
 label_bullet(doc, "Later backlog", "Saved progress, email digests, public resource submissions, community or mentorship features, interactive accessibility scanning, and large tool-comparison collections should follow after content ownership, moderation, privacy, and maintenance decisions are made.")
-label_bullet(doc, "Release checks", "Test each tool in system light and dark modes, on a narrow mobile screen, with keyboard navigation, and without an account or API key.")
+label_bullet(doc, "Release checks", "Test each tool in system light and dark modes, on a narrow mobile screen, with keyboard navigation, and without an account or API key. Verify the mobile dock after opening and leaving every focused destination.")
 
 h1(doc, "8. Dependencies and decisions needed later")
 label_bullet(doc, "Content ownership", "Derrick provides or approves final educational copy, personal-story facts, and any certifications personally held or recommended.")

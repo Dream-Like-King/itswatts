@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Logo } from './Logo'
+import { KnowledgeBase } from './KnowledgeBase'
+import { LearningLevels } from './LearningLevels'
 
-type LearnHubProps = { onClose: () => void; onOpenPaths: () => void }
+type LearnHubProps = { onClose: () => void; onOpenPaths: () => void; onOpenTools: () => void }
 
 const sdlc = [
   ['01', 'Discover', 'Clarify who the feature serves, what problem it solves, and the risks hidden in assumptions.'],
@@ -12,7 +14,7 @@ const sdlc = [
   ['06', 'Learn', 'Use production feedback, defects, and support patterns to improve the product and the next delivery cycle.'],
 ] as const
 
-export function LearnHub({ onClose, onOpenPaths }: LearnHubProps) {
+export function LearnHub({ onClose, onOpenPaths, onOpenTools }: LearnHubProps) {
   const [activePhase, setActivePhase] = useState(0)
   const [number, title, copy] = sdlc[activePhase]
   return <main className="learn-hub" id="top" tabIndex={-1}>
@@ -23,6 +25,8 @@ export function LearnHub({ onClose, onOpenPaths }: LearnHubProps) {
 
     <section className="learn-section sdlc-section" id="sdlc"><p className="eyebrow">02 · QA IN THE SDLC</p><div className="learn-split"><div><h2>Quality is a<br /><em>team sport.</em></h2><p className="learn-lead">QA contributes at every stage of delivery. Select a stage to see where thoughtful testing can make the biggest difference.</p></div><div className="sdlc-panel"><div className="sdlc-steps" role="tablist" aria-label="QA in the software development lifecycle">{sdlc.map(([step, label], index) => <button type="button" key={step} className={activePhase === index ? 'active' : ''} onClick={() => setActivePhase(index)} role="tab" aria-selected={activePhase === index}><span>{step}</span>{label}</button>)}</div><article className="sdlc-detail"><p className="eyebrow">{number} · {title.toUpperCase()}</p><h3>{title} with quality in mind.</h3><p>{copy}</p></article></div></div></section>
 
-    <section className="learn-next"><p className="eyebrow">KEEP GOING</p><h2>Choose your next<br /><em>useful step.</em></h2><p>Explore the current Automation, AI for QA, and Quality Essentials paths—or return as the Knowledge Base and level-based guidance arrive next.</p><button type="button" onClick={onOpenPaths}>Explore learning paths <span>↗</span></button></section>
+    <LearningLevels onOpenTools={onOpenTools} />
+    <KnowledgeBase />
+    <section className="learn-next"><p className="eyebrow">KEEP GOING</p><h2>Choose your next<br /><em>useful step.</em></h2><p>Explore the current Automation, AI for QA, and Quality Essentials paths. Use the Knowledge Base as you learn, then take a focused idea into your next sprint.</p><button type="button" onClick={onOpenPaths}>Explore learning paths <span>↗</span></button></section>
   </main>
 }

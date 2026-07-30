@@ -27,7 +27,7 @@ function App() {
     window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }
   return <>
-    {isLearnOpen ? <LearnHub onClose={closeLearn} onOpenPaths={() => navigateHome('learn')} /> : <>
+    {isLearnOpen ? <LearnHub onClose={closeLearn} onOpenPaths={() => navigateHome('learn')} onOpenTools={() => navigateHome('tools')} /> : <>
     <main id="content" tabIndex={-1}>
     <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
     <section className="hero education-hero">
