@@ -11,7 +11,7 @@ export function FocusTools() {
   const selected = explorationTools.find((tool) => tool.name === selectedName) ?? explorationTools[0]
 
   return <section className="focus-tools section" id="focus-tools">
-    <div className="focus-tools-heading"><p className="eyebrow">WHAT WE’RE EXPLORING</p><h2>Daily tools.<br /><em>Practical context.</em></h2><p>Select a tool to see how it can support thoughtful QA work across a delivery cycle.</p></div>
+    <div className="focus-tools-heading"><p className="eyebrow">QA SOFTWARE GUIDE</p><h2>Software for<br /><em>quality work.</em></h2><p>Select a tool or platform to see how it can support thoughtful QA work across a delivery cycle.</p></div>
     <div className="focus-tools-main">
       <div className="focus-tool-filters" role="group" aria-label="Filter tools by category">{categories.map((item) => <button type="button" key={item} className={category === item ? 'active' : ''} onClick={() => setCategory(item)} aria-pressed={category === item}>{item}</button>)}</div>
       <div className="focus-tool-list" aria-label="Tool list">{visibleTools.map((tool) => <button type="button" key={tool.name} className={selected.name === tool.name ? 'active' : ''} onClick={() => setSelectedName(tool.name)}><span>{tool.category}</span>{tool.name}<b aria-hidden="true">↗</b></button>)}</div>

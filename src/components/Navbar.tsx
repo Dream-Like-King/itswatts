@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Logo } from './Logo'
 
-const links = [['Learn', 'learn'], ['Career paths', 'career-paths'], ['Tools', 'tools'], ['Resources', 'resources'], ['Tool guide', 'focus-tools'], ['Weekly notes', 'weekly'], ['My story', 'my-story']]
+const links = [['Learn', 'learn'], ['Career paths', 'career-paths'], ['Tools', 'tools'], ['Resources', 'resources'], ['QA software', 'focus-tools'], ['Weekly notes', 'weekly'], ['My story', 'my-story']]
 
 type NavbarProps = { onOpenChat: () => void; onOpenLearn: (target?: string) => void; onOpenStory: () => void }
 
