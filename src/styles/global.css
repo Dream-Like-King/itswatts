@@ -54,6 +54,7 @@
   .availability { margin-top:16px; }
   .chat-body { min-height:0; padding:17px; }
   .chat-history { max-height:180px; }
+  .chat-input input { font-size:16px; }
   .desktop-chat-fab { display:none; }
   .mobile-dock { position:fixed; z-index:70; left:10px; right:10px; bottom:max(10px,env(safe-area-inset-bottom)); height:67px; padding:5px 3px; display:grid; grid-template-columns:repeat(6,1fr); align-items:center; border:1px solid var(--line); border-radius:19px; background:rgba(14,17,22,.92); box-shadow:0 12px 34px rgba(0,0,0,.38); backdrop-filter:blur(16px); }
   .mobile-dock button { min-width:0; height:56px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; border:0; border-radius:13px; background:transparent; color:var(--dim); font:9px/1 'DM Mono',monospace; position:relative; }
