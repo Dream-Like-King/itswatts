@@ -70,6 +70,20 @@
   .dock-more-menu button > span { font-size:15px; }
 }
 
+@media (max-width:800px) and (orientation:landscape) {
+  .chat-overlay { padding:6px; align-items:stretch; }
+  .chat-dialog { width:100%; height:100%; max-height:100dvh; grid-template-columns:.62fr 1.38fr; gap:14px; padding:14px; overflow:hidden; align-items:stretch; }
+  .chat-dialog-copy { min-height:0; overflow:auto; }
+  .chat-dialog-copy h2 { font-size:2.1rem; margin:8px 0; }
+  .chat-dialog-copy > p:not(.eyebrow) { display:none; }
+  .availability { margin-top:10px; }
+  .chat-shell { min-height:0; display:flex; flex-direction:column; }
+  .chat-body { min-height:0; flex:1; overflow:auto; }
+  .chat-history { max-height:none; }
+  .suggested-label,.prompt-list { display:none; }
+  .chat-input { flex:0 0 auto; }
+}
+
 @media (prefers-color-scheme:light) {
   .chat-overlay { background:rgba(23,35,27,.45); }
   .chat-dialog { background:var(--panel); box-shadow:0 24px 80px rgba(23,35,27,.28); }
