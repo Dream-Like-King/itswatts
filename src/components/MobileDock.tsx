@@ -6,12 +6,12 @@ type MobileDockProps = { onOpenChat: () => void; onOpenLearn: (target?: string) 
 const primaryItems = [
   ['Learn', 'learn', '⌁'],
   ['Tools', 'tools', '⌘'],
-  ['Resources', 'resources', '▦'],
+  ['Weekly notes', 'weekly', '◷'],
 ] as const
 
 const moreItems = [
+  ['Resources', 'resources', '▦'],
   ['Career paths', 'career-paths', '↗'],
-  ['Weekly notes', 'weekly', '◷'],
   ['Contact', 'contact', '✦'],
 ] as const
 
@@ -63,7 +63,7 @@ export function MobileDock({ onOpenChat, onOpenLearn, onOpenCareer, onNavigateHo
     <button type="button" className={activeSection === 'learn' ? 'active' : ''} onClick={() => onOpenLearn()}><span aria-hidden="true">⌁</span>Learn</button>
     {primaryItems.slice(1, 2).map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}
     <button className="dock-chat" type="button" onClick={onOpenChat} aria-label="Open Ask Watt"><span aria-hidden="true">ϟ</span><small>Ask Watt</small></button>
-    <button type="button" className={activeSection === 'resources' ? 'active' : ''} onClick={() => scrollTo('resources')}><span aria-hidden="true">▦</span>Resources</button>
+    <button type="button" className={activeSection === 'weekly' ? 'active' : ''} onClick={() => scrollTo('weekly')}><span aria-hidden="true">◷</span>Notes</button>
     <div className="dock-more"><button type="button" className={isMoreActive ? 'active' : ''} onClick={() => setIsMoreOpen((open) => !open)} aria-expanded={isMoreOpen} aria-controls="dock-more-menu"><span aria-hidden="true">•••</span>More</button>{isMoreOpen && <div className="dock-more-menu" id="dock-more-menu">{moreItems.map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => { if (target === 'career-paths') { setIsMoreOpen(false); onOpenCareer() } else scrollTo(target) }}><span aria-hidden="true">{icon}</span>{label}</button>)}</div>}</div>
   </nav>
 
