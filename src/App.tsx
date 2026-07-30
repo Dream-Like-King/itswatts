@@ -5,8 +5,8 @@ import { MobileDock } from './components/MobileDock'
 import { LearnHub } from './components/LearnHub'
 import { StoryHub } from './components/StoryHub'
 import { PracticeHub } from './components/PracticeHub'
+import { ToolkitsHub } from './components/ToolkitsHub'
 import { WeeklyNotes } from './components/WeeklyNotes'
-import { QaToolkits } from './components/QaToolkits'
 import { GrowthHub } from './components/GrowthHub'
 import { LearningPaths } from './components/LearningPaths'
 import { ResourceLibrary } from './components/ResourceLibrary'
@@ -18,13 +18,15 @@ function App() {
   const [isLearnOpen, setIsLearnOpen] = useState(() => window.location.hash === '#learn-hub')
   const [isStoryOpen, setIsStoryOpen] = useState(() => window.location.hash === '#my-story')
   const [isPracticeOpen, setIsPracticeOpen] = useState(() => window.location.hash === '#practice-lab')
+  const [isToolkitsOpen, setIsToolkitsOpen] = useState(() => window.location.hash === '#qa-toolkits')
   const [learnTarget, setLearnTarget] = useState<string | null>(null)
-  const openLearn = (target = 'top') => { setLearnTarget(target); window.history.pushState(null, '', '#learn-hub'); setIsPracticeOpen(false); setIsStoryOpen(false); setIsLearnOpen(true) }
-  const openStory = () => { window.history.pushState(null, '', '#my-story'); setIsPracticeOpen(false); setIsLearnOpen(false); setIsStoryOpen(true); window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' })) }
-  const openPractice = () => { window.history.pushState(null, '', '#practice-lab'); setIsStoryOpen(false); setIsLearnOpen(false); setIsPracticeOpen(true); window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' })) }
-  const closeFocusedView = () => { window.history.pushState(null, '', '#top'); setIsLearnOpen(false); setIsStoryOpen(false); setIsPracticeOpen(false) }
+  const openLearn = (target = 'top') => { setLearnTarget(target); window.history.pushState(null, '', '#learn-hub'); setIsToolkitsOpen(false); setIsPracticeOpen(false); setIsStoryOpen(false); setIsLearnOpen(true) }
+  const openStory = () => { window.history.pushState(null, '', '#my-story'); setIsToolkitsOpen(false); setIsPracticeOpen(false); setIsLearnOpen(false); setIsStoryOpen(true); window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' })) }
+  const openPractice = () => { window.history.pushState(null, '', '#practice-lab'); setIsToolkitsOpen(false); setIsStoryOpen(false); setIsLearnOpen(false); setIsPracticeOpen(true); window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' })) }
+  const openToolkits = () => { window.history.pushState(null, '', '#qa-toolkits'); setIsPracticeOpen(false); setIsStoryOpen(false); setIsLearnOpen(false); setIsToolkitsOpen(true); window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' })) }
+  const closeFocusedView = () => { window.history.pushState(null, '', '#top'); setIsLearnOpen(false); setIsStoryOpen(false); setIsPracticeOpen(false); setIsToolkitsOpen(false) }
   useEffect(() => {
-    const syncFocusedView = () => { setIsLearnOpen(window.location.hash === '#learn-hub'); setIsStoryOpen(window.location.hash === '#my-story'); setIsPracticeOpen(window.location.hash === '#practice-lab') }
+    const syncFocusedView = () => { setIsLearnOpen(window.location.hash === '#learn-hub'); setIsStoryOpen(window.location.hash === '#my-story'); setIsPracticeOpen(window.location.hash === '#practice-lab'); setIsToolkitsOpen(window.location.hash === '#qa-toolkits') }
     window.addEventListener('popstate', syncFocusedView)
     window.addEventListener('hashchange', syncFocusedView)
     return () => { window.removeEventListener('popstate', syncFocusedView); window.removeEventListener('hashchange', syncFocusedView) }
@@ -42,9 +44,9 @@ function App() {
     window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }
   return <>
-    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={() => navigateHome('tools')} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={() => navigateHome('tools')} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenPaths={() => navigateHome('learn')} onOpenTools={() => navigateHome('tools')} onOpenResources={() => navigateHome('resources')} onOpenPractice={openPractice} /> : <>
+    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={openToolkits} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={openToolkits} /> : isToolkitsOpen ? <ToolkitsHub onClose={closeFocusedView} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenPaths={() => navigateHome('learn')} onOpenTools={openToolkits} onOpenResources={() => navigateHome('resources')} onOpenPractice={openPractice} /> : <>
     <main id="content" tabIndex={-1}>
-    <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenStory={openStory} />
+    <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenStory={openStory} onOpenToolkits={openToolkits} />
     <section className="hero education-hero">
       <div className="hero-grid" aria-hidden="true"></div><div className="orb orb-one"></div><div className="orb orb-two"></div>
       <div className="hero-content"><p className="eyebrow hero-eyebrow"><span></span> AUTOMATION · AI · QUALITY ENGINEERING</p><h1>Practical QA education<br />for the <em>AI era.</em></h1><p className="hero-copy">Learn the testing habits, automation patterns, and AI workflows that help you build software people can trust.</p><div className="hero-actions"><a className="button primary" href="#learn">Start learning <span>↓</span></a><a className="button quiet" href="#weekly">Read weekly notes <span>↗</span></a></div></div>
@@ -55,13 +57,11 @@ function App() {
 
     <LearningPaths />
 
-    <QaToolkits />
-
     <WeeklyNotes />
 
     <GrowthHub />
 
-    <ResourceLibrary onOpenChat={() => setIsChatOpen(true)} />
+    <ResourceLibrary onOpenChat={() => setIsChatOpen(true)} onOpenToolkits={openToolkits} />
 
     <FocusTools />
 
@@ -70,7 +70,7 @@ function App() {
     </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
     </>}
-    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={() => openLearn('career-paths')} onOpenStory={openStory} onOpenPractice={openPractice} onNavigateHome={isLearnOpen || isStoryOpen || isPracticeOpen ? navigateHome : undefined} focusedView={isStoryOpen ? 'story' : isPracticeOpen ? 'practice' : isLearnOpen ? 'learn' : null} />
+    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={() => openLearn('career-paths')} onOpenStory={openStory} onOpenPractice={openPractice} onOpenToolkits={openToolkits} onNavigateHome={isLearnOpen || isStoryOpen || isPracticeOpen || isToolkitsOpen ? navigateHome : undefined} focusedView={isStoryOpen ? 'story' : isPracticeOpen ? 'practice' : isToolkitsOpen ? 'toolkits' : isLearnOpen ? 'learn' : null} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
   </>
 }

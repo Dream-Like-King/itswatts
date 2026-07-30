@@ -148,3 +148,8 @@
 @media (prefers-color-scheme:light) { .case-form-grid input,.generated-cases article { background:#f7faf7; }.clarifying-questions { background:linear-gradient(110deg,rgba(25,111,202,.07),transparent); } }
 
 .generated-cases h4 { margin-bottom:7px; }.generated-case-description { margin:0 0 16px; color:var(--dim); font-size:11px; line-height:1.65; }
+
+/* QA Toolkits is a focused destination so the home page can stay concise. */
+.toolkits-hub { min-height:100vh; background:var(--bg); color:var(--text); }.toolkits-hero { width:min(1180px,calc(100% - 64px)); min-height:410px; margin:auto; padding:122px 0 70px; display:flex; flex-direction:column; justify-content:center; background:radial-gradient(circle at 76% 26%,rgba(63,185,80,.13),transparent 24%),linear-gradient(135deg,transparent 65%,rgba(88,166,255,.08)); }.toolkits-hero h1 { margin:18px 0 24px; font-size:clamp(4rem,7vw,6.7rem); }.toolkits-hero > p:not(.eyebrow) { max-width:570px; color:var(--dim); font-size:15px; line-height:1.85; }.toolkits-hub .toolkits { padding-top:95px; }
+@media (max-width:800px) { .toolkits-hero { width:calc(100% - 40px); min-height:410px; padding:95px 0 60px; }.toolkits-hero h1 { font-size:clamp(3.3rem,14vw,5.1rem); }.toolkits-hub .toolkits { padding-top:75px; } }
+@media (prefers-color-scheme:light) { .toolkits-hero { background:radial-gradient(circle at 76% 26%,rgba(22,132,58,.12),transparent 24%),linear-gradient(135deg,transparent 65%,rgba(25,111,202,.07)); } }

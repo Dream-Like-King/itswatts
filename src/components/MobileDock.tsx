@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-type MobileDockProps = { onOpenChat: () => void; onOpenLearn: (target?: string) => void; onOpenCareer: () => void; onOpenStory: () => void; onOpenPractice: () => void; onNavigateHome?: (target: string) => void; focusedView?: 'learn' | 'story' | 'practice' | null }
+type MobileDockProps = { onOpenChat: () => void; onOpenLearn: (target?: string) => void; onOpenCareer: () => void; onOpenStory: () => void; onOpenPractice: () => void; onOpenToolkits: () => void; onNavigateHome?: (target: string) => void; focusedView?: 'learn' | 'story' | 'practice' | 'toolkits' | null }
 
 const primaryItems = [
   ['Learn', 'learn', '⌁'],
@@ -20,7 +20,7 @@ const moreItems = [
 
 const trackedSections = [...primaryItems.map(([, id]) => id), ...moreItems.map(([, id]) => id)]
 
-export function MobileDock({ onOpenChat, onOpenLearn, onOpenCareer, onOpenStory, onOpenPractice, onNavigateHome, focusedView = null }: MobileDockProps) {
+export function MobileDock({ onOpenChat, onOpenLearn, onOpenCareer, onOpenStory, onOpenPractice, onOpenToolkits, onNavigateHome, focusedView = null }: MobileDockProps) {
   const [activeSection, setActiveSection] = useState('learn')
   const [isMoreOpen, setIsMoreOpen] = useState(false)
   const dockRef = useRef<HTMLElement>(null)
@@ -37,7 +37,7 @@ export function MobileDock({ onOpenChat, onOpenLearn, onOpenCareer, onOpenStory,
 
   useEffect(() => {
     if (focusedView) {
-      setActiveSection(focusedView === 'story' ? 'story' : focusedView === 'practice' ? 'practice' : 'learn')
+      setActiveSection(focusedView === 'story' ? 'story' : focusedView === 'practice' ? 'practice' : focusedView === 'toolkits' ? 'tools' : 'learn')
       return
     }
     const observer = new IntersectionObserver((entries) => {
@@ -64,7 +64,7 @@ export function MobileDock({ onOpenChat, onOpenLearn, onOpenCareer, onOpenStory,
   const isMoreActive = moreItems.some(([, id]) => id === activeSection)
   const dock = <nav className="mobile-dock" aria-label="Quick navigation" ref={dockRef}>
     <button type="button" className={activeSection === 'learn' ? 'active' : ''} onClick={() => onOpenLearn()}><span aria-hidden="true">⌁</span>Learn</button>
-    {primaryItems.slice(1, 2).map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}
+    {primaryItems.slice(1, 2).map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={onOpenToolkits}><span aria-hidden="true">{icon}</span>{label}</button>)}
     <button className="dock-chat" type="button" onClick={onOpenChat} aria-label="Open Ask Watt"><span aria-hidden="true">ϟ</span><small>Ask Watt</small></button>
     <button type="button" className={activeSection === 'weekly' ? 'active' : ''} onClick={() => scrollTo('weekly')}><span aria-hidden="true">◷</span>Notes</button>
     <div className="dock-more"><button type="button" className={isMoreActive ? 'active' : ''} onClick={() => setIsMoreOpen((open) => !open)} aria-expanded={isMoreOpen} aria-controls="dock-more-menu"><span aria-hidden="true">•••</span>More</button>{isMoreOpen && <div className="dock-more-menu" id="dock-more-menu">{moreItems.map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => { if (target === 'career-paths') { setIsMoreOpen(false); onOpenCareer() } else if (target === 'practice') { setIsMoreOpen(false); onOpenPractice() } else if (target === 'story') { setIsMoreOpen(false); onOpenStory() } else scrollTo(target) }}><span aria-hidden="true">{icon}</span>{label}</button>)}</div>}</div>
