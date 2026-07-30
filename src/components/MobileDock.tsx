@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-type MobileDockProps = { onOpenChat: () => void }
+type MobileDockProps = { onOpenChat: () => void; onOpenLearn: () => void }
 
 const primaryItems = [
   ['Learn', 'learn', '⌁'],
@@ -15,7 +15,7 @@ const moreItems = [
 
 const trackedSections = [...primaryItems.map(([, id]) => id), ...moreItems.map(([, id]) => id)]
 
-export function MobileDock({ onOpenChat }: MobileDockProps) {
+export function MobileDock({ onOpenChat, onOpenLearn }: MobileDockProps) {
   const [activeSection, setActiveSection] = useState('learn')
   const [isMoreOpen, setIsMoreOpen] = useState(false)
   const dockRef = useRef<HTMLElement>(null)
@@ -50,7 +50,8 @@ export function MobileDock({ onOpenChat }: MobileDockProps) {
 
   const isMoreActive = moreItems.some(([, id]) => id === activeSection)
   return <nav className="mobile-dock" aria-label="Quick navigation" ref={dockRef}>
-    {primaryItems.slice(0, 2).map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}
+    <button type="button" className={activeSection === 'learn' ? 'active' : ''} onClick={onOpenLearn}><span aria-hidden="true">⌁</span>Learn</button>
+    {primaryItems.slice(1, 2).map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}
     <button className="dock-chat" type="button" onClick={onOpenChat} aria-label="Open Ask Watt"><span aria-hidden="true">ϟ</span><small>Ask Watt</small></button>
     <button type="button" className={activeSection === 'resources' ? 'active' : ''} onClick={() => scrollTo('resources')}><span aria-hidden="true">▦</span>Resources</button>
     <div className="dock-more"><button type="button" className={isMoreActive ? 'active' : ''} onClick={() => setIsMoreOpen((open) => !open)} aria-expanded={isMoreOpen} aria-controls="dock-more-menu"><span aria-hidden="true">•••</span>More</button>{isMoreOpen && <div className="dock-more-menu" id="dock-more-menu">{moreItems.map(([label, target, icon]) => <button key={target} type="button" className={activeSection === target ? 'active' : ''} onClick={() => scrollTo(target)}><span aria-hidden="true">{icon}</span>{label}</button>)}</div>}</div>
