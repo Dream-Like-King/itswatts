@@ -13,7 +13,7 @@ export function CareerPaths({ onOpenResources }: CareerPathsProps) {
   const selected = careers[selectedIndex]
 
   return <section className="learn-section career-paths" id="career-paths">
-    <p className="eyebrow">05 · CAREER PATHS</p>
+    <p className="eyebrow">CAREER PATHS</p>
     <div className="level-heading"><h2>Build a QA career<br />with <em>practice.</em></h2><p>Roles and titles differ from team to team. Use these paths as a way to choose skills to develop, not as a single required route.</p></div>
     <div className="career-grid">{careers.map((career, index) => <button key={career.role} type="button" className={selectedIndex === index ? 'active' : ''} onClick={() => setSelectedIndex(index)} aria-pressed={selectedIndex === index}><span>{career.number}</span><h3>{career.role}</h3><p>{career.summary}</p></button>)}</div>
     <article className="career-detail" aria-live="polite"><p className="eyebrow">{selected.number} · {selected.role.toUpperCase()}</p><h3>Build toward the work you want to do.</h3><p>{selected.practice}</p><div>{selected.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></article>

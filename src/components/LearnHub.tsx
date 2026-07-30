@@ -3,9 +3,8 @@ import { Logo } from './Logo'
 import { KnowledgeBase } from './KnowledgeBase'
 import { LearningLevels } from './LearningLevels'
 import { LearningPaths } from './LearningPaths'
-import { CareerPaths } from './CareerPaths'
 
-type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenResources: () => void; onOpenPractice: () => void }
+type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenPractice: () => void }
 
 const sdlc = [
   ['01', 'Discover', 'Clarify who the feature serves, what problem it solves, and the risks hidden in assumptions.'],
@@ -16,7 +15,7 @@ const sdlc = [
   ['06', 'Learn', 'Use production feedback, defects, and support patterns to improve the product and the next delivery cycle.'],
 ] as const
 
-export function LearnHub({ onClose, onOpenTools, onOpenResources, onOpenPractice }: LearnHubProps) {
+export function LearnHub({ onClose, onOpenTools, onOpenPractice }: LearnHubProps) {
   const [activePhase, setActivePhase] = useState(0)
   const [number, title, copy] = sdlc[activePhase]
   return <main className="learn-hub" id="top" tabIndex={-1}>
@@ -30,7 +29,6 @@ export function LearnHub({ onClose, onOpenTools, onOpenResources, onOpenPractice
     <LearningLevels onOpenTools={onOpenTools} />
     <LearningPaths />
     <KnowledgeBase />
-    <CareerPaths onOpenResources={onOpenResources} />
     <section className="learn-next"><p className="eyebrow">KEEP GOING</p><h2>Choose your next<br /><em>useful step.</em></h2><p>Explore the current Automation, AI for QA, and Quality Essentials paths. Use the Knowledge Base as you learn, then take a focused idea into your next sprint.</p><div><button type="button" onClick={onOpenPractice}>Open the Practice Lab <span>↗</span></button><button type="button" className="learn-next-link" onClick={() => document.getElementById('learning-paths')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Explore learning paths <span>↗</span></button></div></section>
   </main>
 }
