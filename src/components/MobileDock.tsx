@@ -10,7 +10,7 @@ const primaryItems = [
 
 const moreItems = [
   ['Weekly notes', 'weekly', '◷'],
-  ['About', 'about', '◌'],
+  ['Contact', 'contact', '✦'],
 ] as const
 
 const trackedSections = [...primaryItems.map(([, id]) => id), ...moreItems.map(([, id]) => id)]
