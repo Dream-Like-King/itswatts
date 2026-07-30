@@ -47,6 +47,8 @@
 .desktop-chat-fab { position:fixed; z-index:40; right:28px; bottom:28px; display:inline-flex; align-items:center; gap:11px; border:1px solid rgba(63,185,80,.7); background:rgba(14,17,22,.92); color:var(--text); padding:15px 19px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.32); backdrop-filter:blur(14px); font-size:14px; font-weight:800; transition:transform .2s,background .2s; }
 .desktop-chat-fab span { color:var(--blue); font-family:Georgia,serif; font-size:25px; transform:rotate(10deg); animation:watt-bolt 2.2s ease-in-out infinite; }.desktop-chat-fab:hover { transform:translateY(-3px); background:#1b222b; }
 @media (min-width:801px) { .nav-cta { display:none; } }
+@media (min-width:801px) { .nav-wrap { position:fixed; top:14px; z-index:60; pointer-events:none; }.nav { width:min(1280px,calc(100% - 48px)); height:62px; padding:0 20px; border:1px solid rgba(139,148,158,.3); border-radius:999px; background:rgba(14,17,22,.82); box-shadow:0 12px 32px rgba(0,0,0,.22); backdrop-filter:blur(16px); pointer-events:auto; }.nav-links { gap:clamp(12px,2vw,25px); margin-left:auto; } }
+@media (min-width:801px) and (prefers-color-scheme:light) { .nav { border-color:#c9d4cc; background:rgba(255,255,255,.86); box-shadow:0 12px 28px rgba(23,35,27,.14); } }
 
 @media (max-width:800px) {
   main { padding-bottom:88px; }
