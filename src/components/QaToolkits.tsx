@@ -26,40 +26,55 @@ const automationQuestions = [
   'Would automated feedback arrive early enough to help the team?',
 ] as const
 
-type TestIdea = { label: string; text: string }
+const testAreas = ['Functional', 'Negative', 'Accessibility', 'API / Integration', 'Security', 'Regression'] as const
+type TestArea = typeof testAreas[number]
+type GeneratedCase = { id: string; area: TestArea; title: string; priority: 'High' | 'Medium'; preconditions: string; steps: string; expected: string }
 
-function buildTestIdeas(description: string): TestIdea[] {
+function buildTestCases(description: string, role: string, platform: string, risk: string, integrations: string, areas: TestArea[]): GeneratedCase[] {
   const featureName = description.replace(/\s+/g, ' ').trim().replace(/[.?!]+$/, '').slice(0, 120) || 'this feature'
   const normalized = description.toLowerCase()
-  const ideas: TestIdea[] = [
-    { label: 'Core journey', text: `Verify that a user can complete “${featureName}” with valid data and receives a clear success state.` },
-    { label: 'Validation', text: `Identify the required information and test missing, malformed, duplicate, and boundary-value input for “${featureName}.”` },
-    { label: 'Recovery', text: `Interrupt the flow with a refresh, back navigation, timeout, or repeat attempt. Confirm that “${featureName}” handles recovery without lost, duplicated, or misleading data.` },
-    { label: 'Accessibility', text: `Complete “${featureName}” using only a keyboard. Check focus order, labels, error messaging, and status updates.` },
+  const user = role.trim() || 'a valid user'
+  const environment = platform.trim() || 'the supported application environment'
+  const integrationNote = integrations.trim() || 'any supporting APIs, stored data, permissions, or notifications'
+  const cases: GeneratedCase[] = []
+  const add = (area: TestArea, title: string, priority: 'High' | 'Medium', preconditions: string, steps: string, expected: string) => cases.push({ id: `${area}-${title}`, area, title, priority, preconditions, steps, expected })
+
+  if (areas.includes('Functional')) add('Functional', 'Complete the core user journey', 'High', `${user} can access ${environment} with valid data.`, `Complete “${featureName}” using valid information and the intended path.`, 'The user receives a clear success state and the intended result is saved, displayed, or delivered correctly.')
+  if (areas.includes('Negative')) add('Negative', 'Validate invalid, missing, and boundary input', 'High', `${user} can start “${featureName}.”`, 'Try missing, malformed, duplicate, and boundary-value input; then repeat a submission or interrupt the flow.', 'The feature prevents invalid behavior, gives useful feedback, and does not lose, duplicate, or misrepresent data.')
+  if (areas.includes('Accessibility')) add('Accessibility', 'Complete the flow with keyboard-only use', 'Medium', `${user} can reach the feature without a mouse.`, `Use Tab, Shift+Tab, Enter, Escape, and visible focus to complete “${featureName}.”`, 'Focus order, labels, errors, dialogs, and status updates make the experience understandable and operable.')
+  if (areas.includes('API / Integration')) add('API / Integration', 'Verify supporting integration behavior', 'High', `${integrationNote} are available in a test environment.`, `Exercise “${featureName}” while checking request/response behavior, delayed responses, errors, and saved data.`, 'The feature handles success, delay, invalid responses, and dependency failures without misleading the user.')
+  if (areas.includes('Security')) add('Security', 'Check access, session, and sensitive-data behavior', 'High', `${user} and a second user role or account are available.`, `Try “${featureName}” with changed permissions, an expired session, repeat requests, and direct navigation where relevant.`, 'Only authorized users can act, sensitive information stays protected, and unsafe repeat behavior is prevented.')
+  if (areas.includes('Regression')) add('Regression', 'Protect related existing behavior', 'Medium', `${user} can access the related workflow before and after the change.`, `Run the highest-value related paths around “${featureName},” including navigation, saved state, and existing user actions.`, 'The new change does not break the adjacent experience or previously supported behavior.')
+
+  if (/(password|login|sign in|authentication|account)/.test(normalized)) add('Security', 'Account recovery and session safety', 'High', 'Valid and invalid accounts or reset links are available.', 'Check expired or reused links, invalid credentials, lockout behavior, and session changes.', 'Sensitive details stay hidden and account recovery behavior is safe and clear.')
+  if (/(payment|checkout|order|purchase|invoice|cart)/.test(normalized)) add('API / Integration', 'Transaction integrity', 'High', 'A test payment method and order data are available.', 'Check totals, tax or discounts, failed payments, duplicate submission, confirmation details, and order state.', 'Amounts and confirmation records remain accurate, including when the transaction fails or is repeated.')
+  if (/(email|notification|message|alert)/.test(normalized)) add('API / Integration', 'Delivery and content', 'Medium', 'A test recipient and controllable notification condition are available.', 'Check recipients, timing, duplicate sends, content, links, and a simulated delivery failure.', 'The right person receives an accurate message once, with useful behavior when delivery fails.')
+  if (/(upload|file|attachment|document|image)/.test(normalized)) add('Negative', 'File handling and recovery', 'Medium', 'Supported, unsupported, empty, and oversized files are available.', 'Try supported and invalid files, interruption, repeat upload, and retry behavior.', 'The feature gives clear progress and errors while protecting saved data from duplicates or corruption.')
+  if (risk.trim()) add('Regression', `Risk focus: ${risk.trim().slice(0, 65)}`, 'High', 'The named risk can be reproduced or observed in a safe test environment.', `Target the stated risk while completing “${featureName}” under normal and failure conditions.`, 'Evidence shows whether the stated risk is reduced, accepted, or still needs a follow-up decision.')
+
+  return cases
+}
+
+function buildClarifyingQuestions(description: string, role: string, integrations: string) {
+  const featureName = description.replace(/\s+/g, ' ').trim().slice(0, 80) || 'this feature'
+  return [
+    `What counts as a successful outcome for “${featureName},” and how should that outcome be visible to the user?`,
+    role.trim() ? `Which permissions, data states, or exceptions affect ${role.trim()}?` : 'Which user roles, permissions, or account states should behave differently?',
+    integrations.trim() ? `What should happen when ${integrations.trim()} is delayed, unavailable, or returns incomplete data?` : 'Which APIs, emails, saved data, or third-party services support this flow, and how should failures appear?',
   ]
-
-  if (/(password|login|sign in|authentication|account)/.test(normalized)) {
-    ideas.push({ label: 'Account safety', text: 'Check expired or reused links, invalid credentials, lockout behavior, session changes, and whether sensitive details stay hidden.' })
-  } else if (/(payment|checkout|order|purchase|invoice|cart)/.test(normalized)) {
-    ideas.push({ label: 'Transaction integrity', text: 'Check amounts, tax or discounts, failed payments, duplicate submission, confirmation details, and the resulting order state.' })
-  } else if (/(email|notification|message|alert)/.test(normalized)) {
-    ideas.push({ label: 'Delivery and content', text: 'Check who receives the message, timing, duplicate sends, content accuracy, links, and behavior when delivery fails.' })
-  } else if (/(upload|file|attachment|document|image)/.test(normalized)) {
-    ideas.push({ label: 'File handling', text: 'Check supported formats, empty or oversized files, interrupted uploads, duplicate files, progress feedback, and safe error recovery.' })
-  } else if (/(search|filter|sort|list|dashboard)/.test(normalized)) {
-    ideas.push({ label: 'Data behavior', text: 'Check empty results, partial matches, special characters, pagination, sorting consistency, and whether filters persist when the user returns.' })
-  } else {
-    ideas.push({ label: 'Dependencies', text: `List the APIs, permissions, emails, or saved data that support “${featureName}.” Test success, delay, and failure responses for each.` })
-  }
-
-  return ideas
 }
 
 export function QaToolkits() {
   const [activeTool, setActiveTool] = useState<'decision' | 'cases' | 'prompts'>('decision')
   const [answers, setAnswers] = useState(() => automationQuestions.map(() => false))
   const [feature, setFeature] = useState('')
+  const [userRole, setUserRole] = useState('')
+  const [platform, setPlatform] = useState('')
+  const [risk, setRisk] = useState('')
+  const [integrations, setIntegrations] = useState('')
+  const [selectedAreas, setSelectedAreas] = useState<TestArea[]>(['Functional', 'Negative', 'Accessibility'])
   const [showCases, setShowCases] = useState(false)
+  const [selectedCaseIds, setSelectedCaseIds] = useState<string[]>([])
   const [copied, setCopied] = useState<string | null>(null)
   const [promptCategory, setPromptCategory] = useState('All')
   const score = answers.filter(Boolean).length
@@ -78,9 +93,14 @@ export function QaToolkits() {
     window.setTimeout(() => setCopied(null), 1800)
   }
   const checklist = feature.trim() || 'this feature'
-  const testIdeas = useMemo(() => buildTestIdeas(checklist), [checklist])
+  const generatedCases = useMemo(() => buildTestCases(checklist, userRole, platform, risk, integrations, selectedAreas), [checklist, userRole, platform, risk, integrations, selectedAreas])
+  const clarifyingQuestions = useMemo(() => buildClarifyingQuestions(checklist, userRole, integrations), [checklist, userRole, integrations])
+  const selectedCases = generatedCases.filter((testCase) => selectedCaseIds.includes(testCase.id))
+  const testCaseMarkdown = `# Test case starter: ${checklist}\n\n${selectedCases.map((testCase, index) => `## ${index + 1}. ${testCase.title}\n- Area: ${testCase.area}\n- Priority: ${testCase.priority}\n- Preconditions: ${testCase.preconditions}\n- Steps: ${testCase.steps}\n- Expected result: ${testCase.expected}`).join('\n\n')}\n\n## Questions to clarify\n${clarifyingQuestions.map((question) => `- ${question}`).join('\n')}`
   const visiblePrompts = useMemo(() => promptCategory === 'All' ? promptLibrary : promptLibrary.filter((item) => item.category === promptCategory), [promptCategory])
   const automationSummary = `Automation decision: ${recommendation.title}. Signals: ${score}/${automationQuestions.length}. Suggested starting layer: ${recommendation.layer}. First useful step: ${recommendation.next}`
+  const toggleArea = (area: TestArea) => { setSelectedAreas((current) => current.includes(area) ? current.filter((item) => item !== area) : [...current, area]); setShowCases(false) }
+  const downloadTestCases = () => { const download = document.createElement('a'); download.href = URL.createObjectURL(new Blob([testCaseMarkdown], { type: 'text/markdown' })); download.download = 'its-watts-test-case-starter.md'; download.click(); URL.revokeObjectURL(download.href) }
 
   return <section className="toolkits section" id="tools">
     <div className="section-heading"><p className="eyebrow">QA TOOLKITS</p><h2>Useful tools.<br /><em>No fluff.</em></h2><p className="section-copy">Simple helpers for making better testing decisions before you open a ticket, write a script, or start a release.</p></div>
@@ -88,7 +108,7 @@ export function QaToolkits() {
 
     {activeTool === 'decision' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">AUTOMATION DECISION GUIDE</p><h3>Should this be automated?</h3><p>Answer six practical questions. This is a starting conversation—not a substitute for understanding the product.</p></div><div className="decision-card"><div className="decision-questions">{automationQuestions.map((question, index) => <label key={question}><input type="checkbox" checked={answers[index]} onChange={() => setAnswers((current) => current.map((answer, answerIndex) => answerIndex === index ? !answer : answer))} /><span>{question}</span><i>{answers[index] ? '✓' : '+'}</i></label>)}</div><div className="decision-result"><p className="eyebrow">RECOMMENDATION · {score}/{automationQuestions.length} SIGNALS</p><h4>{recommendation.title}</h4><p>{recommendation.description}</p><div className="decision-details"><article><span>BEST STARTING LAYER</span><b>{recommendation.layer}</b></article><article><span>FIRST USEFUL STEP</span><b>{recommendation.next}</b></article></div><button type="button" onClick={() => copyPrompt('automation-summary', automationSummary)}>{copied === 'automation-summary' ? 'Copied ✓' : 'Copy decision summary ↗'}</button></div><p className="automation-caution">Automation supports quality; it does not replace exploratory testing, accessibility checks, or product understanding.</p></div></div>}
 
-    {activeTool === 'cases' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">TEST CASE STARTER</p><h3>Turn a feature into test ideas.</h3><p>Describe the feature or user story. You’ll get a practical checklist to begin your own test design.</p></div><div className="case-card"><label htmlFor="feature">FEATURE OR USER STORY</label><textarea id="feature" value={feature} onChange={(event) => { setFeature(event.target.value); setShowCases(false) }} placeholder="Example: A customer can reset their password using an email link." /><button type="button" className="button primary" onClick={() => setShowCases(true)}>Generate test ideas <span aria-hidden="true">↗</span></button>{showCases && <div className="case-results"><p className="eyebrow">STARTER CHECKLIST FOR {checklist.toUpperCase()}</p><ul>{testIdeas.map((idea) => <li key={idea.label}><b>{idea.label}:</b> {idea.text}</li>)}</ul></div>}</div></div>}
+    {activeTool === 'cases' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">TEST CASE STARTER</p><h3>Turn a feature into test cases.</h3><p>Add only the context you know. The starter creates a practical first draft—not a substitute for product knowledge.</p></div><div className="case-card"><label htmlFor="feature">FEATURE OR USER STORY</label><textarea id="feature" value={feature} onChange={(event) => { setFeature(event.target.value); setShowCases(false) }} placeholder="Example: A customer can reset their password using an email link." /><div className="case-form-grid"><label>USER ROLE<input value={userRole} onChange={(event) => { setUserRole(event.target.value); setShowCases(false) }} placeholder="Example: account owner" /></label><label>PLATFORM<input value={platform} onChange={(event) => { setPlatform(event.target.value); setShowCases(false) }} placeholder="Example: mobile web" /></label><label>KNOWN RISK<input value={risk} onChange={(event) => { setRisk(event.target.value); setShowCases(false) }} placeholder="Example: duplicate order" /></label><label>INTEGRATION<input value={integrations} onChange={(event) => { setIntegrations(event.target.value); setShowCases(false) }} placeholder="Example: payment API" /></label></div><fieldset className="test-area-picker"><legend>INCLUDE TEST AREAS</legend><div>{testAreas.map((area) => <label key={area}><input type="checkbox" checked={selectedAreas.includes(area)} onChange={() => toggleArea(area)} /><span>{area}</span></label>)}</div></fieldset><button type="button" className="button primary" onClick={() => { setSelectedCaseIds(generatedCases.map((testCase) => testCase.id)); setShowCases(true) }}>Generate test cases <span aria-hidden="true">↗</span></button>{showCases && <div className="case-results"><div className="case-result-heading"><p className="eyebrow">TEST CASE STARTER FOR {checklist.toUpperCase()}</p><p>{selectedCases.length} of {generatedCases.length} selected</p></div><div className="generated-cases">{generatedCases.map((testCase) => <article key={testCase.id}><label><input type="checkbox" checked={selectedCaseIds.includes(testCase.id)} onChange={() => setSelectedCaseIds((current) => current.includes(testCase.id) ? current.filter((id) => id !== testCase.id) : [...current, testCase.id])} /><span>Select test case</span></label><p className="eyebrow">{testCase.area} · {testCase.priority} PRIORITY</p><h4>{testCase.title}</h4><dl><div><dt>Preconditions</dt><dd>{testCase.preconditions}</dd></div><div><dt>Steps</dt><dd>{testCase.steps}</dd></div><div><dt>Expected result</dt><dd>{testCase.expected}</dd></div></dl></article>)}</div><section className="clarifying-questions"><p className="eyebrow">QUESTIONS TO CLARIFY</p><ul>{clarifyingQuestions.map((question) => <li key={question}>{question}</li>)}</ul></section><div className="case-actions"><button type="button" disabled={!selectedCases.length} onClick={() => copyPrompt('test-case-summary', testCaseMarkdown)}>{copied === 'test-case-summary' ? 'Copied ✓' : 'Copy selected ↗'}</button><button type="button" disabled={!selectedCases.length} onClick={downloadTestCases}>Download Markdown ↧</button></div></div>}</div></div>}
 
     {activeTool === 'prompts' && <div className="tool-panel"><div className="tool-panel-copy"><p className="eyebrow">QA PROMPT LIBRARY</p><h3>Prompts that improve the work.</h3><p>Choose a real QA moment, add your product context, and review the output before you rely on it.</p></div><div><div className="prompt-filters" role="group" aria-label="Filter QA prompts by category">{promptCategories.map((category) => <button type="button" key={category} className={promptCategory === category ? 'active' : ''} onClick={() => setPromptCategory(category)} aria-pressed={promptCategory === category}>{category}</button>)}</div><p className="prompt-swipe-hint">Swipe or scroll to explore {visiblePrompts.length} prompts <span aria-hidden="true">→</span></p><div className="prompt-list-tool">{visiblePrompts.map((item) => <article key={item.label}><p>{item.category} · {item.label}</p><div className="prompt-meta"><span><b>When to use</b>{item.when}</span><span><b>Paste in</b>{item.paste}</span><span><b>You’ll get</b>{item.outcome}</span></div><pre>{item.prompt}</pre><button type="button" onClick={() => copyPrompt(item.label, item.prompt)}>{copied === item.label ? 'Copied ✓' : 'Copy prompt ↗'}</button></article>)}</div></div></div>}
   </section>
