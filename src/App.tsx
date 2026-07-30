@@ -22,8 +22,12 @@ function App() {
     window.addEventListener('hashchange', syncLearnView)
     return () => { window.removeEventListener('popstate', syncLearnView); window.removeEventListener('hashchange', syncLearnView) }
   }, [])
-  if (isLearnOpen) return <LearnHub onClose={closeLearn} onOpenPaths={() => { closeLearn(); window.setTimeout(() => document.getElementById('learn')?.scrollIntoView({ behavior: 'smooth' }), 0) }} />
+  const navigateHome = (target: string) => {
+    closeLearn()
+    window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
+  }
   return <>
+    {isLearnOpen ? <LearnHub onClose={closeLearn} onOpenPaths={() => navigateHome('learn')} /> : <>
     <main id="content" tabIndex={-1}>
     <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
     <section className="hero education-hero">
@@ -50,7 +54,8 @@ function App() {
     <footer><Logo compact /><p>© {new Date().getFullYear()} It's Watts. Built for better software.</p><div><a href="#top">Back to top ↑</a><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></footer>
     </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
-    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} />
+    </>}
+    <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onNavigateHome={isLearnOpen ? navigateHome : undefined} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
   </>
 }

@@ -48,6 +48,7 @@
 
 @media (max-width:800px) {
   main { padding-bottom:88px; }
+  .learn-hub { padding-bottom:88px; }
   .chat-overlay { padding:16px; align-items:end; }
   .chat-dialog { width:100%; max-height:calc(100dvh - 28px); overflow:auto; grid-template-columns:1fr; gap:20px; padding:25px 20px 16px; background:var(--bg); border:1px solid var(--line); box-shadow:0 24px 80px #000b; }
   .chat-dialog-copy h2 { font-size:clamp(2.35rem,11vw,3.45rem); margin:13px 0; }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-type MobileDockProps = { onOpenChat: () => void; onOpenLearn: () => void }
+type MobileDockProps = { onOpenChat: () => void; onOpenLearn: () => void; onNavigateHome?: (target: string) => void }
 
 const primaryItems = [
   ['Learn', 'learn', '⌁'],
@@ -16,7 +16,7 @@ const moreItems = [
 
 const trackedSections = [...primaryItems.map(([, id]) => id), ...moreItems.map(([, id]) => id)]
 
-export function MobileDock({ onOpenChat, onOpenLearn }: MobileDockProps) {
+export function MobileDock({ onOpenChat, onOpenLearn, onNavigateHome }: MobileDockProps) {
   const [activeSection, setActiveSection] = useState('learn')
   const [isMoreOpen, setIsMoreOpen] = useState(false)
   const dockRef = useRef<HTMLElement>(null)
@@ -24,6 +24,10 @@ export function MobileDock({ onOpenChat, onOpenLearn }: MobileDockProps) {
   const scrollTo = (target: string) => {
     setActiveSection(target)
     setIsMoreOpen(false)
+    if (onNavigateHome) {
+      onNavigateHome(target)
+      return
+    }
     document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
