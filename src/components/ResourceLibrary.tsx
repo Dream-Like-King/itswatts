@@ -13,10 +13,12 @@ const resources: Resource[] = [
   { category: 'Automation', type: 'Guide', title: 'Automation decision guide', description: 'Use four practical signals to decide whether a workflow is ready for automation.', href: '#tools' },
   { category: 'Automation', type: 'Template', title: 'Automation decision checklist', description: 'A lightweight worksheet for choosing automation, exploration, or a blended approach.', href: '/downloads/automation-decision-checklist.md', download: true },
   { category: 'Automation', type: 'Template', title: 'QA test case starter', description: 'Turn a feature or user story into focused coverage ideas and questions.', href: '/downloads/test-case-starter.md', download: true },
+  { category: 'Automation', type: 'Template', title: 'Exploratory testing charter', description: 'Give a time-boxed test session a focused mission and useful notes.', href: '/downloads/exploratory-testing-charter.md', download: true },
   { category: 'AI + QA', type: 'Tool', title: 'QA prompt library', description: 'Reusable prompts for test planning, bug investigation, and release readiness.', href: '#tools' },
   { category: 'AI + QA', type: 'Guide', title: 'AI can accelerate QA', description: 'A short note on using AI as a thinking partner without replacing curiosity.', href: '#weekly' },
   { category: 'AI + QA', type: 'Tool', title: 'Ask Watt', description: 'Bring a QA question and get a concise, practical starting point.', href: '#ask-watt' },
   { category: 'Quality basics', type: 'Template', title: 'Bug report template', description: 'A clear structure for communicating defects, context, and impact.', href: '/downloads/bug-report-template.md', download: true },
+  { category: 'Quality basics', type: 'Template', title: 'Release readiness checklist', description: 'A short risk-aware conversation before a release moves forward.', href: '/downloads/release-readiness-checklist.md', download: true },
   { category: 'Quality basics', type: 'Guide', title: 'Quality essentials path', description: 'Explore accessibility, risk, defect reporting, and release confidence.', href: '#learn' },
   { category: 'Quality basics', type: 'Guide', title: 'Weekly Notes', description: 'Short, practical lessons for building a more thoughtful QA practice.', href: '#weekly' },
 ]
