@@ -21,13 +21,12 @@ body {
 
 .site-header {
   position: sticky;
-  top: 0;
+  top: 12px;
   z-index: 10;
   width: min(1180px, calc(100% - 40px));
   padding: 0 18px;
   border: 1px solid rgba(139, 148, 158, .28);
-  border-top: 0;
-  border-radius: 0 0 16px 16px;
+  border-radius: 18px;
 }
 
 .site-header nav a,

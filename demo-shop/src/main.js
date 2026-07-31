@@ -11,14 +11,15 @@ const products = [
 ]
 
 const employees = [
-  { name: 'Jordan Ellis', team: 'Customer Operations', role: 'Support Specialist' },
-  { name: 'Casey Morgan', team: 'Customer Operations', role: 'Operations Manager' },
-  { name: 'Riley Chen', team: 'People Operations', role: 'HR Business Partner' },
-  { name: 'Avery Brooks', team: 'Engineering', role: 'Quality Engineer' },
-  { name: 'Morgan Diaz', team: 'Finance', role: 'Financial Analyst' },
+  { id: 'jordan-ellis', name: 'Jordan Ellis', team: 'Customer Operations', role: 'Support Specialist', manager: 'Casey Morgan', pto: '11 days' },
+  { id: 'casey-morgan', name: 'Casey Morgan', team: 'Customer Operations', role: 'Operations Manager', manager: 'Riley Chen', pto: '14 days' },
+  { id: 'riley-chen', name: 'Riley Chen', team: 'People Operations', role: 'HR Business Partner', manager: 'Morgan Diaz', pto: '16 days' },
+  { id: 'avery-brooks', name: 'Avery Brooks', team: 'Engineering', role: 'Quality Engineer', manager: 'Taylor Reed', pto: '8 days' },
+  { id: 'morgan-diaz', name: 'Morgan Diaz', team: 'Finance', role: 'Financial Analyst', manager: 'Taylor Reed', pto: '12 days' },
 ]
 
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
+let selectedEmployeeId = 'jordan-ellis'
 const advancedState = {
   checking: 4280.18,
   savings: 760,
@@ -67,8 +68,17 @@ function renderEmployeeDirectory(query = '') {
   const matches = employees.filter((employee) => `${employee.name} ${employee.team} ${employee.role}`.toLowerCase().includes(normalizedQuery))
   byId('employee-result-count').textContent = `${matches.length} employee${matches.length === 1 ? '' : 's'} found`
   byId('employee-results').innerHTML = matches.length
-    ? matches.map((employee) => `<li><b>${employee.name}</b><span>${employee.role} · ${employee.team}</span></li>`).join('')
+    ? matches.map((employee) => `<li><button type="button" class="employee-result${employee.id === selectedEmployeeId ? ' selected' : ''}" data-select-employee="${employee.id}"><b>${employee.name}</b><span>${employee.role} · ${employee.team}</span></button></li>`).join('')
     : '<li><span>No employees match that search.</span></li>'
+}
+
+function renderEmployeeProfile() {
+  const employee = employees.find((item) => item.id === selectedEmployeeId) || employees[0]
+  byId('employee-profile-name').textContent = employee.name
+  byId('employee-profile-team').textContent = employee.team
+  byId('employee-profile-role').textContent = employee.role
+  byId('employee-profile-manager').textContent = employee.manager
+  byId('pto-balance').textContent = employee.id === 'jordan-ellis' ? `${advancedState.ptoDays} days` : employee.pto
 }
 
 function renderCart() {
@@ -108,7 +118,7 @@ function renderAdvancedApps() {
   byId('bank-alert-toggle').checked = advancedState.purchaseAlerts
   renderBankTransactions()
   byId('bank-bill-list').innerHTML = advancedState.bills.map((bill) => `<li><b>${bill.status}</b><span>${bill.detail}</span></li>`).join('')
-  byId('pto-balance').textContent = `${advancedState.ptoDays} days`
+  renderEmployeeProfile()
 }
 
 function renderBankTransactions() {
@@ -153,6 +163,7 @@ function resetAdvancedApps() {
 
 function resetDemo() {
   Object.assign(state, { cart: [], promo: '', signedIn: false, search: '', category: 'all' })
+  selectedEmployeeId = 'jordan-ellis'
   byId('promo').value = ''
   byId('product-search').value = ''
   byId('employee-search').value = ''
@@ -169,6 +180,13 @@ document.addEventListener('click', (event) => {
   const viewButton = target.closest('[data-open-view]')
   if (viewButton instanceof HTMLElement) {
     openView(viewButton.dataset.openView)
+    return
+  }
+  const employeeButton = target.closest('[data-select-employee]')
+  if (employeeButton instanceof HTMLElement) {
+    selectedEmployeeId = employeeButton.dataset.selectEmployee
+    renderEmployeeProfile()
+    renderEmployeeDirectory(byId('employee-search').value)
     return
   }
   if (target.dataset.add) {
@@ -298,5 +316,5 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
 
 window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
 
-setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps(); renderEmployeeDirectory()
+setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps(); renderEmployeeProfile(); renderEmployeeDirectory()
 openView(window.location.hash.slice(1), false)
