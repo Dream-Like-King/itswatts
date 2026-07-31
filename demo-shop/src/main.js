@@ -1,5 +1,6 @@
 import './styles.css'
 import './glass.css'
+import './systems.css'
 
 const products = [
   { id: 'focus-lamp', name: 'Focus Desk Lamp', category: 'desk', price: 89.99, detail: 'Adjustable warm-white light for focused work.' },
@@ -11,6 +12,14 @@ const products = [
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
 const byId = (id) => document.getElementById(id)
 const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
+const viewIds = ['lab-directory', 'banking-view', 'claims-view', 'hr-view', 'retail-view']
+
+function openView(viewId, updateHash = true) {
+  const nextView = viewIds.includes(viewId) ? viewId : 'lab-directory'
+  document.querySelectorAll('.demo-view').forEach((view) => { view.hidden = view.id !== nextView })
+  if (updateHash) window.location.hash = nextView === 'lab-directory' ? '' : nextView
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 function totals() {
   const subtotal = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -54,12 +63,17 @@ function resetDemo() {
   byId('checkout-form').reset()
   for (const id of ['promo-message', 'login-message', 'checkout-message']) byId(id).textContent = ''
   document.querySelector('input[name="category"][value="all"]').checked = true
-  setExperienceVisibility(); renderProducts(); renderCart()
+  setExperienceVisibility(); renderProducts(); renderCart(); openView('lab-directory')
 }
 
 document.addEventListener('click', (event) => {
   const target = event.target
   if (!(target instanceof HTMLElement)) return
+  const viewButton = target.closest('[data-open-view]')
+  if (viewButton instanceof HTMLElement) {
+    openView(viewButton.dataset.openView)
+    return
+  }
   if (target.dataset.add) {
     const product = products.find((item) => item.id === target.dataset.add)
     const existing = state.cart.find((item) => item.id === product.id)
@@ -89,4 +103,19 @@ byId('login-form').addEventListener('submit', (event) => {
 byId('apply-promo').addEventListener('click', () => { state.promo = byId('promo').value.trim().toUpperCase() === 'WELCOME10' ? 'WELCOME10' : ''; byId('promo-message').textContent = state.promo ? 'WELCOME10 applied: 10% off.' : 'That demo code is not available.'; renderCart() })
 byId('checkout-form').addEventListener('submit', (event) => { event.preventDefault(); byId('checkout-message').textContent = state.cart.length ? `Demo order placed for ${money(totals().total)}. No payment was processed.` : 'Add at least one item before checkout.' })
 
+const systemMessages = {
+  'bank-transfer': 'Transfer review created. No money was moved.',
+  'claim-intake': 'Claim saved as a draft. No external notification was sent.',
+  'time-off': 'Time-off request submitted for manager review.',
+}
+
+document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const message = systemMessages[form.dataset.systemForm]
+  form.querySelector('[role="status"]').textContent = message
+}))
+
+window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
+
 setExperienceVisibility(); renderProducts(); renderCart()
+openView(window.location.hash.slice(1), false)

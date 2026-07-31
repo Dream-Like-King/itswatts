@@ -8,7 +8,7 @@ const baseUrl = process.env.DEMO_BASE_URL ?? 'https://demo.itswatts.com'
 
 test.describe('It’s Watts Demo Lab', () => {
   test('a learner can sign in and complete a demo purchase flow', async ({ page }) => {
-    await page.goto(baseUrl)
+    await page.goto(`${baseUrl}#retail-view`)
 
     await expect(page.getByRole('heading', { name: 'Choose a product.' })).toBeHidden()
 
