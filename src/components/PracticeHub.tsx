@@ -82,7 +82,7 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubPr
 
   return <main className="practice-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
-    <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Try a short roadmap check, work through realistic QA situations, and take a useful template into your next sprint.</p></section>
+    <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Try a short roadmap check, work through realistic QA situations, and take a useful template into your next sprint.</p><div className="hero-actions"><a className="button primary" href="https://demo.itswatts.com" target="_blank" rel="noreferrer">Try the Demo Shop <span aria-hidden="true">↗</span></a></div></section>
 
     <div className="practice-tabs" role="tablist" aria-label="Practice Lab sections">
       <button type="button" className={activeTab === 'roadmap' ? 'active' : ''} onClick={() => setActiveTab('roadmap')} role="tab" aria-selected={activeTab === 'roadmap'}><span className="practice-tab-number">01 ·</span><span className="practice-tab-label">Your roadmap</span></button>
