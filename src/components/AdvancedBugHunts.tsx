@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const shuffle = <T,>(items: readonly T[]) => [...items].sort(() => Math.random() - 0.5)
+
 type Finding = { id: string; title: string; isBug: boolean; explanation: string }
 type Challenge = { label: string; level: string; title: string; brief: string; actions: Array<[string, string]>; findings: Finding[] }
 
@@ -13,8 +15,9 @@ export function AdvancedBugHunts() {
   const [evidence, setEvidence] = useState<number[]>([])
   const [reported, setReported] = useState<string[]>([])
   const challenge = challenges[active]
+  const [findingOrder, setFindingOrder] = useState(() => shuffle(challenge.findings))
   const trueFindings = challenge.findings.filter((finding) => finding.isBug)
   const found = reported.filter((id) => challenge.findings.find((finding) => finding.id === id)?.isBug).length
-  const chooseChallenge = (index: number) => { setActive(index); setEvidence([]); setReported([]) }
-  return <section className="advanced-hunts"><div className="advanced-hunt-tabs">{challenges.map((item, index) => <button type="button" key={item.label} className={active === index ? 'active' : ''} onClick={() => chooseChallenge(index)}>{item.label}</button>)}</div><div className="advanced-hunt-header"><p className="eyebrow">{challenge.level} BUG HUNT</p><h3>{challenge.title}</h3><p>{challenge.brief}</p></div><div className="advanced-hunt-grid"><div className="evidence-panel"><p className="eyebrow">INVESTIGATE</p>{challenge.actions.map(([action, result], index) => <article key={action}><button type="button" onClick={() => setEvidence((current) => current.includes(index) ? current : [...current, index])}>{action} <span>↗</span></button>{evidence.includes(index) && <p>{result}</p>}</article>)}</div><div className="finding-panel"><p className="eyebrow">LOG FINDINGS · {found}/{trueFindings.length}</p>{challenge.findings.map((finding) => <button type="button" key={finding.id} className={reported.includes(finding.id) ? (finding.isBug ? 'reported' : 'guess') : ''} onClick={() => setReported((current) => current.includes(finding.id) ? current : [...current, finding.id])}><span>{reported.includes(finding.id) ? (finding.isBug ? 'FOUND' : 'NOT A DEFECT') : 'LOG'}</span><b>{finding.title}</b>{reported.includes(finding.id) && <small>{finding.explanation}</small>}</button>)}</div></div></section>
+  const chooseChallenge = (index: number) => { setActive(index); setEvidence([]); setReported([]); setFindingOrder(shuffle(challenges[index].findings)) }
+  return <section className="advanced-hunts"><div className="advanced-hunt-tabs">{challenges.map((item, index) => <button type="button" key={item.label} className={active === index ? 'active' : ''} onClick={() => chooseChallenge(index)}>{item.label}</button>)}</div><div className="advanced-hunt-header"><p className="eyebrow">{challenge.level} BUG HUNT</p><h3>{challenge.title}</h3><p>{challenge.brief}</p></div><div className="advanced-hunt-grid"><div className="evidence-panel"><p className="eyebrow">INVESTIGATE</p>{challenge.actions.map(([action, result], index) => <article key={action}><button type="button" onClick={() => setEvidence((current) => current.includes(index) ? current : [...current, index])}>{action} <span>↗</span></button>{evidence.includes(index) && <p>{result}</p>}</article>)}</div><div className="finding-panel"><p className="eyebrow">LOG FINDINGS · {found}/{trueFindings.length}</p>{findingOrder.map((finding) => <button type="button" key={finding.id} className={reported.includes(finding.id) ? (finding.isBug ? 'reported' : 'guess') : ''} onClick={() => setReported((current) => current.includes(finding.id) ? current : [...current, finding.id])}><span>{reported.includes(finding.id) ? (finding.isBug ? 'FOUND' : 'NOT A DEFECT') : 'LOG'}</span><b>{finding.title}</b>{reported.includes(finding.id) && <small>{finding.explanation}</small>}</button>)}</div></div></section>
 }
