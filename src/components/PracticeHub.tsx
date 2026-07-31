@@ -85,10 +85,10 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubPr
     <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Try a short roadmap check, work through realistic QA situations, and take a useful template into your next sprint.</p></section>
 
     <div className="practice-tabs" role="tablist" aria-label="Practice Lab sections">
-      <button type="button" className={activeTab === 'roadmap' ? 'active' : ''} onClick={() => setActiveTab('roadmap')} role="tab" aria-selected={activeTab === 'roadmap'}>01 · Your roadmap</button>
-      <button type="button" className={activeTab === 'scenarios' ? 'active' : ''} onClick={() => setActiveTab('scenarios')} role="tab" aria-selected={activeTab === 'scenarios'}>02 · Practice scenarios</button>
-      <button type="button" className={activeTab === 'bug-hunt' ? 'active' : ''} onClick={() => setActiveTab('bug-hunt')} role="tab" aria-selected={activeTab === 'bug-hunt'}>03 · Bug Hunt</button>
-      <button type="button" className={activeTab === 'fix-code' ? 'active' : ''} onClick={() => setActiveTab('fix-code')} role="tab" aria-selected={activeTab === 'fix-code'}>04 · Fix the Code</button>
+      <button type="button" className={activeTab === 'roadmap' ? 'active' : ''} onClick={() => setActiveTab('roadmap')} role="tab" aria-selected={activeTab === 'roadmap'}><span className="practice-tab-number">01 ·</span><span className="practice-tab-label">Your roadmap</span></button>
+      <button type="button" className={activeTab === 'scenarios' ? 'active' : ''} onClick={() => setActiveTab('scenarios')} role="tab" aria-selected={activeTab === 'scenarios'}><span className="practice-tab-number">02 ·</span><span className="practice-tab-label">Practice scenarios</span></button>
+      <button type="button" className={activeTab === 'bug-hunt' ? 'active' : ''} onClick={() => setActiveTab('bug-hunt')} role="tab" aria-selected={activeTab === 'bug-hunt'}><span className="practice-tab-number">03 ·</span><span className="practice-tab-label">Bug Hunt</span></button>
+      <button type="button" className={activeTab === 'fix-code' ? 'active' : ''} onClick={() => setActiveTab('fix-code')} role="tab" aria-selected={activeTab === 'fix-code'}><span className="practice-tab-number">04 ·</span><span className="practice-tab-label">Fix the Code</span></button>
     </div>
 
     <section className="practice-content" aria-live="polite">
