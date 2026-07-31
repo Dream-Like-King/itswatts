@@ -1,0 +1,99 @@
+/* Shared visual language with itswatts.com: softly layered, translucent surfaces. */
+body {
+  background:
+    radial-gradient(circle at 16% 8%, rgba(63, 185, 80, .16), transparent 26%),
+    radial-gradient(circle at 92% 24%, rgba(88, 166, 255, .1), transparent 24%),
+    #0d1016;
+}
+
+.site-header,
+.login-panel,
+.cart-panel,
+.product-card,
+.filters,
+.automation-notes article {
+  border-color: rgba(139, 148, 158, .34);
+  background: linear-gradient(135deg, rgba(31, 39, 49, .72), rgba(14, 17, 22, .5));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .07), 0 16px 38px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: min(1180px, calc(100% - 40px));
+  padding: 0 18px;
+  border: 1px solid rgba(139, 148, 158, .28);
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+}
+
+.site-header nav a,
+.site-header button,
+.product-card button,
+.cart-heading button,
+.promo button {
+  border-color: rgba(139, 148, 158, .42);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .045);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+}
+
+.site-header nav a:hover,
+.site-header button:hover,
+.product-card button:hover,
+.cart-heading button:hover,
+.promo button:hover {
+  border-color: rgba(63, 185, 80, .72);
+  background: rgba(63, 185, 80, .12);
+}
+
+.login-panel,
+.cart-panel {
+  border-radius: 18px;
+}
+
+.product-card {
+  transition: transform .2s, border-color .2s, background .2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(63, 185, 80, .62);
+  background: linear-gradient(135deg, rgba(37, 69, 49, .68), rgba(18, 26, 34, .62));
+}
+
+.filters {
+  border: 1px solid rgba(139, 148, 158, .28);
+  border-radius: 14px;
+  align-self: start;
+}
+
+.login-panel input,
+.promo input,
+.checkout-form input,
+.filters input {
+  border-color: rgba(139, 148, 158, .38);
+  border-radius: 9px;
+  background: rgba(5, 8, 12, .35);
+}
+
+.login-panel form button,
+.checkout-form button {
+  border: 1px solid rgba(112, 232, 133, .76);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(63, 185, 80, .94), rgba(32, 137, 70, .84));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .25), 0 9px 22px rgba(63, 185, 80, .18);
+}
+
+.automation-notes article:first-child { border-left: 1px solid rgba(139, 148, 158, .34); }
+.automation-notes article:last-child { border-radius: 0 0 14px 0; }
+.brand span { display: inline-block; margin-left: 1px; transform: rotate(10deg); text-shadow: 0 0 18px rgba(63, 185, 80, .72); }
+
+@media (max-width: 700px) {
+  .site-header { width: min(1180px, calc(100% - 24px)); padding: 0 12px; }
+  .filters { padding: 18px; }
+  .automation-notes article:last-child { border-radius: 0; }
+}
