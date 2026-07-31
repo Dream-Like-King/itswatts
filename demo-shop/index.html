@@ -7,12 +7,12 @@
     <title>Demo Shop | It's Watts</title>
   </head>
   <body>
-    <a class="skip-link" href="#catalog">Skip to products</a>
+    <a class="skip-link" href="#login-title">Skip to sign in</a>
     <header class="site-header">
       <a class="brand" href="#top">it’s watts<span>ϟ</span> <small>DEMO SHOP</small></a>
       <nav aria-label="Demo navigation">
-        <a href="#catalog">Shop</a>
-        <a href="#cart">Cart <b id="cart-count">0</b></a>
+        <a id="shop-nav" href="#catalog" hidden>Shop</a>
+        <a id="cart-nav" href="#cart" hidden>Cart <b id="cart-count">0</b></a>
         <button id="reset-demo" type="button">Reset demo</button>
       </nav>
     </header>
@@ -38,6 +38,7 @@
         </form>
       </section>
 
+      <div id="shop-experience" hidden>
       <section id="catalog" class="shop-shell" aria-labelledby="catalog-title">
         <aside class="filters">
           <p>FILTER PRODUCTS</p>
@@ -64,6 +65,7 @@
         </div>
         <form id="checkout-form" class="checkout-form"><label>Name <input id="checkout-name" autocomplete="name" required /></label><label>Email <input id="checkout-email" type="email" autocomplete="email" required /></label><button type="submit" data-testid="checkout">Place demo order</button><p id="checkout-message" role="status"></p></form>
       </section>
+      </div>
 
       <section class="automation-notes" aria-labelledby="notes-title">
         <p>FOR AUTOMATION PRACTICE</p><h2 id="notes-title">Stable hooks, real interactions.</h2>

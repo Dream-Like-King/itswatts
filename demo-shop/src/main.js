@@ -39,6 +39,12 @@ function renderCart() {
   byId('total').textContent = money(total.total)
 }
 
+function setExperienceVisibility() {
+  byId('shop-experience').hidden = !state.signedIn
+  byId('shop-nav').hidden = !state.signedIn
+  byId('cart-nav').hidden = !state.signedIn
+}
+
 function resetDemo() {
   Object.assign(state, { cart: [], promo: '', signedIn: false, search: '', category: 'all' })
   byId('promo').value = ''
@@ -47,7 +53,7 @@ function resetDemo() {
   byId('checkout-form').reset()
   for (const id of ['promo-message', 'login-message', 'checkout-message']) byId(id).textContent = ''
   document.querySelector('input[name="category"][value="all"]').checked = true
-  renderProducts(); renderCart()
+  setExperienceVisibility(); renderProducts(); renderCart()
 }
 
 document.addEventListener('click', (event) => {
@@ -72,8 +78,14 @@ document.addEventListener('click', (event) => {
 
 byId('product-search').addEventListener('input', (event) => { state.search = event.target.value; renderProducts() })
 document.querySelectorAll('input[name="category"]').forEach((input) => input.addEventListener('change', (event) => { state.category = event.target.value; renderProducts() }))
-byId('login-form').addEventListener('submit', (event) => { event.preventDefault(); state.signedIn = byId('login-email').value === 'tester@itswatts.demo' && byId('login-password').value === 'DemoPass123!'; byId('login-message').textContent = state.signedIn ? 'Signed in. You can now practice the shopping flow.' : 'Use the documented demo credentials.' })
+byId('login-form').addEventListener('submit', (event) => {
+  event.preventDefault()
+  state.signedIn = byId('login-email').value === 'tester@itswatts.demo' && byId('login-password').value === 'DemoPass123!'
+  byId('login-message').textContent = state.signedIn ? 'Signed in. The shop is now unlocked.' : 'Use the documented demo credentials.'
+  setExperienceVisibility()
+  if (state.signedIn) byId('catalog').scrollIntoView({ behavior: 'smooth', block: 'start' })
+})
 byId('apply-promo').addEventListener('click', () => { state.promo = byId('promo').value.trim().toUpperCase() === 'WELCOME10' ? 'WELCOME10' : ''; byId('promo-message').textContent = state.promo ? 'WELCOME10 applied: 10% off.' : 'That demo code is not available.'; renderCart() })
 byId('checkout-form').addEventListener('submit', (event) => { event.preventDefault(); byId('checkout-message').textContent = state.cart.length ? `Demo order placed for ${money(totals().total)}. No payment was processed.` : 'Add at least one item before checkout.' })
 
-renderProducts(); renderCart()
+setExperienceVisibility(); renderProducts(); renderCart()
