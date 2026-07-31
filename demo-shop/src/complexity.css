@@ -1,0 +1,3 @@
+.complexity { display:flex; flex-wrap:wrap; gap:6px; margin:20px 0 0; }
+.complexity span { border:1px solid rgba(139,148,158,.36); border-radius:999px; color:#8e99a7; padding:5px 8px; font:9px ui-monospace,monospace; letter-spacing:.05em; }
+.complexity span.active { border-color:rgba(112,232,133,.74); background:rgba(63,185,80,.14); color:#c5f0ce; box-shadow:inset 0 1px rgba(255,255,255,.08); }

@@ -1,6 +1,7 @@
 import './styles.css'
 import './glass.css'
 import './systems.css'
+import './complexity.css'
 
 const products = [
   { id: 'focus-lamp', name: 'Focus Desk Lamp', category: 'desk', price: 89.99, detail: 'Adjustable warm-white light for focused work.' },
@@ -10,6 +11,7 @@ const products = [
 ]
 
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
+const advancedState = { checking: 4280.18, savings: 760, ptoDays: 11, nextClaim: 10504 }
 const byId = (id) => document.getElementById(id)
 const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 const viewIds = ['lab-directory', 'banking-view', 'claims-view', 'hr-view', 'retail-view']
@@ -55,6 +57,35 @@ function setExperienceVisibility() {
   byId('cart-nav').hidden = !state.signedIn
 }
 
+function appendWorkItem(listId, label, detail) {
+  const item = document.createElement('li')
+  const title = document.createElement('b')
+  const copy = document.createElement('span')
+  title.textContent = label
+  copy.textContent = detail
+  item.append(title, copy)
+  byId(listId).prepend(item)
+}
+
+function renderAdvancedApps() {
+  byId('bank-checking').textContent = money(advancedState.checking)
+  byId('bank-available').textContent = money(advancedState.checking)
+  byId('bank-savings').textContent = money(advancedState.savings)
+  byId('pto-balance').textContent = `${advancedState.ptoDays} days`
+}
+
+function resetAdvancedApps() {
+  Object.assign(advancedState, { checking: 4280.18, savings: 760, ptoDays: 11, nextClaim: 10504 })
+  byId('bank-transactions').innerHTML = '<li><b>Pending</b><span>−$62.44 · Utility payment</span></li>'
+  byId('claim-list').innerHTML = '<li><b>CLM-10482</b><span>Vehicle damage · Evidence requested</span></li><li><b>CLM-10491</b><span>Water damage · Manager review</span></li><li><b>CLM-10503</b><span>Property loss · New</span></li>'
+  byId('time-off-list').innerHTML = '<li><b>Pending</b><span>Aug 18–20 · Vacation</span></li>'
+  document.querySelectorAll('[data-system-form]').forEach((form) => {
+    form.reset()
+    form.querySelector('[role="status"]').textContent = ''
+  })
+  renderAdvancedApps()
+}
+
 function resetDemo() {
   Object.assign(state, { cart: [], promo: '', signedIn: false, search: '', category: 'all' })
   byId('promo').value = ''
@@ -63,7 +94,7 @@ function resetDemo() {
   byId('checkout-form').reset()
   for (const id of ['promo-message', 'login-message', 'checkout-message']) byId(id).textContent = ''
   document.querySelector('input[name="category"][value="all"]').checked = true
-  setExperienceVisibility(); renderProducts(); renderCart(); openView('lab-directory')
+  resetAdvancedApps(); setExperienceVisibility(); renderProducts(); renderCart(); openView('lab-directory')
 }
 
 document.addEventListener('click', (event) => {
@@ -103,19 +134,49 @@ byId('login-form').addEventListener('submit', (event) => {
 byId('apply-promo').addEventListener('click', () => { state.promo = byId('promo').value.trim().toUpperCase() === 'WELCOME10' ? 'WELCOME10' : ''; byId('promo-message').textContent = state.promo ? 'WELCOME10 applied: 10% off.' : 'That demo code is not available.'; renderCart() })
 byId('checkout-form').addEventListener('submit', (event) => { event.preventDefault(); byId('checkout-message').textContent = state.cart.length ? `Demo order placed for ${money(totals().total)}. No payment was processed.` : 'Add at least one item before checkout.' })
 
-const systemMessages = {
-  'bank-transfer': 'Transfer review created. No money was moved.',
-  'claim-intake': 'Claim saved as a draft. No external notification was sent.',
-  'time-off': 'Time-off request submitted for manager review.',
-}
-
 document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventListener('submit', (event) => {
   event.preventDefault()
-  const message = systemMessages[form.dataset.systemForm]
-  form.querySelector('[role="status"]').textContent = message
+  const status = form.querySelector('[role="status"]')
+
+  if (form.dataset.systemForm === 'bank-transfer') {
+    const amount = Number(byId('bank-amount').value)
+    const from = byId('bank-from').value
+    const to = byId('bank-to').value
+    if (!Number.isFinite(amount) || amount <= 0) { status.textContent = 'Enter a transfer amount greater than $0.00.'; return }
+    if (from === to) { status.textContent = 'Choose two different accounts.'; return }
+    if (advancedState[from] < amount) { status.textContent = 'Transfer declined: insufficient available balance.'; return }
+    advancedState[from] -= amount
+    advancedState[to] += amount
+    appendWorkItem('bank-transactions', 'Posted', `${from === 'checking' ? 'Checking' : 'Savings'} → ${to === 'checking' ? 'Checking' : 'Savings'} · ${money(amount)}`)
+    renderAdvancedApps()
+    form.reset()
+    status.textContent = `Transfer posted. ${money(amount)} moved successfully.`
+    return
+  }
+
+  if (form.dataset.systemForm === 'claim-intake') {
+    const claimId = `CLM-${advancedState.nextClaim++}`
+    const type = byId('claim-type').value
+    const priority = byId('claim-priority').value
+    appendWorkItem('claim-list', claimId, `${type} · New · ${priority} priority`)
+    form.reset()
+    status.textContent = `${claimId} saved as a new claim. No external notification was sent.`
+    return
+  }
+
+  const start = new Date(`${byId('leave-start').value}T00:00:00`)
+  const end = new Date(`${byId('leave-end').value}T00:00:00`)
+  const days = Math.floor((end - start) / 86400000) + 1
+  if (!Number.isFinite(days) || days <= 0) { status.textContent = 'Choose an end date on or after the start date.'; return }
+  if (days > advancedState.ptoDays) { status.textContent = 'Request exceeds the available PTO balance.'; return }
+  advancedState.ptoDays -= days
+  appendWorkItem('time-off-list', 'Pending', `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}–${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} · ${byId('leave-reason').value} · ${days} day${days === 1 ? '' : 's'}`)
+  renderAdvancedApps()
+  form.reset()
+  status.textContent = 'Time-off request submitted for manager review.'
 }))
 
 window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
 
-setExperienceVisibility(); renderProducts(); renderCart()
+setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps()
 openView(window.location.hash.slice(1), false)

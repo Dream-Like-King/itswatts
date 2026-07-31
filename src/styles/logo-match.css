@@ -1,0 +1,3 @@
+/* Match the Demo Lab lockup: the bolt visually replaces the final “s”. */
+.logo { gap:1px; }
+.logo .bolt { margin-left:0; font-size:22px; transform:rotate(10deg); }
