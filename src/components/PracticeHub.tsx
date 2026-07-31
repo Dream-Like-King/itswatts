@@ -72,7 +72,7 @@ const templates = [
 ] as const
 
 export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubProps) {
-  const [activeTab, setActiveTab] = useState<'roadmap' | 'scenarios' | 'templates' | 'bug-hunt' | 'fix-code'>('roadmap')
+  const [activeTab, setActiveTab] = useState<'roadmap' | 'scenarios' | 'bug-hunt' | 'fix-code'>('roadmap')
   const [answers, setAnswers] = useState<number[]>([])
   const [scenarioIndex, setScenarioIndex] = useState(0)
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null)
@@ -89,7 +89,6 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubPr
       <button type="button" className={activeTab === 'scenarios' ? 'active' : ''} onClick={() => setActiveTab('scenarios')} role="tab" aria-selected={activeTab === 'scenarios'}>02 · Practice scenarios</button>
       <button type="button" className={activeTab === 'bug-hunt' ? 'active' : ''} onClick={() => setActiveTab('bug-hunt')} role="tab" aria-selected={activeTab === 'bug-hunt'}>03 · Bug Hunt</button>
       <button type="button" className={activeTab === 'fix-code' ? 'active' : ''} onClick={() => setActiveTab('fix-code')} role="tab" aria-selected={activeTab === 'fix-code'}>04 · Fix the Code</button>
-      <button type="button" className={activeTab === 'templates' ? 'active' : ''} onClick={() => setActiveTab('templates')} role="tab" aria-selected={activeTab === 'templates'}>05 · Templates</button>
     </div>
 
     <section className="practice-content" aria-live="polite">
@@ -97,9 +96,10 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubPr
 
       {activeTab === 'scenarios' && <div className="scenario-panel"><div><p className="eyebrow">PRACTICE SCENARIO · {String(scenarioIndex + 1).padStart(2, '0')}/{String(scenarios.length).padStart(2, '0')}</p><h2>{scenario.title}</h2><p>{scenario.situation}</p></div><div className="scenario-choices">{scenario.choices.map(([choice, isBest, feedback], index) => <button key={choice} type="button" className={selectedChoice === index ? (isBest ? 'correct' : 'incorrect') : ''} onClick={() => setSelectedChoice(index)}><span>{String.fromCharCode(65 + index)}</span><b>{choice}</b>{selectedChoice === index && <small>{feedback}</small>}</button>)}</div><div className="scenario-controls"><button type="button" disabled={scenarioIndex === 0} onClick={() => { setScenarioIndex((index) => index - 1); setSelectedChoice(null) }}>← Previous</button><button type="button" disabled={scenarioIndex === scenarios.length - 1} onClick={() => { setScenarioIndex((index) => index + 1); setSelectedChoice(null) }}>Next scenario →</button></div></div>}
 
-      {activeTab === 'templates' && <div className="template-panel"><div><p className="eyebrow">TAKE THE WORK WITH YOU</p><h2>Simple templates.<br /><em>Useful structure.</em></h2><p>Download, adapt, and improve these starters for your own product and team.</p></div><div className="template-list">{templates.map(([title, copy, href], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{copy}</p></div><a href={href} download>Download <b aria-hidden="true">↧</b></a></article>)}</div></div>}
       {activeTab === 'bug-hunt' && <><BugHunt /><AdvancedBugHunts /></>}
       {activeTab === 'fix-code' && <FixCodeChallenges />}
     </section>
+
+    <section className="practice-resources" id="practice-resources"><div><p className="eyebrow">PRACTICE RESOURCES</p><h2>Take the work<br /><em>with you.</em></h2><p>Download, adapt, and improve these starters for your own product and team.</p></div><div className="template-list">{templates.map(([title, copy, href], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{copy}</p></div><a href={href} download>Download <b aria-hidden="true">↧</b></a></article>)}</div></section>
   </main>
 }
