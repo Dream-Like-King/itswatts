@@ -1,7 +1,7 @@
 type HomeDashboardProps = { onOpenLearn: () => void; onOpenPractice: () => void; onOpenToolkits: () => void; onOpenCareer: () => void }
 
 const nextSteps = [
-  ['01', 'Learn Hub', 'Build a clear foundation in QA, the SDLC, terms, career paths, and practical next steps.', 'Open Learn Hub'],
+  ['01', 'Learn Hub', 'Build a clear foundation in QA, key terms, learning levels, and practical next steps.', 'Open Learn Hub'],
   ['02', 'Practice Lab', 'Check your starting point, work through realistic QA scenarios, and take templates with you.', 'Open Practice Lab'],
   ['03', 'QA Toolkits', 'Use the Automation Guide, Test Case Starter, and QA Prompt Library for the work in front of you.', 'Open Toolkits'],
   ['04', 'Career paths', 'Explore QA Analyst, Automation QA, and quality-engineering routes with practical starting guidance.', 'Explore paths'],
