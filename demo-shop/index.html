@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A safe storefront demo for QA and test automation practice." />
+    <title>Demo Shop | It's Watts</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#catalog">Skip to products</a>
+    <header class="site-header">
+      <a class="brand" href="#top">it’s watts<span>ϟ</span> <small>DEMO SHOP</small></a>
+      <nav aria-label="Demo navigation">
+        <a href="#catalog">Shop</a>
+        <a href="#cart">Cart <b id="cart-count">0</b></a>
+        <button id="reset-demo" type="button">Reset demo</button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <p>QA PRACTICE ENVIRONMENT</p>
+        <h1 id="page-title">A small shop for<br /><em>big test ideas.</em></h1>
+        <span>Explore realistic login, search, cart, promo-code, and checkout flows. Everything is fake—no payment or personal data is collected.</span>
+      </section>
+
+      <section class="login-panel" aria-labelledby="login-title">
+        <div>
+          <p>START HERE</p>
+          <h2 id="login-title">Sign in to practice a user journey.</h2>
+          <span>Use <code>tester@itswatts.demo</code> and <code>DemoPass123!</code>.</span>
+        </div>
+        <form id="login-form">
+          <label>Email <input id="login-email" type="email" autocomplete="email" required /></label>
+          <label>Password <input id="login-password" type="password" autocomplete="current-password" required /></label>
+          <button type="submit" data-testid="sign-in">Sign in</button>
+          <p id="login-message" role="status"></p>
+        </form>
+      </section>
+
+      <section id="catalog" class="shop-shell" aria-labelledby="catalog-title">
+        <aside class="filters">
+          <p>FILTER PRODUCTS</p>
+          <label>Search <input id="product-search" type="search" placeholder="Try keyboard" /></label>
+          <fieldset>
+            <legend>Category</legend>
+            <label><input type="radio" name="category" value="all" checked /> All products</label>
+            <label><input type="radio" name="category" value="desk" /> Desk setup</label>
+            <label><input type="radio" name="category" value="travel" /> Travel setup</label>
+          </fieldset>
+        </aside>
+        <div>
+          <div class="catalog-heading"><div><p>CATALOG</p><h2 id="catalog-title">Choose a product.</h2></div><span id="result-count"></span></div>
+          <div id="products" class="products" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="cart" class="cart-panel" aria-labelledby="cart-title">
+        <div class="cart-heading"><div><p>YOUR CART</p><h2 id="cart-title">Review your order.</h2></div><button id="clear-cart" type="button">Clear cart</button></div>
+        <div id="cart-items"></div>
+        <div class="checkout-grid">
+          <div class="promo"><label>Promo code <input id="promo" placeholder="WELCOME10" /></label><button id="apply-promo" type="button">Apply code</button><p id="promo-message" role="status"></p></div>
+          <dl class="totals"><div><dt>Subtotal</dt><dd id="subtotal">$0.00</dd></div><div><dt>Discount</dt><dd id="discount">−$0.00</dd></div><div class="total"><dt>Total</dt><dd id="total">$0.00</dd></div></dl>
+        </div>
+        <form id="checkout-form" class="checkout-form"><label>Name <input id="checkout-name" autocomplete="name" required /></label><label>Email <input id="checkout-email" type="email" autocomplete="email" required /></label><button type="submit" data-testid="checkout">Place demo order</button><p id="checkout-message" role="status"></p></form>
+      </section>
+
+      <section class="automation-notes" aria-labelledby="notes-title">
+        <p>FOR AUTOMATION PRACTICE</p><h2 id="notes-title">Stable hooks, real interactions.</h2>
+        <div><article><h3>Use test IDs</h3><p>Meaningful <code>data-testid</code> values are available on key actions and cart items.</p></article><article><h3>Reset safely</h3><p>Use Reset demo to return the application to its initial state between runs.</p></article><article><h3>No real transactions</h3><p>Checkout displays a confirmation only. No payment processing or network requests occur.</p></article></div>
+      </section>
+    </main>
+    <footer>Built for QA practice by It’s Watts.</footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

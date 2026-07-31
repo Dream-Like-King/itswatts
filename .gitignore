@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.env
+demo-shop/node_modules/
+demo-shop/dist/
