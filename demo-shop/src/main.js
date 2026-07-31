@@ -10,8 +10,30 @@ const products = [
   { id: 'cable-kit', name: 'Cable Kit', category: 'travel', price: 19.99, detail: 'Short, labeled cables for a clean travel setup.' },
 ]
 
+const employees = [
+  { name: 'Jordan Ellis', team: 'Customer Operations', role: 'Support Specialist' },
+  { name: 'Casey Morgan', team: 'Customer Operations', role: 'Operations Manager' },
+  { name: 'Riley Chen', team: 'People Operations', role: 'HR Business Partner' },
+  { name: 'Avery Brooks', team: 'Engineering', role: 'Quality Engineer' },
+  { name: 'Morgan Diaz', team: 'Finance', role: 'Financial Analyst' },
+]
+
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
-const advancedState = { checking: 4280.18, savings: 760, ptoDays: 11, nextClaim: 10504 }
+const advancedState = {
+  checking: 4280.18,
+  savings: 760,
+  ptoDays: 11,
+  nextClaim: 10504,
+  cardFrozen: false,
+  purchaseAlerts: true,
+  pendingTransfer: null,
+  transactions: [
+    { status: 'Pending', detail: '−$62.44 · City Electric utility payment' },
+    { status: 'Posted', detail: '+$1,240.00 · Direct deposit' },
+    { status: 'Posted', detail: '−$48.17 · Fresh Market' },
+  ],
+  bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }],
+}
 const byId = (id) => document.getElementById(id)
 const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 const viewIds = ['lab-directory', 'banking-view', 'claims-view', 'hr-view', 'retail-view']
@@ -38,6 +60,15 @@ function renderProducts() {
       <span class="product-icon">◒</span><p>${product.category.toUpperCase()}</p><h3>${product.name}</h3><span>${product.detail}</span>
       <div><strong>${money(product.price)}</strong><button type="button" data-add="${product.id}" data-testid="add-${product.id}">Add to cart</button></div>
     </article>`).join('') || '<p class="empty">No products match this search.</p>'
+}
+
+function renderEmployeeDirectory(query = '') {
+  const normalizedQuery = query.trim().toLowerCase()
+  const matches = employees.filter((employee) => `${employee.name} ${employee.team} ${employee.role}`.toLowerCase().includes(normalizedQuery))
+  byId('employee-result-count').textContent = `${matches.length} employee${matches.length === 1 ? '' : 's'} found`
+  byId('employee-results').innerHTML = matches.length
+    ? matches.map((employee) => `<li><b>${employee.name}</b><span>${employee.role} · ${employee.team}</span></li>`).join('')
+    : '<li><span>No employees match that search.</span></li>'
 }
 
 function renderCart() {
@@ -71,18 +102,52 @@ function renderAdvancedApps() {
   byId('bank-checking').textContent = money(advancedState.checking)
   byId('bank-available').textContent = money(advancedState.checking)
   byId('bank-savings').textContent = money(advancedState.savings)
+  byId('bank-card-state').textContent = advancedState.cardFrozen ? 'Frozen' : 'Active'
+  byId('bank-alert-state').textContent = advancedState.purchaseAlerts ? 'On' : 'Off'
+  byId('bank-card-toggle').textContent = advancedState.cardFrozen ? 'Unfreeze card' : 'Freeze card'
+  byId('bank-alert-toggle').checked = advancedState.purchaseAlerts
+  renderBankTransactions()
+  byId('bank-bill-list').innerHTML = advancedState.bills.map((bill) => `<li><b>${bill.status}</b><span>${bill.detail}</span></li>`).join('')
   byId('pto-balance').textContent = `${advancedState.ptoDays} days`
 }
 
+function renderBankTransactions() {
+  const filter = byId('bank-activity-filter').value
+  const items = advancedState.transactions.filter((item) => filter === 'all' || item.status.toLowerCase() === filter)
+  byId('bank-transactions').innerHTML = items.length
+    ? items.map((item) => `<li><b>${item.status}</b><span>${item.detail}</span></li>`).join('')
+    : '<li><span>No matching activity.</span></li>'
+}
+
+function addBankTransaction(status, detail) {
+  advancedState.transactions.unshift({ status, detail })
+}
+
 function resetAdvancedApps() {
-  Object.assign(advancedState, { checking: 4280.18, savings: 760, ptoDays: 11, nextClaim: 10504 })
-  byId('bank-transactions').innerHTML = '<li><b>Pending</b><span>−$62.44 · Utility payment</span></li>'
+  Object.assign(advancedState, {
+    checking: 4280.18,
+    savings: 760,
+    ptoDays: 11,
+    nextClaim: 10504,
+    cardFrozen: false,
+    purchaseAlerts: true,
+    pendingTransfer: null,
+    transactions: [
+      { status: 'Pending', detail: '−$62.44 · City Electric utility payment' },
+      { status: 'Posted', detail: '+$1,240.00 · Direct deposit' },
+      { status: 'Posted', detail: '−$48.17 · Fresh Market' },
+    ],
+    bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }],
+  })
   byId('claim-list').innerHTML = '<li><b>CLM-10482</b><span>Vehicle damage · Evidence requested</span></li><li><b>CLM-10491</b><span>Water damage · Manager review</span></li><li><b>CLM-10503</b><span>Property loss · New</span></li>'
   byId('time-off-list').innerHTML = '<li><b>Pending</b><span>Aug 18–20 · Vacation</span></li>'
   document.querySelectorAll('[data-system-form]').forEach((form) => {
     form.reset()
     form.querySelector('[role="status"]').textContent = ''
   })
+  byId('bank-transfer-review').hidden = true
+  byId('bank-confirm-transfer').hidden = true
+  byId('bank-card-message').textContent = 'Card is ready for simulated purchases.'
   renderAdvancedApps()
 }
 
@@ -90,11 +155,12 @@ function resetDemo() {
   Object.assign(state, { cart: [], promo: '', signedIn: false, search: '', category: 'all' })
   byId('promo').value = ''
   byId('product-search').value = ''
+  byId('employee-search').value = ''
   byId('login-form').reset()
   byId('checkout-form').reset()
   for (const id of ['promo-message', 'login-message', 'checkout-message']) byId(id).textContent = ''
   document.querySelector('input[name="category"][value="all"]').checked = true
-  resetAdvancedApps(); setExperienceVisibility(); renderProducts(); renderCart(); openView('lab-directory')
+  resetAdvancedApps(); setExperienceVisibility(); renderProducts(); renderCart(); renderEmployeeDirectory(); openView('lab-directory')
 }
 
 document.addEventListener('click', (event) => {
@@ -123,6 +189,7 @@ document.addEventListener('click', (event) => {
 })
 
 byId('product-search').addEventListener('input', (event) => { state.search = event.target.value; renderProducts() })
+byId('employee-search').addEventListener('input', (event) => renderEmployeeDirectory(event.target.value))
 document.querySelectorAll('input[name="category"]').forEach((input) => input.addEventListener('change', (event) => { state.category = event.target.value; renderProducts() }))
 byId('login-form').addEventListener('submit', (event) => {
   event.preventDefault()
@@ -133,6 +200,32 @@ byId('login-form').addEventListener('submit', (event) => {
 })
 byId('apply-promo').addEventListener('click', () => { state.promo = byId('promo').value.trim().toUpperCase() === 'WELCOME10' ? 'WELCOME10' : ''; byId('promo-message').textContent = state.promo ? 'WELCOME10 applied: 10% off.' : 'That demo code is not available.'; renderCart() })
 byId('checkout-form').addEventListener('submit', (event) => { event.preventDefault(); byId('checkout-message').textContent = state.cart.length ? `Demo order placed for ${money(totals().total)}. No payment was processed.` : 'Add at least one item before checkout.' })
+byId('bank-activity-filter').addEventListener('change', renderBankTransactions)
+byId('bank-alert-toggle').addEventListener('change', (event) => {
+  advancedState.purchaseAlerts = event.target.checked
+  byId('bank-alert-state').textContent = advancedState.purchaseAlerts ? 'On' : 'Off'
+  byId('bank-card-message').textContent = advancedState.purchaseAlerts ? 'Purchase alerts are turned on.' : 'Purchase alerts are turned off.'
+})
+byId('bank-card-toggle').addEventListener('click', () => {
+  advancedState.cardFrozen = !advancedState.cardFrozen
+  renderAdvancedApps()
+  byId('bank-card-message').textContent = advancedState.cardFrozen
+    ? 'Card frozen. A card payment would be blocked until it is restored.'
+    : 'Card restored. Simulated purchases can continue.'
+})
+byId('bank-confirm-transfer').addEventListener('click', () => {
+  const transfer = advancedState.pendingTransfer
+  if (!transfer) return
+  advancedState[transfer.from] -= transfer.amount
+  advancedState[transfer.to] += transfer.amount
+  addBankTransaction('Posted', `${transfer.from === 'checking' ? 'Checking' : 'Savings'} → ${transfer.to === 'checking' ? 'Checking' : 'Savings'} · ${money(transfer.amount)}`)
+  advancedState.pendingTransfer = null
+  byId('bank-transfer-review').hidden = true
+  byId('bank-confirm-transfer').hidden = true
+  byId('bank-transfer').reset()
+  byId('bank-transfer').querySelector('[role="status"]').textContent = `Transfer posted. ${money(transfer.amount)} moved successfully.`
+  renderAdvancedApps()
+})
 
 document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventListener('submit', (event) => {
   event.preventDefault()
@@ -145,12 +238,39 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
     if (!Number.isFinite(amount) || amount <= 0) { status.textContent = 'Enter a transfer amount greater than $0.00.'; return }
     if (from === to) { status.textContent = 'Choose two different accounts.'; return }
     if (advancedState[from] < amount) { status.textContent = 'Transfer declined: insufficient available balance.'; return }
-    advancedState[from] -= amount
-    advancedState[to] += amount
-    appendWorkItem('bank-transactions', 'Posted', `${from === 'checking' ? 'Checking' : 'Savings'} → ${to === 'checking' ? 'Checking' : 'Savings'} · ${money(amount)}`)
-    renderAdvancedApps()
+    advancedState.pendingTransfer = { from, to, amount }
+    byId('bank-transfer-review').textContent = `Review: move ${money(amount)} from ${from === 'checking' ? 'Everyday checking' : 'Vacation savings'} to ${to === 'checking' ? 'Everyday checking' : 'Vacation savings'}.`
+    byId('bank-transfer-review').hidden = false
+    byId('bank-confirm-transfer').hidden = false
+    status.textContent = 'Review the transfer, then select Confirm transfer.'
+    return
+  }
+
+  if (form.dataset.systemForm === 'bill-payment') {
+    const amount = Number(byId('bank-payment-amount').value)
+    const date = byId('bank-payment-date').value
+    if (!Number.isFinite(amount) || amount <= 0) { status.textContent = 'Enter a payment amount greater than $0.00.'; return }
+    if (!date) { status.textContent = 'Choose a delivery date.'; return }
+    if (advancedState.cardFrozen) { status.textContent = 'Payment blocked: the simulated debit card is frozen.'; return }
+    const formattedDate = new Date(`${date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    const payee = byId('bank-payee').value
+    advancedState.bills.unshift({ status: 'Scheduled', detail: `${money(amount)} · ${payee} · ${formattedDate}` })
+    addBankTransaction('Pending', `−${money(amount)} · ${payee} payment scheduled`)
     form.reset()
-    status.textContent = `Transfer posted. ${money(amount)} moved successfully.`
+    status.textContent = `${money(amount)} payment scheduled for ${formattedDate}.`
+    renderAdvancedApps()
+    return
+  }
+
+  if (form.dataset.systemForm === 'deposit') {
+    const amount = Number(byId('bank-deposit-amount').value)
+    const account = byId('bank-deposit-account').value
+    if (!Number.isFinite(amount) || amount <= 0) { status.textContent = 'Enter a deposit amount greater than $0.00.'; return }
+    advancedState[account] += amount
+    addBankTransaction('Posted', `+${money(amount)} · Demo deposit to ${account === 'checking' ? 'checking' : 'savings'}`)
+    form.reset()
+    status.textContent = `Demo deposit posted to ${account}.`
+    renderAdvancedApps()
     return
   }
 
@@ -178,5 +298,5 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
 
 window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
 
-setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps()
+setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps(); renderEmployeeDirectory()
 openView(window.location.hash.slice(1), false)
