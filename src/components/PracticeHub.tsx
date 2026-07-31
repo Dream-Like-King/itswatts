@@ -69,6 +69,7 @@ const templates = [
   ['Bug report template', 'Communicate the behavior, evidence, impact, and context clearly.', '/downloads/bug-report-template.md'],
   ['Exploratory testing charter', 'Give a time-boxed test session a purposeful mission.', '/downloads/exploratory-testing-charter.md'],
   ['Release readiness checklist', 'Prepare a short, risk-aware conversation before releasing.', '/downloads/release-readiness-checklist.md'],
+  ['Playwright Demo Lab flow', 'Download a ready-to-run test that signs in, shops, applies a promo, and checks out safely.', '/downloads/demo-lab-playwright.spec.ts'],
 ] as const
 
 export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubProps) {
@@ -82,7 +83,7 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubPr
 
   return <main className="practice-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
-    <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Try a short roadmap check, work through realistic QA situations, and take a useful template into your next sprint.</p><div className="hero-actions"><a className="button primary" href="https://demo.itswatts.com" target="_blank" rel="noreferrer">Try the Demo Shop <span aria-hidden="true">↗</span></a></div></section>
+    <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Build confidence through short QA exercises, realistic scenarios, and reusable templates for your next sprint.</p><p>The Demo Lab is a safe, realistic storefront for hands-on testing. Sign in with demo credentials, search products, manage a cart, apply a promo code, and complete a no-payment checkout—manually or with automation.</p><div className="hero-actions"><a className="button primary" href="https://demo.itswatts.com" target="_blank" rel="noreferrer">Open the Demo Lab <span aria-hidden="true">↗</span></a></div></section>
 
     <div className="practice-tabs" role="tablist" aria-label="Practice Lab sections">
       <button type="button" className={activeTab === 'roadmap' ? 'active' : ''} onClick={() => setActiveTab('roadmap')} role="tab" aria-selected={activeTab === 'roadmap'}><span className="practice-tab-number">01 ·</span><span className="practice-tab-label">Your roadmap</span></button>
