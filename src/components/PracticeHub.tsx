@@ -78,7 +78,7 @@ export function PracticeHub({ onClose, onOpenTools }: PracticeHubProps) {
   const scenario = scenarios[scenarioIndex]
 
   return <main className="practice-hub" id="top" tabIndex={-1}>
-    <header className="learn-hub-nav"><Logo /><button type="button" onClick={onClose}>← Back to home</button></header>
+    <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
     <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Try a short roadmap check, work through realistic QA situations, and take a useful template into your next sprint.</p></section>
 
     <div className="practice-tabs" role="tablist" aria-label="Practice Lab sections">
