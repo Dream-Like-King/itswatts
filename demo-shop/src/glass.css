@@ -29,6 +29,11 @@ body {
   border-radius: 18px;
 }
 
+/* Match the compact 62px navigation height used on the main It’s Watts site. */
+@media (min-width: 701px) {
+  .site-header { height: 62px; }
+}
+
 .site-header nav a,
 .site-header button,
 .product-card button,
