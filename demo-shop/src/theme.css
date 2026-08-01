@@ -79,3 +79,24 @@
 :root[data-theme="light"] .transaction-table { border-color:rgba(39,69,54,.2); background:rgba(255,255,255,.54); }
 :root[data-theme="light"] .review-card { border-color:rgba(60,130,190,.42); background:rgba(219,239,255,.68); color:#18374c; }
 :root[data-theme="light"] footer { border-color:rgba(39,69,54,.18); color:#597064; }
+
+/* Keep supporting copy comfortably readable on pale glass surfaces. */
+:root[data-theme="light"] .directory-hero > p,
+:root[data-theme="light"] .system-heading > p,
+:root[data-theme="light"] .system-card > p,
+:root[data-theme="light"] .app-card p,
+:root[data-theme="light"] .bank-intro > p,
+:root[data-theme="light"] .bank-dashboard p,
+:root[data-theme="light"] .bank-test-cases p,
+:root[data-theme="light"] .bank-test-list legend { color:#147a39; }
+:root[data-theme="light"] .work-list b,
+:root[data-theme="light"] .bank-overview b,
+:root[data-theme="light"] .system-card small,
+:root[data-theme="light"] .bank-test-cases > div > small { color:#276a3d; }
+:root[data-theme="light"] .bank-test-list label,
+:root[data-theme="light"] .select-all-row,
+:root[data-theme="light"] .bank-test-cases ol { color:#2f4f3c; }
+:root[data-theme="light"] .transaction-category { background:rgba(44,115,194,.15); color:#205f9d; }
+:root[data-theme="light"] .transaction-category.income { background:rgba(30,139,70,.14); color:#176a36; }
+:root[data-theme="light"] .transaction-category.scheduled { background:rgba(182,123,16,.16); color:#79500a; }
+:root[data-theme="light"] .quick-actions b { color:#176a36; }
