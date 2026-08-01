@@ -82,6 +82,7 @@ function setBankExperienceVisibility() {
   byId('bank-workspace').hidden = !bankSession.signedIn
   byId('bank-logout').hidden = !bankSession.signedIn
   if (bankSession.signedIn) showBankPanel('bank-dashboard')
+  else document.querySelectorAll('[data-bank-panel]').forEach((item) => { item.hidden = true })
 }
 
 function applyBankUser(user) {
