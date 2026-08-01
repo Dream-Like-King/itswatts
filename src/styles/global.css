@@ -286,3 +286,29 @@
 .practice-hero .button.primary { border-radius:999px; padding:14px 18px; border:1px solid rgba(112,232,133,.78); background:linear-gradient(135deg,rgba(63,185,80,.92),rgba(32,137,70,.84)); box-shadow:0 12px 30px rgba(63,185,80,.24),inset 0 1px rgba(255,255,255,.25); color:#fff !important; }
 .practice-hero .button.primary:hover { transform:translateY(-2px); border-color:#a5f4b1; background:linear-gradient(135deg,rgba(79,210,99,.96),rgba(37,154,77,.9)); }
 @media (max-width:800px) { .learn-hub-nav { width:calc(100% - 40px); height:62px; margin-top:10px; padding:0 14px; }.learn-hub-nav .logo { font-size:16px; } }
+
+/* Ask Watt follows the explicit site theme instead of only the device preference. */
+:root[data-theme="light"] .chat-overlay { background:rgba(23,35,27,.32); }
+:root[data-theme="light"] .chat-dialog { border-color:rgba(116,137,122,.42); background:linear-gradient(135deg,rgba(255,255,255,.84),rgba(237,246,239,.72)); box-shadow:0 28px 90px rgba(23,35,27,.2),inset 0 1px rgba(255,255,255,.92); }
+:root[data-theme="light"] .chat-shell { border-color:rgba(116,137,122,.4); background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(241,248,243,.7)); box-shadow:0 18px 42px rgba(23,35,27,.12),inset 0 1px rgba(255,255,255,.92); }
+:root[data-theme="light"] .chat-top,:root[data-theme="light"] .chat-input { background:rgba(255,255,255,.28); }
+:root[data-theme="light"] .chat-close { color:#17231b; background:rgba(255,255,255,.58); border-color:rgba(116,137,122,.45); }
+:root[data-theme="light"] .message p { border-color:rgba(116,137,122,.28); background:rgba(255,255,255,.68); color:#35433a; }
+:root[data-theme="light"] .message.user p { border-color:rgba(25,111,202,.28); background:rgba(225,239,255,.76); color:#1b3650; }
+:root[data-theme="light"] .prompt-list button { border-color:rgba(116,137,122,.36); background:rgba(255,255,255,.55); color:#35433a; }
+:root[data-theme="light"] .prompt-list button:hover { background:rgba(232,243,235,.9); }
+:root[data-theme="light"] .chat-input input { border-color:rgba(116,137,122,.36); background:rgba(255,255,255,.6); color:#17231b; }
+
+:root[data-theme="dark"] .chat-overlay { background:rgba(5,8,12,.68); }
+:root[data-theme="dark"] .chat-dialog { border-color:rgba(139,148,158,.4); background:linear-gradient(135deg,rgba(31,39,49,.72),rgba(14,17,22,.6)); box-shadow:0 28px 90px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.08); }
+:root[data-theme="dark"] .chat-shell { border-color:rgba(139,148,158,.4); background:linear-gradient(135deg,rgba(35,44,54,.8),rgba(20,26,34,.7)); box-shadow:0 18px 42px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.07); }
+:root[data-theme="dark"] .chat-top,:root[data-theme="dark"] .chat-input { background:rgba(10,14,19,.2); }
+:root[data-theme="dark"] .chat-close { color:#e6edf5; background:rgba(255,255,255,.045); border-color:rgba(139,148,158,.5); }
+:root[data-theme="dark"] .message p { border-color:rgba(139,148,158,.25); background:rgba(27,34,43,.62); color:#c9d1d9; }
+:root[data-theme="dark"] .message.user p { border-color:rgba(88,166,255,.34); background:rgba(28,73,104,.58); color:#e1efff; }
+:root[data-theme="dark"] .prompt-list button { border-color:rgba(139,148,158,.38); background:rgba(255,255,255,.035); color:#c9d1d9; }
+:root[data-theme="dark"] .chat-input input { border-color:rgba(139,148,158,.32); background:rgba(5,8,12,.2); color:#fff; }
+
+/* On the mobile home view, use the same compact floating glass bar as desktop. */
+@media (max-width:800px) { .nav-wrap { top:10px; }.nav { box-sizing:border-box; width:calc(100% - 40px); height:62px; padding:0 14px; border:1px solid rgba(139,148,158,.42); border-radius:999px; background:rgba(14,17,22,.82); box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.08); backdrop-filter:blur(18px) saturate(135%); -webkit-backdrop-filter:blur(18px) saturate(135%); }.nav-links { top:70px; left:20px; right:20px; } }
+:root[data-theme="light"] .nav { background:rgba(255,255,255,.86); border-color:#c9d4cc; box-shadow:0 12px 28px rgba(23,35,27,.14),inset 0 1px rgba(255,255,255,.92); }
