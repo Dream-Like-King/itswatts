@@ -11,7 +11,9 @@ import { SoftwareHub } from './components/SoftwareHub'
 import { CareerHub } from './components/CareerHub'
 import { WeeklyNotes } from './components/WeeklyNotes'
 import { HomeDashboard } from './components/HomeDashboard'
-import { Logo } from './components/Logo'
+import { LegalDialog } from './components/LegalDialog'
+import type { LegalDocument } from './components/LegalDialog'
+import { SiteFooter } from './components/SiteFooter'
 
 type Theme = 'light' | 'dark'
 
@@ -27,6 +29,7 @@ function App() {
     return saved === 'light' || saved === 'dark' ? saved : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
   })
   const [isChatOpen, setIsChatOpen] = useState(false)
+  const [legalDocument, setLegalDocument] = useState<LegalDocument | null>(null)
   const [isLearnOpen, setIsLearnOpen] = useState(() => window.location.hash === '#learn-hub')
   const [isStoryOpen, setIsStoryOpen] = useState(() => window.location.hash === '#my-story')
   const [isPracticeOpen, setIsPracticeOpen] = useState(() => window.location.hash === '#practice-lab')
@@ -83,12 +86,13 @@ function App() {
     <WeeklyNotes compact />
 
     <section className="contact section" id="contact"><p className="eyebrow">STAY IN THE LOOP</p><h2>One useful QA idea<br />at a <em>time.</em></h2><p className="contact-copy">New weekly notes and practical QA tools are on the way. Follow along, explore the work, and keep learning.</p><div className="contact-links"><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer" className="contact-email">Connect on LinkedIn <span>↗</span></a><a href="https://github.com/Dream-Like-King" target="_blank" rel="noreferrer">GitHub ↗</a><a href="mailto:contact@itswatts.com">Contact Us ↗</a></div></section>
-    <footer><Logo compact /><p>© {new Date().getFullYear()} It's Watts. Built for better software.</p><div><a href="#top">Back to top ↑</a><a href="https://www.linkedin.com/in/derrick-watson-watson/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></footer>
+    <SiteFooter onOpenLegal={setLegalDocument} />
     </main>
     <button className="desktop-chat-fab" type="button" onClick={() => setIsChatOpen(true)}><span aria-hidden="true">ϟ</span> Ask Watt</button>
     </>}
     <MobileDock onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={openCareer} onOpenStory={openStory} onOpenPractice={openPractice} onOpenToolkits={openToolkits} onOpenResources={openResources} onOpenSoftware={openSoftware} onNavigateHome={isLearnOpen || isStoryOpen || isPracticeOpen || isToolkitsOpen || isResourcesOpen || isSoftwareOpen || isCareerOpen ? navigateHome : undefined} focusedView={isStoryOpen ? 'story' : isPracticeOpen ? 'practice' : isToolkitsOpen ? 'toolkits' : isResourcesOpen ? 'resources' : isSoftwareOpen ? 'software' : isCareerOpen ? 'career' : isLearnOpen ? 'learn' : null} />
     <AskWatt isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+    <LegalDialog document={legalDocument} onClose={() => setLegalDocument(null)} />
   </>
 }
 export default App
