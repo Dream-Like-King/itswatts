@@ -277,3 +277,12 @@
 :root[data-theme="light"] .learn-hero a,:root[data-theme="light"] .learn-next button,:root[data-theme="light"] .practice-hero .button.primary { color:#fff !important; }
 :root[data-theme="dark"] .learn-hub-nav .hub-nav-actions > button:last-child { background:linear-gradient(135deg,rgba(31,39,49,.9),rgba(14,17,22,.78)); border-color:rgba(139,148,158,.48); color:#e6edf5; }
 :root[data-theme="dark"] .learn-hub-nav .hub-nav-actions > button:last-child:hover { border-color:rgba(63,185,80,.7); color:#3fb950; }
+
+/* Give every focused destination the same floating, rounded header as the home page. */
+.learn-hub-nav { box-sizing:border-box; width:min(1280px,calc(100% - 48px)); height:62px; margin:14px auto 0; padding:0 20px; border:1px solid rgba(139,148,158,.3); border-radius:999px; background:rgba(14,17,22,.82); box-shadow:0 12px 32px rgba(0,0,0,.22); backdrop-filter:blur(16px) saturate(135%); -webkit-backdrop-filter:blur(16px) saturate(135%); }
+:root[data-theme="light"] .learn-hub-nav { background:rgba(255,255,255,.86); border-color:#c9d4cc; box-shadow:0 12px 28px rgba(23,35,27,.14); }
+
+/* Demo Lab is a primary navigation action, not a plain text link. */
+.practice-hero .button.primary { border-radius:999px; padding:14px 18px; border:1px solid rgba(112,232,133,.78); background:linear-gradient(135deg,rgba(63,185,80,.92),rgba(32,137,70,.84)); box-shadow:0 12px 30px rgba(63,185,80,.24),inset 0 1px rgba(255,255,255,.25); color:#fff !important; }
+.practice-hero .button.primary:hover { transform:translateY(-2px); border-color:#a5f4b1; background:linear-gradient(135deg,rgba(79,210,99,.96),rgba(37,154,77,.9)); }
+@media (max-width:800px) { .learn-hub-nav { width:calc(100% - 40px); height:62px; margin-top:10px; padding:0 14px; }.learn-hub-nav .logo { font-size:16px; } }
