@@ -116,6 +116,7 @@
 :root[data-theme="light"] .signal-ledger-lockup > span { color:#15231b; }
 :root[data-theme="light"] .bank-brand small,
 :root[data-theme="light"] .signal-ledger-lockup small { color:#486255; }
+:root[data-theme="light"] #demo-theme-toggle { background:rgba(255,255,255,.82); border-color:#aebbb1; color:#17231b; }
 
 /* Main Demo Lab supporting copy uses a darker neutral in light mode. */
 :root[data-theme="light"] .hero > span,
