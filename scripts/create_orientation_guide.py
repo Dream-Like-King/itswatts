@@ -32,7 +32,23 @@ def header_footer(canvas, doc):
     canvas.line(doc.leftMargin, letter[1] - 0.54 * inch, letter[0] - doc.rightMargin, letter[1] - 0.54 * inch)
     canvas.setFont("Helvetica-Bold", 8)
     canvas.setFillColor(MUTED)
-    canvas.drawString(doc.leftMargin, letter[1] - 0.4 * inch, "IT'S WATTS  |  QA ORIENTATION GUIDE")
+    brand = "it’s watt"
+    brand_x = doc.leftMargin
+    brand_y = letter[1] - 0.4 * inch
+    canvas.drawString(brand_x, brand_y, brand)
+    bolt_x = brand_x + canvas.stringWidth(brand, "Helvetica-Bold", 8) + 3
+    canvas.setFillColor(GREEN)
+    bolt = canvas.beginPath()
+    bolt.moveTo(bolt_x + 5, brand_y + 9)
+    bolt.lineTo(bolt_x, brand_y + 3)
+    bolt.lineTo(bolt_x + 4, brand_y + 3)
+    bolt.lineTo(bolt_x + 2, brand_y - 2)
+    bolt.lineTo(bolt_x + 9, brand_y + 5)
+    bolt.lineTo(bolt_x + 5, brand_y + 5)
+    bolt.close()
+    canvas.drawPath(bolt, stroke=0, fill=1)
+    canvas.setFillColor(MUTED)
+    canvas.drawString(bolt_x + 14, brand_y, "|  QA ORIENTATION GUIDE")
     canvas.setFont("Helvetica", 8)
     canvas.drawRightString(letter[0] - doc.rightMargin, 0.4 * inch, f"ITSWATTS.COM  |  {doc.page}")
     canvas.restoreState()
@@ -91,7 +107,7 @@ story = [
     Paragraph("There is no single route into QA. People enter from customer support, development, business analysis, design, and many other backgrounds. The strongest evidence of growth is a combination of practice, communication, product understanding, and a willingness to keep learning.", styles["Body"]),
     card("Certifications", "A foundation-testing credential can provide structure and shared terminology. Treat it as optional evidence of learning, not a replacement for hands-on practice or a guarantee of employment."),
     Paragraph("Your next useful step", styles["Section"]),
-    bullet("Use the It’s Watts Knowledge Base when a QA term is unfamiliar."),
+    bullet("Use the it’s watt Knowledge Base when a QA term is unfamiliar."),
     bullet("Choose the Beginner, Intermediate, or Advanced route that best fits your current experience."),
     bullet("Try the QA Toolkits to decide what to automate or generate test ideas from a user story."),
     Paragraph("Keep learning in public. Test with purpose.", styles["GuideSubtitle"]),
@@ -99,6 +115,6 @@ story = [
 
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
-doc = SimpleDocTemplate(str(OUT), pagesize=letter, leftMargin=0.82 * inch, rightMargin=0.82 * inch, topMargin=0.82 * inch, bottomMargin=0.7 * inch, title="It's Watts QA Orientation Guide", author="Derrick Watson")
+doc = SimpleDocTemplate(str(OUT), pagesize=letter, leftMargin=0.82 * inch, rightMargin=0.82 * inch, topMargin=0.82 * inch, bottomMargin=0.7 * inch, title="it’s wattϟ QA Orientation Guide", author="Derrick Watson")
 doc.build(story, onFirstPage=header_footer, onLaterPages=header_footer)
 print(OUT)

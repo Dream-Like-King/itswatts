@@ -50,3 +50,34 @@
 :root[data-theme] .story-mission button:first-child { border:1px solid rgba(186,230,253,.8); border-radius:999px; background:linear-gradient(135deg,#38bdf8,#0284c7); box-shadow:0 12px 30px rgba(125,211,252,.25),inset 0 1px rgba(255,255,255,.28); backdrop-filter:blur(14px) saturate(130%); color:#062236; }
 :root[data-theme] .story-mission button:first-child:hover { transform:translateY(-2px); border-color:#e0f2fe; background:linear-gradient(135deg,#7dd3fc,#0284c7); }
 :root[data-theme="light"] .story-mission button:first-child { color:#fff; }
+
+/* Final light-theme contrast audit: turn every dark-theme text treatment into legible ink on pale glass. */
+:root[data-theme="light"] .decision-questions label,
+:root[data-theme="light"] .case-results b,
+:root[data-theme="light"] .prompt-list-tool pre,
+:root[data-theme="light"] .availability,
+:root[data-theme="light"] .message p,
+:root[data-theme="light"] .prompt-list button,
+:root[data-theme="light"] .note-intro,
+:root[data-theme="light"] .note-dialog section p,
+:root[data-theme="light"] .note-footer,
+:root[data-theme="light"] .tags i,
+:root[data-theme="light"] .quiet,
+:root[data-theme="light"] .legal-dialog,
+:root[data-theme="light"] .legal-dialog p,
+:root[data-theme="light"] .legal-dialog li,
+:root[data-theme="light"] .legal-dialog label,
+:root[data-theme="light"] .case-card textarea,
+:root[data-theme="light"] .chat-input input { color:#273a49 !important; }
+:root[data-theme="light"] .decision-questions label,
+:root[data-theme="light"] .prompt-list button,
+:root[data-theme="light"] .tags i,
+:root[data-theme="light"] .note-close,
+:root[data-theme="light"] .outline { border-color:#9fb0be; }
+:root[data-theme="light"] .message p,
+:root[data-theme="light"] .prompt-list button,
+:root[data-theme="light"] .note-dialog,
+:root[data-theme="light"] .case-card textarea { background:#ffffff; }
+:root[data-theme="light"] .post-card button:hover,
+:root[data-theme="light"] .download-grid article:hover,
+:root[data-theme="light"] .learn-next .learn-next-link:hover { color:#075985 !important; }

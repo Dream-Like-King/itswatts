@@ -24,7 +24,7 @@ export function GrowthHub() {
     const value = email.trim()
     if (!value || !value.includes('@')) { setMessage('Enter a valid email address to join the launch list.'); return }
     setMessage('Your email app will open so you can confirm your place on the launch list.')
-    window.location.href = `mailto:watson.derrick@outlook.com?subject=${encodeURIComponent('It’s Watts launch list')}&body=${encodeURIComponent(`Please add ${value} to the It’s Watts launch list.`)}`
+    window.location.href = `mailto:watson.derrick@outlook.com?subject=${encodeURIComponent('it’s wattϟ launch list')}&body=${encodeURIComponent(`Please add ${value} to the it’s wattϟ launch list.`)}`
   }
   return <>
     <section className="downloads section" id="downloads"><div className="section-heading"><p className="eyebrow">FREE STARTERS</p><h2>Take the next<br /><em>useful step.</em></h2><p className="section-copy">Three lightweight templates for your next feature review, automation conversation, or defect report.</p></div><div className="download-grid">{downloads.map(([title, copy, file]) => <article key={title}><span>↓</span><h3>{title}</h3><p>{copy}</p><a href={file} download>Download template <b>↧</b></a></article>)}</div></section>
