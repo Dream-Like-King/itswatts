@@ -267,3 +267,13 @@
 
 /* Preserve the theme symbol and compact Home label in focused-view headers on mobile. */
 @media (max-width:800px) { .learn-hub-nav .hub-nav-actions .theme-toggle { width:34px; height:34px; padding:0; font-size:17px; }.learn-hub-nav .hub-nav-actions .theme-toggle::after { content:none; } .learn-hub-nav .hub-nav-actions > button:last-child { font-size:0; }.learn-hub-nav .hub-nav-actions > button:last-child::after { content:'← Home'; font-size:10px; } }
+
+/* Focused-view calls to action use the same rounded glass language as the main navigation. */
+.learn-hero a,.learn-next button { border:1px solid rgba(112,232,133,.72); border-radius:999px; background:linear-gradient(135deg,rgba(63,185,80,.92),rgba(32,137,70,.82)); box-shadow:0 12px 30px rgba(63,185,80,.22),inset 0 1px rgba(255,255,255,.28); backdrop-filter:blur(14px) saturate(130%); -webkit-backdrop-filter:blur(14px) saturate(130%); transition:transform .2s,border-color .2s,background .2s,box-shadow .2s; }
+.learn-hero a:hover,.learn-next button:hover { transform:translateY(-2px); border-color:#a5f4b1; background:linear-gradient(135deg,rgba(79,210,99,.96),rgba(37,154,77,.9)); box-shadow:0 16px 34px rgba(63,185,80,.3),inset 0 1px rgba(255,255,255,.34); }
+.learn-hub-nav .hub-nav-actions > button:last-child { min-height:36px; border-radius:999px; }
+:root[data-theme="light"] .learn-hub-nav .hub-nav-actions > button:last-child { background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(235,246,238,.8)); border-color:#b5c5ba; color:#243129; box-shadow:0 10px 24px rgba(23,35,27,.13),inset 0 1px rgba(255,255,255,.95); }
+:root[data-theme="light"] .learn-hub-nav .hub-nav-actions > button:last-child:hover { border-color:rgba(22,132,58,.65); background:rgba(232,243,235,.98); color:#16843a; }
+:root[data-theme="light"] .learn-hero a,:root[data-theme="light"] .learn-next button,:root[data-theme="light"] .practice-hero .button.primary { color:#fff !important; }
+:root[data-theme="dark"] .learn-hub-nav .hub-nav-actions > button:last-child { background:linear-gradient(135deg,rgba(31,39,49,.9),rgba(14,17,22,.78)); border-color:rgba(139,148,158,.48); color:#e6edf5; }
+:root[data-theme="dark"] .learn-hub-nav .hub-nav-actions > button:last-child:hover { border-color:rgba(63,185,80,.7); color:#3fb950; }
