@@ -24,7 +24,8 @@ let selectedEmployeeId = 'jordan-ellis'
 const initialBankUsers = [
   { id: 'casey-morgan', name: 'Casey Morgan', type: 'Everyday customer', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', address2: '', city: 'Austin', state: 'TX', postal: '78701', country: 'United States', password: 'DemoPass123!', checking: 4280.18, savings: 760, transactions: [{ status: 'Pending', detail: '−$62.44 · City Electric utility payment' }, { status: 'Posted', detail: '+$1,240.00 · Direct deposit' }, { status: 'Posted', detail: '−$48.17 · Fresh Market' }], bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }] },
   { id: 'alex-johnson', name: 'Alex Johnson', type: 'Overdraft-risk customer', email: 'alex@itswatts.demo', phone: '555-0191', address: '8 Practice Court', address2: 'Unit 4B', city: 'Dallas', state: 'TX', postal: '75201', country: 'United States', password: 'DemoPass123!', checking: 42.18, savings: 0, transactions: [{ status: 'Pending', detail: '−$58.40 · Northstar Internet payment' }, { status: 'Posted', detail: '+$620.00 · Weekly payroll' }, { status: 'Posted', detail: '−$535.18 · Rent payment' }], bills: [{ status: 'Scheduled', detail: '$58.40 · Northstar Internet · Aug 12' }] },
-  { id: 'jordan-ellis-bank', name: 'Jordan Ellis', type: 'Joint-account holder', email: 'jordan@itswatts.demo', phone: '555-0116', address: '91 Shared Way', address2: '', city: 'Round Rock', state: 'TX', postal: '78664', country: 'United States', password: 'DemoPass123!', checking: 1260.44, savings: 3800, transactions: [{ status: 'Posted', detail: '+$2,850.00 · Joint direct deposit' }, { status: 'Posted', detail: '−$226.34 · Family groceries' }, { status: 'Pending', detail: '−$95.00 · Shared utility payment' }], bills: [{ status: 'Scheduled', detail: '$95.00 · City Electric · Aug 18' }] },
+  { id: 'jordan-ellis-bank', name: 'Jordan Ellis', type: 'Joint-account holder', jointAccountId: 'ellis-household', jointCoOwner: 'Taylor Ellis', email: 'jordan@itswatts.demo', phone: '555-0116', address: '91 Shared Way', address2: '', city: 'Round Rock', state: 'TX', postal: '78664', country: 'United States', password: 'DemoPass123!', checking: 1260.44, savings: 3800, transactions: [{ status: 'Posted', detail: '+$2,850.00 · Joint direct deposit' }, { status: 'Posted', detail: '−$226.34 · Family groceries' }, { status: 'Pending', detail: '−$95.00 · Shared utility payment' }], bills: [{ status: 'Scheduled', detail: '$95.00 · City Electric · Aug 18' }] },
+  { id: 'taylor-ellis-bank', name: 'Taylor Ellis', type: 'Joint-account holder', jointAccountId: 'ellis-household', jointCoOwner: 'Jordan Ellis', email: 'taylor@itswatts.demo', phone: '555-0117', address: '91 Shared Way', address2: '', city: 'Round Rock', state: 'TX', postal: '78664', country: 'United States', password: 'DemoPass123!', checking: 1260.44, savings: 3800, transactions: [{ status: 'Posted', detail: '+$2,850.00 · Joint direct deposit' }, { status: 'Posted', detail: '−$226.34 · Family groceries' }, { status: 'Pending', detail: '−$95.00 · Shared utility payment' }], bills: [{ status: 'Scheduled', detail: '$95.00 · City Electric · Aug 18' }] },
   { id: 'riley-chen-bank', name: 'Riley Chen', type: 'Small-business owner', email: 'riley@itswatts.demo', phone: '555-0188', address: '300 Market Street', address2: 'Suite 210', city: 'Houston', state: 'TX', postal: '77002', country: 'United States', password: 'DemoPass123!', checking: 12850.62, savings: 3400, transactions: [{ status: 'Posted', detail: '+$7,400.00 · Client invoice payment' }, { status: 'Posted', detail: '−$1,980.55 · Inventory purchase' }, { status: 'Posted', detail: '−$420.00 · Team travel' }], bills: [{ status: 'Scheduled', detail: '$420.00 · Harbor Insurance · Aug 22' }] },
 ]
 const cloneBankUsers = () => initialBankUsers.map((user) => ({ ...user, transactions: user.transactions.map((transaction) => ({ ...transaction })), bills: user.bills.map((bill) => ({ ...bill })) }))
@@ -98,6 +99,18 @@ function applyBankUser(user) {
   renderAdvancedApps()
   renderBankProfile()
   setBankExperienceVisibility()
+}
+
+function syncJointAccount(user) {
+  if (!user?.jointAccountId) return
+  bankUsers.filter((member) => member.jointAccountId === user.jointAccountId && member.id !== user.id).forEach((member) => {
+    Object.assign(member, {
+      checking: user.checking,
+      savings: user.savings,
+      transactions: user.transactions.map((transaction) => ({ ...transaction })),
+      bills: user.bills.map((bill) => ({ ...bill })),
+    })
+  })
 }
 
 function totals() {
@@ -185,7 +198,10 @@ function renderAdvancedApps() {
   byId('bank-income').textContent = `+${money(transactionTotals.income)}`
   byId('bank-expenses').textContent = `−${money(transactionTotals.expenses)}`
   const user = currentBankUser()
-  if (user) Object.assign(user, { checking: advancedState.checking, savings: advancedState.savings, transactions: advancedState.transactions.map((transaction) => ({ ...transaction })), bills: advancedState.bills.map((bill) => ({ ...bill })) })
+  if (user) {
+    Object.assign(user, { checking: advancedState.checking, savings: advancedState.savings, transactions: advancedState.transactions.map((transaction) => ({ ...transaction })), bills: advancedState.bills.map((bill) => ({ ...bill })) })
+    syncJointAccount(user)
+  }
   renderEmployeeProfile()
 }
 
@@ -200,7 +216,8 @@ function renderBankProfile() {
   byId('bank-profile-state').value = bankProfile.state
   byId('bank-profile-postal').value = bankProfile.postal
   byId('bank-profile-country').value = bankProfile.country
-  byId('bank-profile-type').textContent = bankProfile.type
+  byId('bank-profile-type').textContent = bankProfile.jointCoOwner ? `${bankProfile.type} · Shared with ${bankProfile.jointCoOwner}` : bankProfile.type
+  byId('bank-account-ownership').textContent = bankProfile.jointCoOwner ? `JOINT OWNERS · ${bankProfile.name.toUpperCase()} + ${bankProfile.jointCoOwner.toUpperCase()}` : 'INDIVIDUAL OWNER · PERSONAL ACCOUNTS'
   byId('banking-title').textContent = `Welcome back, ${bankProfile.name.split(' ')[0]}.`
 }
 
@@ -226,6 +243,7 @@ const bankTestCases = {
   'valid-login': { name: 'Valid credentials unlock the workspace', skipSignIn: true, steps: "await signIn(page);\n  await expect(page.getByText('Quick actions')).toBeVisible();" },
   'invalid-login': { name: 'Invalid credentials keep the workspace protected', skipSignIn: true, steps: "await page.locator('#bank-login-email').fill('not-a-user@itswatts.demo');\n  await page.locator('#bank-login-password').fill('incorrect');\n  await page.getByTestId('bank-sign-in').click();\n  await expect(page.locator('#bank-login-message')).toContainText('do not match');\n  await expect(page.locator('#bank-workspace')).toBeHidden();" },
   'profile-switch': { name: 'Different profiles display their banking scenarios', skipSignIn: true, steps: "await page.getByRole('button', { name: /Alex Johnson/ }).click();\n  await page.getByTestId('bank-sign-in').click();\n  await expect(page.getByRole('heading', { name: 'Welcome back, Alex.' })).toBeVisible();" },
+  'joint-account': { name: 'Joint account holders share balances and activity', skipSignIn: true, steps: "await signIn(page, 'jordan@itswatts.demo');\n  await page.getByRole('button', { name: 'Send money' }).click();\n  await page.locator('#bank-recipient').fill('Morgan Lee');\n  await page.locator('#bank-send-amount').fill('25');\n  await page.getByTestId('send-money').click();\n  await page.getByRole('button', { name: 'Log out' }).click();\n  await signIn(page, 'taylor@itswatts.demo');\n  await expect(page.getByText('Payment sent to Morgan Lee')).toBeVisible();" },
   logout: { name: 'Logout protects the workspace', steps: "await page.getByRole('button', { name: 'Log out' }).click();\n  await expect(page.locator('#bank-login-panel')).toBeVisible();\n  await expect(page.locator('#bank-workspace')).toBeHidden();" },
   'password-login': { name: 'Updated password works after sign out', steps: "await page.getByRole('button', { name: 'Profile' }).click();\n  await page.locator('#bank-current-password').fill('DemoPass123!');\n  await page.locator('#bank-new-password').fill('UpdatedDemo123!');\n  await page.locator('#bank-confirm-password').fill('UpdatedDemo123!');\n  await page.getByTestId('save-profile').click();\n  await page.getByRole('button', { name: 'Log out' }).click();\n  await signIn(page, 'casey@itswatts.demo', 'UpdatedDemo123!');\n  await expect(page.getByText('Quick actions')).toBeVisible();" },
   'dashboard-summary': { name: 'Dashboard shows account totals', steps: "await page.getByRole('button', { name: 'Dashboard' }).click();\n  await expect(page.getByText('TOTAL NET WORTH')).toBeVisible();\n  await expect(page.locator('#bank-net-worth')).toContainText('$');" },
@@ -251,6 +269,14 @@ function updateBankTestSelection() {
   selectAll.indeterminate = selected.length > 0 && selected.length < checkboxes.length
   byId('bank-download-tests').disabled = selected.length === 0
   byId('bank-test-selection-status').textContent = selected.length ? `${selected.length} test case${selected.length === 1 ? '' : 's'} selected.` : 'Choose at least one test case.'
+}
+
+function addJointAccountTestOption() {
+  const fieldset = document.querySelector('#bank-test-selection fieldset')
+  if (!fieldset) return
+  const label = document.createElement('label')
+  label.innerHTML = '<input type="checkbox" value="joint-account" /> Joint account holders share balances and activity'
+  fieldset.append(label)
 }
 
 function downloadBankTests() {
@@ -553,5 +579,6 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
 window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
 
 setDemoTheme(document.documentElement.dataset.theme || 'dark', false)
+addJointAccountTestOption()
 setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps(); renderEmployeeProfile(); renderEmployeeDirectory()
 openView(window.location.hash.slice(1), false)
