@@ -21,6 +21,7 @@ const employees = [
 
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
 let selectedEmployeeId = 'jordan-ellis'
+const bankProfile = { name: 'Casey Morgan', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', password: 'DemoPass123!' }
 const advancedState = {
   checking: 4280.18,
   savings: 760,
@@ -52,7 +53,15 @@ function openView(viewId, updateHash = true) {
   const nextView = viewIds.includes(viewId) ? viewId : 'lab-directory'
   document.querySelectorAll('.demo-view').forEach((view) => { view.hidden = view.id !== nextView })
   if (updateHash) window.location.hash = nextView === 'lab-directory' ? '' : nextView
+  if (nextView === 'banking-view') showBankPanel('bank-dashboard')
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function showBankPanel(panelId) {
+  const panel = byId(panelId)
+  if (!panel) return
+  document.querySelectorAll('[data-bank-panel]').forEach((item) => { item.hidden = (item.dataset.bankPanel || item.id) !== panelId })
+  document.querySelectorAll('[data-bank-target]').forEach((button) => button.classList.toggle('active', button.dataset.bankTarget === panelId))
 }
 
 function totals() {
@@ -142,6 +151,15 @@ function renderAdvancedApps() {
   renderEmployeeProfile()
 }
 
+function renderBankProfile() {
+  byId('bank-profile-title').textContent = bankProfile.name
+  byId('bank-profile-name').value = bankProfile.name
+  byId('bank-profile-email').value = bankProfile.email
+  byId('bank-profile-phone').value = bankProfile.phone
+  byId('bank-profile-address').value = bankProfile.address
+  byId('banking-title').textContent = `Welcome back, ${bankProfile.name.split(' ')[0]}.`
+}
+
 function renderBankTransactions() {
   const filter = byId('bank-activity-filter').value
   const items = advancedState.transactions.filter((item) => filter === 'all' || item.status.toLowerCase() === filter)
@@ -160,6 +178,48 @@ function addBankTransaction(status, detail) {
   advancedState.transactions.unshift({ status, detail })
 }
 
+const bankTestCases = {
+  'dashboard-summary': { name: 'Dashboard shows account totals', steps: "await page.getByRole('button', { name: 'Dashboard' }).click();\n  await expect(page.getByText('TOTAL NET WORTH')).toBeVisible();\n  await expect(page.locator('#bank-net-worth')).toContainText('$');" },
+  'account-balances': { name: 'Account balances update after a posted transfer', steps: "await page.getByRole('button', { name: 'Transfer' }).click();\n  await page.locator('#bank-amount').fill('25');\n  await page.getByTestId('bank-transfer').click();\n  await page.getByTestId('confirm-transfer').click();\n  await expect(page.locator('#bank-transactions')).toContainText('Checking → Savings');" },
+  'activity-filter': { name: 'Activity filter shows matching status', steps: "await page.getByRole('button', { name: 'Transactions' }).click();\n  await page.locator('#bank-activity-filter').selectOption('pending');\n  await expect(page.locator('#bank-transactions')).toContainText('Pending');" },
+  'transfer-review': { name: 'Transfer review matches submitted data', steps: "await page.getByRole('button', { name: 'Transfer' }).click();\n  await page.locator('#bank-amount').fill('40');\n  await page.getByTestId('bank-transfer').click();\n  await expect(page.locator('#bank-transfer-review')).toContainText('$40.00');" },
+  'transfer-boundaries': { name: 'Invalid transfers are blocked', steps: "await page.getByRole('button', { name: 'Transfer' }).click();\n  await page.locator('#bank-amount').fill('0');\n  await page.getByTestId('bank-transfer').click();\n  await expect(page.locator('#bank-transfer [role=status]')).toContainText('greater than');" },
+  'send-money': { name: 'Send Money updates balance and activity', steps: "await page.getByRole('button', { name: 'Send money' }).click();\n  await page.locator('#bank-recipient').fill('Taylor Reed');\n  await page.locator('#bank-send-amount').fill('18');\n  await page.getByTestId('send-money').click();\n  await expect(page.locator('#bank-send-money [role=status]')).toContainText('sent');" },
+  'bill-payment': { name: 'Bill Pay creates pending activity', steps: "await page.getByRole('button', { name: 'Bill pay' }).click();\n  await page.locator('#bank-payment-date').fill('2026-12-15');\n  await page.locator('#bank-payment-amount').fill('62.44');\n  await page.getByTestId('schedule-payment').click();\n  await expect(page.locator('#bank-bill-list')).toContainText('Scheduled');" },
+  'frozen-card': { name: 'Frozen card blocks payment', steps: "await page.getByRole('button', { name: 'Notifications' }).click();\n  await page.getByTestId('toggle-card').click();\n  await page.getByRole('button', { name: 'Bill pay' }).click();\n  // Complete the bill form and verify the frozen-card message." },
+  alerts: { name: 'Alert preference updates state', steps: "await page.getByRole('button', { name: 'Notifications' }).click();\n  await page.locator('#bank-alert-toggle').uncheck();\n  await expect(page.locator('#bank-card-message')).toContainText('turned off');" },
+  'profile-update': { name: 'Profile saves valid information', steps: "await page.getByRole('button', { name: 'Profile' }).click();\n  await page.locator('#bank-profile-phone').fill('555-0199');\n  await page.getByTestId('save-profile').click();\n  await expect(page.locator('#bank-profile [role=status]')).toContainText('Profile saved');" },
+  'password-validation': { name: 'Password validation protects account', steps: "await page.getByRole('button', { name: 'Profile' }).click();\n  await page.locator('#bank-current-password').fill('DemoPass123!');\n  await page.locator('#bank-new-password').fill('not-a-match');\n  await page.locator('#bank-confirm-password').fill('different');\n  await page.getByTestId('save-profile').click();\n  await expect(page.locator('#bank-profile [role=status]')).toContainText('must match');" },
+  'loan-validation': { name: 'Loan application validates required input', steps: "await page.getByRole('button', { name: 'Apply for loan' }).click();\n  await page.locator('#bank-loan-amount').fill('100');\n  await page.locator('#bank-loan-purpose').fill('Laptop');\n  await page.getByTestId('apply-loan').click();\n  await expect(page.locator('#bank-loan [role=status]')).toContainText('at least $500');" },
+  'reset-state': { name: 'Reset restores initial state', steps: "await page.getByRole('button', { name: 'Transfer' }).click();\n  await page.locator('#bank-amount').fill('25');\n  await page.getByTestId('bank-transfer').click();\n  await page.getByTestId('confirm-transfer').click();\n  await page.getByRole('button', { name: 'Reset demo' }).click();\n  await expect(page.getByRole('heading', { name: 'Test systems that feel familiar.' })).toBeVisible();" },
+}
+
+function updateBankTestSelection() {
+  const checkboxes = [...document.querySelectorAll('#bank-test-selection input[type="checkbox"]')]
+  const selected = checkboxes.filter((input) => input.checked)
+  const selectAll = byId('bank-select-all-tests')
+  selectAll.checked = selected.length === checkboxes.length
+  selectAll.indeterminate = selected.length > 0 && selected.length < checkboxes.length
+  byId('bank-download-tests').disabled = selected.length === 0
+  byId('bank-test-selection-status').textContent = selected.length ? `${selected.length} test case${selected.length === 1 ? '' : 's'} selected.` : 'Choose at least one test case.'
+}
+
+function downloadBankTests() {
+  const selected = [...document.querySelectorAll('#bank-test-selection input:checked')].map((input) => input.value)
+  if (!selected.length) return
+  const tests = selected.map((id) => {
+    const scenario = bankTestCases[id]
+    return `test(${JSON.stringify(scenario.name)}, async ({ page }) => {\n  await page.goto(baseUrl);\n  ${scenario.steps}\n});`
+  }).join('\n\n')
+  const file = `import { test, expect } from '@playwright/test';\n\nconst baseUrl = process.env.DEMO_BANK_URL ?? 'https://demo.itswatts.com/#banking-view';\n\n// Generated by It’s Watts Demo Bank. All flows use fictional data only.\n\n${tests}\n`
+  const url = URL.createObjectURL(new Blob([file], { type: 'text/plain' }))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'itswatts-demo-bank.spec.ts'
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
 function resetAdvancedApps() {
   Object.assign(advancedState, {
     checking: 4280.18,
@@ -176,6 +236,7 @@ function resetAdvancedApps() {
     ],
     bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }],
   })
+  Object.assign(bankProfile, { name: 'Casey Morgan', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', password: 'DemoPass123!' })
   byId('claim-list').innerHTML = '<li><b>CLM-10482</b><span>Vehicle damage · Evidence requested</span></li><li><b>CLM-10491</b><span>Water damage · Manager review</span></li><li><b>CLM-10503</b><span>Property loss · New</span></li>'
   byId('time-off-list').innerHTML = '<li><b>Pending</b><span>Aug 18–20 · Vacation</span></li>'
   document.querySelectorAll('[data-system-form]').forEach((form) => {
@@ -186,6 +247,7 @@ function resetAdvancedApps() {
   byId('bank-confirm-transfer').hidden = true
   byId('bank-card-message').textContent = 'Card is ready for simulated purchases.'
   renderAdvancedApps()
+  renderBankProfile()
 }
 
 function resetDemo() {
@@ -211,11 +273,7 @@ document.addEventListener('click', (event) => {
   }
   const bankTarget = target.closest('[data-bank-target]')
   if (bankTarget instanceof HTMLElement) {
-    const destination = byId(bankTarget.dataset.bankTarget)
-    if (!destination) return
-    document.querySelectorAll('[data-bank-target]').forEach((button) => button.classList.remove('active'))
-    bankTarget.classList.add('active')
-    destination.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    showBankPanel(bankTarget.dataset.bankTarget)
     return
   }
   const employeeButton = target.closest('[data-select-employee]')
@@ -268,6 +326,12 @@ byId('bank-card-toggle').addEventListener('click', () => {
     ? 'Card frozen. A card payment would be blocked until it is restored.'
     : 'Card restored. Simulated purchases can continue.'
 })
+byId('bank-select-all-tests').addEventListener('change', (event) => {
+  document.querySelectorAll('#bank-test-selection input[type="checkbox"]').forEach((input) => { input.checked = event.target.checked })
+  updateBankTestSelection()
+})
+byId('bank-test-selection').addEventListener('change', updateBankTestSelection)
+byId('bank-download-tests').addEventListener('click', downloadBankTests)
 byId('bank-confirm-transfer').addEventListener('click', () => {
   const transfer = advancedState.pendingTransfer
   if (!transfer) return
@@ -340,6 +404,30 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
     const loanType = byId('bank-loan-type').value
     form.reset()
     status.textContent = `${loanType} application for ${money(amount)} received for simulated review.`
+    return
+  }
+
+  if (form.dataset.systemForm === 'bank-profile') {
+    const name = byId('bank-profile-name').value.trim()
+    const email = byId('bank-profile-email').value.trim()
+    const phone = byId('bank-profile-phone').value.trim()
+    const address = byId('bank-profile-address').value.trim()
+    const currentPassword = byId('bank-current-password').value
+    const newPassword = byId('bank-new-password').value
+    const confirmPassword = byId('bank-confirm-password').value
+    if (!name || !email || !phone || !address) { status.textContent = 'Complete every personal-information field.'; return }
+    if (currentPassword || newPassword || confirmPassword) {
+      if (currentPassword !== bankProfile.password) { status.textContent = 'Current password is not correct for this simulated account.'; return }
+      if (newPassword.length < 8) { status.textContent = 'New password must contain at least 8 characters.'; return }
+      if (newPassword !== confirmPassword) { status.textContent = 'New password and confirmation must match.'; return }
+      bankProfile.password = newPassword
+    }
+    Object.assign(bankProfile, { name, email, phone, address })
+    byId('bank-current-password').value = ''
+    byId('bank-new-password').value = ''
+    byId('bank-confirm-password').value = ''
+    status.textContent = 'Profile saved. Changes apply only to this simulated banking session.'
+    renderBankProfile()
     return
   }
 
