@@ -114,3 +114,18 @@
 :root[data-theme="light"] .signal-ledger-lockup > span { color:#15231b; }
 :root[data-theme="light"] .bank-brand small,
 :root[data-theme="light"] .signal-ledger-lockup small { color:#486255; }
+
+/* Main Demo Lab supporting copy uses a darker neutral in light mode. */
+:root[data-theme="light"] .hero > span,
+:root[data-theme="light"] .login-panel small,
+:root[data-theme="light"] .login-panel label,
+:root[data-theme="light"] .filters label,
+:root[data-theme="light"] .filters legend,
+:root[data-theme="light"] .catalog-heading span,
+:root[data-theme="light"] .product-card > span:not(.product-icon),
+:root[data-theme="light"] .cart-item p,
+:root[data-theme="light"] .totals div,
+:root[data-theme="light"] .automation-notes p,
+:root[data-theme="light"] .empty { color:#405a4c; }
+:root[data-theme="light"] .login-panel code,
+:root[data-theme="light"] .automation-notes code { color:#176a36; }
