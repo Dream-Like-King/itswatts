@@ -2,6 +2,7 @@ import './styles.css'
 import './glass.css'
 import './systems.css'
 import './complexity.css'
+import './theme.css'
 
 const products = [
   { id: 'focus-lamp', name: 'Focus Desk Lamp', category: 'desk', price: 89.99, detail: 'Adjustable warm-white light for focused work.' },
@@ -39,6 +40,13 @@ const byId = (id) => document.getElementById(id)
 const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character])
 const viewIds = ['lab-directory', 'banking-view', 'claims-view', 'hr-view', 'retail-view']
+
+function setDemoTheme(theme, save = true) {
+  document.documentElement.dataset.theme = theme
+  byId('demo-theme-toggle').textContent = theme === 'dark' ? '☼' : '☾'
+  byId('demo-theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`)
+  if (save) localStorage.setItem('itswatts-demo-theme', theme)
+}
 
 function openView(viewId, updateHash = true) {
   const nextView = viewIds.includes(viewId) ? viewId : 'lab-directory'
@@ -236,6 +244,7 @@ document.addEventListener('click', (event) => {
 
 byId('product-search').addEventListener('input', (event) => { state.search = event.target.value; renderProducts() })
 byId('employee-search').addEventListener('input', (event) => renderEmployeeDirectory(event.target.value))
+byId('demo-theme-toggle').addEventListener('click', () => setDemoTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'))
 document.querySelectorAll('input[name="category"]').forEach((input) => input.addEventListener('change', (event) => { state.category = event.target.value; renderProducts() }))
 byId('login-form').addEventListener('submit', (event) => {
   event.preventDefault()
@@ -370,5 +379,6 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
 
 window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
 
+setDemoTheme(document.documentElement.dataset.theme || 'dark', false)
 setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps(); renderEmployeeProfile(); renderEmployeeDirectory()
 openView(window.location.hash.slice(1), false)
