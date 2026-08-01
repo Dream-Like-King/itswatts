@@ -15,25 +15,7 @@ import { Logo } from './components/Logo'
 
 type Theme = 'light' | 'dark'
 
-const lightMediaRules = new Map<CSSMediaRule, string>()
-
-function collectLightMediaRules(rules: CSSRuleList) {
-  for (const rule of [...rules]) {
-    if (rule instanceof CSSMediaRule) {
-      if (/prefers-color-scheme\s*:\s*light/i.test(rule.media.mediaText)) lightMediaRules.set(rule, rule.media.mediaText)
-      collectLightMediaRules(rule.cssRules)
-    }
-  }
-}
-
 function setTheme(theme: Theme) {
-  for (const sheet of [...document.styleSheets]) {
-    try { collectLightMediaRules(sheet.cssRules) } catch { /* External stylesheets are not needed for the site theme. */ }
-  }
-  for (const [rule, original] of lightMediaRules) {
-    const remainingQuery = original.replace(/\(prefers-color-scheme\s*:\s*light\)\s*and\s*|\s*and\s*\(prefers-color-scheme\s*:\s*light\)/gi, '').trim()
-    rule.media.mediaText = theme === 'light' ? (remainingQuery || 'all') : 'not all'
-  }
   document.documentElement.dataset.theme = theme
   document.documentElement.style.colorScheme = theme
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f5f8f5' : '#0e1116')
@@ -86,7 +68,7 @@ function App() {
     window.setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }
   return <>
-    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={openToolkits} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenLearn={() => openLearn('learning-levels')} /> : isToolkitsOpen ? <ToolkitsHub onClose={closeFocusedView} /> : isResourcesOpen ? <ResourcesHub onClose={closeFocusedView} onOpenChat={() => setIsChatOpen(true)} onOpenToolkits={openToolkits} onOpenLearn={() => openLearn()} onOpenWeekly={() => navigateHome('weekly')} /> : isSoftwareOpen ? <SoftwareHub onClose={closeFocusedView} /> : isCareerOpen ? <CareerHub onClose={closeFocusedView} onOpenResources={openResources} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenPractice={openPractice} /> : <>
+    {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={openToolkits} theme={theme} onToggleTheme={toggleTheme} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenLearn={() => openLearn('learning-levels')} theme={theme} onToggleTheme={toggleTheme} /> : isToolkitsOpen ? <ToolkitsHub onClose={closeFocusedView} theme={theme} onToggleTheme={toggleTheme} /> : isResourcesOpen ? <ResourcesHub onClose={closeFocusedView} onOpenChat={() => setIsChatOpen(true)} onOpenToolkits={openToolkits} onOpenLearn={() => openLearn()} onOpenWeekly={() => navigateHome('weekly')} theme={theme} onToggleTheme={toggleTheme} /> : isSoftwareOpen ? <SoftwareHub onClose={closeFocusedView} theme={theme} onToggleTheme={toggleTheme} /> : isCareerOpen ? <CareerHub onClose={closeFocusedView} onOpenResources={openResources} theme={theme} onToggleTheme={toggleTheme} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenPractice={openPractice} theme={theme} onToggleTheme={toggleTheme} /> : <>
     <main id="content" tabIndex={-1}>
     <span id="top" aria-hidden="true" />
     <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={openCareer} onOpenPractice={openPractice} onOpenStory={openStory} onOpenToolkits={openToolkits} onOpenResources={openResources} onOpenSoftware={openSoftware} theme={theme} onToggleTheme={toggleTheme} />

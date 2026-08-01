@@ -1,10 +1,11 @@
 import { Logo } from './Logo'
+import { ThemeToggle } from './ThemeToggle'
 
-type StoryHubProps = { onClose: () => void; onOpenLearn: () => void; onOpenTools: () => void }
+type StoryHubProps = { onClose: () => void; onOpenLearn: () => void; onOpenTools: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
-export function StoryHub({ onClose, onOpenLearn, onOpenTools }: StoryHubProps) {
+export function StoryHub({ onClose, onOpenLearn, onOpenTools, theme, onToggleTheme }: StoryHubProps) {
   return <main className="story-hub" id="top" tabIndex={-1}>
-    <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
+    <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="story-hero"><p className="eyebrow">MY STORY</p><h1>Quality work is<br />about <em>people.</em></h1><p>It’s Watts is built by Derrick Watson - a QA professional focused on practical quality engineering, thoughtful automation, and AI workflows that help teams build software people can trust.</p></section>
 
     <section className="story-section"><div className="story-split"><p className="eyebrow">WHERE IT STARTED</p><div><h2>Operations taught me<br />how work really<br /><em>gets done.</em></h2><p>Before moving into QA, Derrick led daily retail operations: hiring, scheduling, training, and coaching a team of more than 15 people. That experience built a lasting respect for the people behind every process, handoff, and customer experience.</p><p>It still shapes the way he approaches quality today - with clear communication, useful documentation, and a focus on the real-world impact of software behavior.</p></div></div></section>

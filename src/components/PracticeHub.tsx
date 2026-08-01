@@ -3,8 +3,9 @@ import { Logo } from './Logo'
 import { BugHunt } from './BugHunt'
 import { AdvancedBugHunts } from './AdvancedBugHunts'
 import { FixCodeChallenges } from './FixCodeChallenges'
+import { ThemeToggle } from './ThemeToggle'
 
-type PracticeHubProps = { onClose: () => void; onOpenTools: () => void; onOpenLearn: () => void }
+type PracticeHubProps = { onClose: () => void; onOpenTools: () => void; onOpenLearn: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
 const questions = [
   { question: 'How comfortable are you with common QA terms such as regression, severity, and acceptance criteria?', answers: [['I am still learning the language', 0], ['I can use them in day-to-day testing', 1], ['I use them to shape team conversations', 2]] },
@@ -72,7 +73,7 @@ const templates = [
   ['Playwright Demo Lab flow', 'Download a ready-to-run test that signs in, shops, applies a promo, and checks out safely.', '/downloads/demo-lab-playwright.spec.ts'],
 ] as const
 
-export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubProps) {
+export function PracticeHub({ onClose, onOpenTools, onOpenLearn, theme, onToggleTheme }: PracticeHubProps) {
   const [activeTab, setActiveTab] = useState<'roadmap' | 'scenarios' | 'bug-hunt' | 'fix-code'>('roadmap')
   const [answers, setAnswers] = useState<number[]>([])
   const [scenarioIndex, setScenarioIndex] = useState(0)
@@ -82,7 +83,7 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn }: PracticeHubPr
   const scenario = scenarios[scenarioIndex]
 
   return <main className="practice-hub" id="top" tabIndex={-1}>
-    <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
+    <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Build confidence through short QA exercises, realistic scenarios, and reusable templates for your next sprint.</p><p>The Demo Lab is a safe, realistic storefront for hands-on testing. Sign in with demo credentials, search products, manage a cart, apply a promo code, and complete a no-payment checkout—manually or with automation.</p><div className="hero-actions"><a className="button primary" href="https://demo.itswatts.com" target="_blank" rel="noreferrer">Open the Demo Lab <span aria-hidden="true">↗</span></a></div></section>
 
     <div className="practice-tabs" role="tablist" aria-label="Practice Lab sections">

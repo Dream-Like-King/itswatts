@@ -2,12 +2,13 @@ import { Logo } from './Logo'
 import { KnowledgeBase } from './KnowledgeBase'
 import { LearningLevels } from './LearningLevels'
 import { LearningPaths } from './LearningPaths'
+import { ThemeToggle } from './ThemeToggle'
 
-type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenPractice: () => void }
+type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenPractice: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
-export function LearnHub({ onClose, onOpenTools, onOpenPractice }: LearnHubProps) {
+export function LearnHub({ onClose, onOpenTools, onOpenPractice, theme, onToggleTheme }: LearnHubProps) {
   return <main className="learn-hub" id="top" tabIndex={-1}>
-    <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
+    <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="learn-hero"><p className="eyebrow">LEARN</p><h1>Quality starts<br />before <em>testing.</em></h1><p>Build a clear picture of what QA is, where it belongs in the delivery process, and what to explore next.</p><a href="#what-is-qa">Start with QA <span>↓</span></a></section>
 
     <section className="learn-section" id="what-is-qa"><p className="eyebrow">01 · WHAT IS QA?</p><div className="learn-split"><div><h2>QA helps teams<br />build software<br /><em>people can trust.</em></h2></div><div><p>Quality assurance is the practice of reducing avoidable surprises. It is not limited to finding bugs at the end of a project—it is the habit of asking better questions throughout the work.</p><div className="qa-principles"><article><span>USER</span><h3>Protect the experience</h3><p>Consider real people, real conditions, and the moments that make a feature confusing or inaccessible.</p></article><article><span>RISK</span><h3>Focus attention wisely</h3><p>Not every path carries the same impact. QA helps a team decide what deserves the most confidence first.</p></article><article><span>LEARNING</span><h3>Make feedback useful</h3><p>Good checks, defects, and release notes help the next person understand what happened and what to do next.</p></article></div></div></div></section>

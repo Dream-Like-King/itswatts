@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Logo } from './Logo'
 import { CareerPaths } from './CareerPaths'
+import { ThemeToggle } from './ThemeToggle'
 
-type CareerHubProps = { onClose: () => void; onOpenResources: () => void }
+type CareerHubProps = { onClose: () => void; onOpenResources: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
 const sdlc = [
   ['01', 'Discover', 'Clarify who the feature serves, what problem it solves, and the risks hidden in assumptions.'],
@@ -13,11 +14,11 @@ const sdlc = [
   ['06', 'Learn', 'Use production feedback, defects, and support patterns to improve the product and the next delivery cycle.'],
 ] as const
 
-export function CareerHub({ onClose, onOpenResources }: CareerHubProps) {
+export function CareerHub({ onClose, onOpenResources, theme, onToggleTheme }: CareerHubProps) {
   const [activePhase, setActivePhase] = useState(0)
   const [number, title, copy] = sdlc[activePhase]
   return <main className="career-hub" id="top" tabIndex={-1}>
-    <header className="learn-hub-nav"><Logo onHome={onClose} /><button type="button" onClick={onClose}>← Back to home</button></header>
+    <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="career-hero"><p className="eyebrow">CAREER PATHS</p><h1>Build a QA career<br />with <em>practice.</em></h1><p>Explore practical paths, useful certifications, and a starter guide for building experience one meaningful step at a time.</p></section>
     <section className="learn-section sdlc-section" id="sdlc"><p className="eyebrow">QA IN THE SDLC</p><div className="learn-split"><div><h2>Quality is a<br /><em>team sport.</em></h2><p className="learn-lead">Understanding where QA contributes across delivery helps you build the skills, relationships, and influence that support a quality-focused career.</p></div><div className="sdlc-panel"><div className="sdlc-steps" role="tablist" aria-label="QA in the software development lifecycle">{sdlc.map(([step, label], index) => <button type="button" key={step} className={activePhase === index ? 'active' : ''} onClick={() => setActivePhase(index)} role="tab" aria-selected={activePhase === index}><span>{step}</span>{label}</button>)}</div><article className="sdlc-detail"><p className="eyebrow">{number} · {title.toUpperCase()}</p><h3>{title} with quality in mind.</h3><p>{copy}</p></article></div></div></section>
     <CareerPaths onOpenResources={onOpenResources} />
