@@ -76,6 +76,8 @@
 :root[data-theme="light"] .app-card ul,
 :root[data-theme="light"] .card-copy,
 :root[data-theme="light"] .bank-sidebar > p { color:#597064; }
+:root[data-theme="light"] .complexity span { border-color:rgba(39,69,54,.24); color:#526a5d; }
+:root[data-theme="light"] .complexity span.active { border-color:#39be62; background:rgba(63,185,80,.18); color:#125e2d; font-weight:800; box-shadow:inset 0 1px rgba(255,255,255,.72); }
 :root[data-theme="light"] .bank-sidebar button { color:#31523e; }
 :root[data-theme="light"] .bank-sidebar .return-link { color:#31523e; }
 :root[data-theme="light"] .quick-actions button,
