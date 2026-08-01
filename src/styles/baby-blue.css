@@ -36,3 +36,17 @@
 .avatar,.chat-input button { background:var(--green); color:var(--accent-ink); }.chat-input button:hover { background:#38bdf8; }.chat-shell { box-shadow:18px 24px 55px rgba(2,132,199,.18); }
 .code-problem pre,.code-choices pre { color:#bae6fd; }.code-choices > button > span { color:var(--green); }.code-choices > button.correct { background:rgba(125,211,252,.12); }
 .advanced-hunt-tabs button.active,.checkout-button { border-color:rgba(125,211,252,.7); background:rgba(125,211,252,.13); color:var(--text); }.advanced-hunt-tabs button.active,.evidence-panel button span,.finding-panel button.reported > span,.bug-hunt-progress span,.bug-hunt-progress button,.bug-report-card > button,.promo-control button,.promo-success,.checkout-button span,.bug-report-card li > span,.bug-report-preview span,.bug-review-list article.reported span { color:var(--green); }.product-art { border-color:rgba(125,211,252,.55); background:rgba(125,211,252,.12); color:var(--green); }.bug-report-card li > span.found { text-shadow:0 0 12px rgba(125,211,252,.75); }
+
+/* Keep action text readable and the wordmark distinct from navigation accents. */
+:root[data-theme] .learn-hub-nav .logo > span:first-child { color:var(--text) !important; }
+:root[data-theme] .learn-hub-nav .logo .bolt { color:var(--green) !important; }
+:root[data-theme] .learn-next .learn-next-link { border:0; background:transparent; box-shadow:none; color:var(--green) !important; }
+:root[data-theme] .learn-next .learn-next-link span { color:var(--blue) !important; }
+:root[data-theme] .primary,:root[data-theme] .learn-hero a,:root[data-theme] .learn-next > div > button:not(.learn-next-link),:root[data-theme] .practice-hero .button.primary { border-color:rgba(186,230,253,.8); background:linear-gradient(135deg,#38bdf8,#0284c7); color:#062236; }
+:root[data-theme] .primary:hover,:root[data-theme] .learn-hero a:hover,:root[data-theme] .learn-next > div > button:not(.learn-next-link):hover,:root[data-theme] .practice-hero .button.primary:hover { background:linear-gradient(135deg,#7dd3fc,#0284c7); }
+:root[data-theme="light"] .primary,:root[data-theme="light"] .learn-hero a,:root[data-theme="light"] .learn-next > div > button:not(.learn-next-link),:root[data-theme="light"] .practice-hero .button.primary { color:#fff; }
+
+/* The My Story actions share the rounded, translucent call-to-action treatment. */
+:root[data-theme] .story-mission button:first-child { border:1px solid rgba(186,230,253,.8); border-radius:999px; background:linear-gradient(135deg,#38bdf8,#0284c7); box-shadow:0 12px 30px rgba(125,211,252,.25),inset 0 1px rgba(255,255,255,.28); backdrop-filter:blur(14px) saturate(130%); color:#062236; }
+:root[data-theme] .story-mission button:first-child:hover { transform:translateY(-2px); border-color:#e0f2fe; background:linear-gradient(135deg,#7dd3fc,#0284c7); }
+:root[data-theme="light"] .story-mission button:first-child { color:#fff; }

@@ -105,7 +105,10 @@ body {
 .brand span { display: inline-block; margin-left: 1px; transform: rotate(10deg); text-shadow: 0 0 18px rgba(125,211,252, .72); }
 
 @media (max-width: 700px) {
-  .site-header { width: min(1180px, calc(100% - 24px)); padding: 0 12px; }
+  .site-header { width: min(1180px, calc(100% - 24px)); height:62px; min-height:62px; padding:0 12px; align-items:center; }
+  .site-header nav { align-items:center; }
+  #demo-theme-toggle,
+  #reset-demo { align-self:center; margin:0; }
   .filters { padding: 18px; }
   .automation-notes article:last-child { border-radius: 0; }
 }
