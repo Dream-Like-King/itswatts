@@ -1,4 +1,4 @@
-# It’s Watts Demo Shop
+# It’s Watts Demo Lab
 
 A small, self-contained storefront for manual testing and automation practice. It includes login, search, product filters, cart quantity controls, a promo code, and a safe fake checkout.
 
