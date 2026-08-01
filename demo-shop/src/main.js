@@ -22,12 +22,13 @@ const employees = [
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
 let selectedEmployeeId = 'jordan-ellis'
 const initialBankUsers = [
-  { id: 'casey-morgan', name: 'Casey Morgan', type: 'Everyday customer', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', password: 'DemoPass123!', checking: 4280.18, savings: 760 },
-  { id: 'alex-johnson', name: 'Alex Johnson', type: 'Overdraft-risk customer', email: 'alex@itswatts.demo', phone: '555-0191', address: '8 Practice Court', password: 'DemoPass123!', checking: 42.18, savings: 0 },
-  { id: 'jordan-ellis-bank', name: 'Jordan Ellis', type: 'Joint-account holder', email: 'jordan@itswatts.demo', phone: '555-0116', address: '91 Shared Way', password: 'DemoPass123!', checking: 1260.44, savings: 3800 },
-  { id: 'riley-chen-bank', name: 'Riley Chen', type: 'Small-business owner', email: 'riley@itswatts.demo', phone: '555-0188', address: '300 Market Street', password: 'DemoPass123!', checking: 12850.62, savings: 3400 },
+  { id: 'casey-morgan', name: 'Casey Morgan', type: 'Everyday customer', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', address2: '', city: 'Austin', state: 'TX', postal: '78701', country: 'United States', password: 'DemoPass123!', checking: 4280.18, savings: 760, transactions: [{ status: 'Pending', detail: '−$62.44 · City Electric utility payment' }, { status: 'Posted', detail: '+$1,240.00 · Direct deposit' }, { status: 'Posted', detail: '−$48.17 · Fresh Market' }], bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }] },
+  { id: 'alex-johnson', name: 'Alex Johnson', type: 'Overdraft-risk customer', email: 'alex@itswatts.demo', phone: '555-0191', address: '8 Practice Court', address2: 'Unit 4B', city: 'Dallas', state: 'TX', postal: '75201', country: 'United States', password: 'DemoPass123!', checking: 42.18, savings: 0, transactions: [{ status: 'Pending', detail: '−$58.40 · Northstar Internet payment' }, { status: 'Posted', detail: '+$620.00 · Weekly payroll' }, { status: 'Posted', detail: '−$535.18 · Rent payment' }], bills: [{ status: 'Scheduled', detail: '$58.40 · Northstar Internet · Aug 12' }] },
+  { id: 'jordan-ellis-bank', name: 'Jordan Ellis', type: 'Joint-account holder', email: 'jordan@itswatts.demo', phone: '555-0116', address: '91 Shared Way', address2: '', city: 'Round Rock', state: 'TX', postal: '78664', country: 'United States', password: 'DemoPass123!', checking: 1260.44, savings: 3800, transactions: [{ status: 'Posted', detail: '+$2,850.00 · Joint direct deposit' }, { status: 'Posted', detail: '−$226.34 · Family groceries' }, { status: 'Pending', detail: '−$95.00 · Shared utility payment' }], bills: [{ status: 'Scheduled', detail: '$95.00 · City Electric · Aug 18' }] },
+  { id: 'riley-chen-bank', name: 'Riley Chen', type: 'Small-business owner', email: 'riley@itswatts.demo', phone: '555-0188', address: '300 Market Street', address2: 'Suite 210', city: 'Houston', state: 'TX', postal: '77002', country: 'United States', password: 'DemoPass123!', checking: 12850.62, savings: 3400, transactions: [{ status: 'Posted', detail: '+$7,400.00 · Client invoice payment' }, { status: 'Posted', detail: '−$1,980.55 · Inventory purchase' }, { status: 'Posted', detail: '−$420.00 · Team travel' }], bills: [{ status: 'Scheduled', detail: '$420.00 · Harbor Insurance · Aug 22' }] },
 ]
-let bankUsers = initialBankUsers.map((user) => ({ ...user }))
+const cloneBankUsers = () => initialBankUsers.map((user) => ({ ...user, transactions: user.transactions.map((transaction) => ({ ...transaction })), bills: user.bills.map((bill) => ({ ...bill })) }))
+let bankUsers = cloneBankUsers()
 const bankSession = { signedIn: false, userId: null }
 const bankProfile = { ...bankUsers[0] }
 const advancedState = {
@@ -92,6 +93,8 @@ function applyBankUser(user) {
   Object.assign(bankProfile, user)
   advancedState.checking = user.checking
   advancedState.savings = user.savings
+  advancedState.transactions = user.transactions.map((transaction) => ({ ...transaction }))
+  advancedState.bills = user.bills.map((bill) => ({ ...bill }))
   renderAdvancedApps()
   renderBankProfile()
   setBankExperienceVisibility()
@@ -182,7 +185,7 @@ function renderAdvancedApps() {
   byId('bank-income').textContent = `+${money(transactionTotals.income)}`
   byId('bank-expenses').textContent = `−${money(transactionTotals.expenses)}`
   const user = currentBankUser()
-  if (user) Object.assign(user, { checking: advancedState.checking, savings: advancedState.savings })
+  if (user) Object.assign(user, { checking: advancedState.checking, savings: advancedState.savings, transactions: advancedState.transactions.map((transaction) => ({ ...transaction })), bills: advancedState.bills.map((bill) => ({ ...bill })) })
   renderEmployeeProfile()
 }
 
@@ -192,6 +195,11 @@ function renderBankProfile() {
   byId('bank-profile-email').value = bankProfile.email
   byId('bank-profile-phone').value = bankProfile.phone
   byId('bank-profile-address').value = bankProfile.address
+  byId('bank-profile-address2').value = bankProfile.address2
+  byId('bank-profile-city').value = bankProfile.city
+  byId('bank-profile-state').value = bankProfile.state
+  byId('bank-profile-postal').value = bankProfile.postal
+  byId('bank-profile-country').value = bankProfile.country
   byId('bank-profile-type').textContent = bankProfile.type
   byId('banking-title').textContent = `Welcome back, ${bankProfile.name.split(' ')[0]}.`
 }
@@ -277,7 +285,7 @@ function resetAdvancedApps() {
     ],
     bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }],
   })
-  bankUsers = initialBankUsers.map((user) => ({ ...user }))
+  bankUsers = cloneBankUsers()
   bankSession.signedIn = false
   bankSession.userId = null
   Object.assign(bankProfile, bankUsers[0])
@@ -483,17 +491,22 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
     const email = byId('bank-profile-email').value.trim()
     const phone = byId('bank-profile-phone').value.trim()
     const address = byId('bank-profile-address').value.trim()
+    const address2 = byId('bank-profile-address2').value.trim()
+    const city = byId('bank-profile-city').value.trim()
+    const state = byId('bank-profile-state').value.trim()
+    const postal = byId('bank-profile-postal').value.trim()
+    const country = byId('bank-profile-country').value
     const currentPassword = byId('bank-current-password').value
     const newPassword = byId('bank-new-password').value
     const confirmPassword = byId('bank-confirm-password').value
-    if (!name || !email || !phone || !address) { status.textContent = 'Complete every personal-information field.'; return }
+    if (!name || !email || !phone || !address || !city || !state || !postal || !country) { status.textContent = 'Complete every required personal-information field.'; return }
     if (currentPassword || newPassword || confirmPassword) {
       if (currentPassword !== bankProfile.password) { status.textContent = 'Current password is not correct for this simulated account.'; return }
       if (newPassword.length < 8) { status.textContent = 'New password must contain at least 8 characters.'; return }
       if (newPassword !== confirmPassword) { status.textContent = 'New password and confirmation must match.'; return }
       bankProfile.password = newPassword
     }
-    Object.assign(bankProfile, { name, email, phone, address })
+    Object.assign(bankProfile, { name, email, phone, address, address2, city, state, postal, country })
     Object.assign(currentBankUser(), bankProfile)
     byId('bank-current-password').value = ''
     byId('bank-new-password').value = ''
