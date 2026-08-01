@@ -117,6 +117,15 @@
 :root[data-theme="light"] .bank-brand small,
 :root[data-theme="light"] .signal-ledger-lockup small { color:#486255; }
 :root[data-theme="light"] #demo-theme-toggle { background:rgba(255,255,255,.82); border-color:#aebbb1; color:#17231b; }
+:root[data-theme="light"] .lab-footer { border-color:rgba(39,69,54,.18); color:#597064; }
+:root[data-theme="light"] .lab-footer strong { color:#17231b; }
+:root[data-theme="light"] .lab-footer button,:root[data-theme="light"] .lab-footer a { color:#486255; }
+:root[data-theme="light"] .lab-legal-overlay { background:rgba(23,35,27,.34); }
+:root[data-theme="light"] .lab-legal-dialog { border-color:#c9d4cc; background:linear-gradient(135deg,#fff,#f1f8f3); box-shadow:0 28px 80px rgba(23,35,27,.24),inset 0 1px #fff; }
+:root[data-theme="light"] .lab-legal-head { border-color:#d5ddd7; }
+:root[data-theme="light"] .lab-legal-head button { border-color:#aebbb1; background:#fff; color:#17231b; }
+:root[data-theme="light"] .lab-legal-content { color:#405a4c; }
+:root[data-theme="light"] .lab-legal-content strong,:root[data-theme="light"] .lab-legal-content h3 { color:#17231b; }
 
 /* Main Demo Lab supporting copy uses a darker neutral in light mode. */
 :root[data-theme="light"] .hero > span,

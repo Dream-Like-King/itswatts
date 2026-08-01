@@ -127,7 +127,16 @@
         <section class="system-notes"><h2>What to explore</h2><div><article>Date ranges, leave balances, and overlapping requests</article><article>Manager approvals and role-based access</article><article>Private data handling and notification behavior</article></div></section>
       </section>
     </main>
-    <footer>Built for QA practice by It’s Watts.</footer>
+    <footer class="lab-footer">
+      <div><strong>It’s Watts Demo Lab</strong><span>Built for safe QA practice.</span></div>
+      <nav aria-label="Demo Lab legal information"><button type="button" data-legal-trigger="privacy">Privacy</button><button type="button" data-legal-trigger="terms">Terms</button><button type="button" data-legal-trigger="accessibility">Accessibility</button><button type="button" data-legal-trigger="notice">Demo notice</button><a href="#top">Back to top ↑</a></nav>
+    </footer>
+    <div id="legal-dialog" class="lab-legal-overlay" hidden>
+      <section class="lab-legal-dialog" role="dialog" aria-modal="true" aria-labelledby="legal-dialog-title">
+        <div class="lab-legal-head"><div><p id="legal-dialog-label">DEMO LAB</p><h2 id="legal-dialog-title">Demo Lab notice</h2></div><button id="legal-dialog-close" type="button" aria-label="Close legal notice">×</button></div>
+        <div id="legal-dialog-content" class="lab-legal-content"></div>
+      </section>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
