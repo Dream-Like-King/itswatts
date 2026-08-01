@@ -17,3 +17,22 @@
 .mobile-dock .dock-chat { border-color:rgba(186,230,253,.75); background:linear-gradient(135deg,rgba(14,116,144,.86),rgba(2,132,199,.74)); box-shadow:0 14px 34px rgba(125,211,252,.26),inset 0 1px rgba(255,255,255,.34); }.mobile-dock .dock-chat:hover { background:linear-gradient(135deg,rgba(14,165,233,.9),rgba(2,132,199,.82)); }
 .learn-hero a,.learn-next button,.practice-hero .button.primary { border-color:rgba(186,230,253,.8); background:linear-gradient(135deg,rgba(14,165,233,.94),rgba(2,132,199,.86)); box-shadow:0 12px 30px rgba(125,211,252,.25),inset 0 1px rgba(255,255,255,.28); }.learn-hero a:hover,.learn-next button:hover,.practice-hero .button.primary:hover { border-color:#e0f2fe; background:linear-gradient(135deg,#38bdf8,#0284c7); }
 :root[data-theme="light"] .hero-glow { background:#7dd3fc; }:root[data-theme="light"] .learn-hero,:root[data-theme="light"] .story-hero,:root[data-theme="light"] .practice-hero,:root[data-theme="light"] .resource-hub-hero,:root[data-theme="light"] .career-hero,:root[data-theme="light"] .toolkits-hero { background:radial-gradient(circle at 76% 28%,rgba(125,211,252,.22),transparent 28%),linear-gradient(135deg,transparent 65%,rgba(56,189,248,.12)); }
+
+/* Older focused-page theme rules use fixed green values; this final layer owns every accent state. */
+:root[data-theme] .learn-hub .eyebrow,:root[data-theme] .story-hub .eyebrow,:root[data-theme] .practice-hub .eyebrow,:root[data-theme] .toolkits-hub .eyebrow,:root[data-theme] .resources-hub .eyebrow,:root[data-theme] .software-hub .eyebrow,:root[data-theme] .career-hub .eyebrow,:root[data-theme] .learn-hub a,:root[data-theme] .story-hub a,:root[data-theme] .practice-hub a,:root[data-theme] .toolkits-hub a,:root[data-theme] .resources-hub a,:root[data-theme] .software-hub a,:root[data-theme] .career-hub a { color:var(--green); }
+:root[data-theme] .learn-hub-nav .hub-nav-actions > button:last-child:hover { border-color:var(--green); color:var(--green); }
+:root[data-theme] .menu:hover { border-color:rgba(125,211,252,.78); background:rgba(14,116,144,.28); }
+:root[data-theme] .nav-links a:hover,:root[data-theme] .nav-links .nav-link-button:hover { color:var(--green); }
+:root[data-theme] .mobile-dock .dock-chat small { color:#f0f9ff; }
+:root[data-theme="light"] .mobile-dock .dock-chat { border-color:rgba(2,132,199,.5); background:linear-gradient(135deg,rgba(224,242,254,.92),rgba(186,230,253,.8)); box-shadow:0 14px 30px rgba(2,132,199,.16),inset 0 1px rgba(255,255,255,.9); }
+:root[data-theme="light"] .mobile-dock .dock-chat > span,:root[data-theme="light"] .mobile-dock .dock-chat small { color:#075985; }
+:root[data-theme="light"] .primary,:root[data-theme="light"] .subscribe button,:root[data-theme="light"] .resource-filters button.active { color:#fff; }
+
+/* Tool, chat, practice, and resource interaction states. */
+.text-link,.contact-email,.resource-request a { border-color:rgba(125,211,252,.68); }
+.tool-tabs button:hover,.tool-tabs button.active { border-bottom-color:var(--green); }
+.decision-questions i,.decision-questions input:checked + span + i,.case-card textarea:focus { border-color:var(--green); }.decision-questions i,.plus,.quiet span,.text-link span,.contact-email span { color:var(--green); }
+.prompt-list-tool article > p,.prompt-list-tool button,.case-results b,.availability span,.status-dot,.post-card > span,.post-card button,.download-grid article > span,.download-grid a,.queue-list p,.resource-meta,.resource-grid a { color:var(--green); }
+.avatar,.chat-input button { background:var(--green); color:var(--accent-ink); }.chat-input button:hover { background:#38bdf8; }.chat-shell { box-shadow:18px 24px 55px rgba(2,132,199,.18); }
+.code-problem pre,.code-choices pre { color:#bae6fd; }.code-choices > button > span { color:var(--green); }.code-choices > button.correct { background:rgba(125,211,252,.12); }
+.advanced-hunt-tabs button.active,.checkout-button { border-color:rgba(125,211,252,.7); background:rgba(125,211,252,.13); color:var(--text); }.advanced-hunt-tabs button.active,.evidence-panel button span,.finding-panel button.reported > span,.bug-hunt-progress span,.bug-hunt-progress button,.bug-report-card > button,.promo-control button,.promo-success,.checkout-button span,.bug-report-card li > span,.bug-report-preview span,.bug-review-list article.reported span { color:var(--green); }.product-art { border-color:rgba(125,211,252,.55); background:rgba(125,211,252,.12); color:var(--green); }.bug-report-card li > span.found { text-shadow:0 0 12px rgba(125,211,252,.75); }
