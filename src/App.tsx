@@ -13,7 +13,37 @@ import { WeeklyNotes } from './components/WeeklyNotes'
 import { HomeDashboard } from './components/HomeDashboard'
 import { Logo } from './components/Logo'
 
+type Theme = 'light' | 'dark'
+
+const lightMediaRules = new Map<CSSMediaRule, string>()
+
+function collectLightMediaRules(rules: CSSRuleList) {
+  for (const rule of [...rules]) {
+    if (rule instanceof CSSMediaRule) {
+      if (/prefers-color-scheme\s*:\s*light/i.test(rule.media.mediaText)) lightMediaRules.set(rule, rule.media.mediaText)
+      collectLightMediaRules(rule.cssRules)
+    }
+  }
+}
+
+function setTheme(theme: Theme) {
+  for (const sheet of [...document.styleSheets]) {
+    try { collectLightMediaRules(sheet.cssRules) } catch { /* External stylesheets are not needed for the site theme. */ }
+  }
+  for (const [rule, original] of lightMediaRules) {
+    const remainingQuery = original.replace(/\(prefers-color-scheme\s*:\s*light\)\s*and\s*|\s*and\s*\(prefers-color-scheme\s*:\s*light\)/gi, '').trim()
+    rule.media.mediaText = theme === 'light' ? (remainingQuery || 'all') : 'not all'
+  }
+  document.documentElement.dataset.theme = theme
+  document.documentElement.style.colorScheme = theme
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f5f8f5' : '#0e1116')
+}
+
 function App() {
+  const [theme, setThemePreference] = useState<Theme>(() => {
+    const saved = localStorage.getItem('itswatts-theme')
+    return saved === 'light' || saved === 'dark' ? saved : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+  })
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isLearnOpen, setIsLearnOpen] = useState(() => window.location.hash === '#learn-hub')
   const [isStoryOpen, setIsStoryOpen] = useState(() => window.location.hash === '#my-story')
@@ -37,6 +67,12 @@ function App() {
     window.addEventListener('hashchange', syncFocusedView)
     return () => { window.removeEventListener('popstate', syncFocusedView); window.removeEventListener('hashchange', syncFocusedView) }
   }, [])
+  useEffect(() => { setTheme(theme) }, [theme])
+  const toggleTheme = () => setThemePreference((current) => {
+    const next = current === 'dark' ? 'light' : 'dark'
+    localStorage.setItem('itswatts-theme', next)
+    return next
+  })
   useEffect(() => {
     if (!isLearnOpen || !learnTarget) return
     const frame = window.requestAnimationFrame(() => {
@@ -53,7 +89,7 @@ function App() {
     {isStoryOpen ? <StoryHub onClose={closeFocusedView} onOpenLearn={() => openLearn()} onOpenTools={openToolkits} /> : isPracticeOpen ? <PracticeHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenLearn={() => openLearn('learning-levels')} /> : isToolkitsOpen ? <ToolkitsHub onClose={closeFocusedView} /> : isResourcesOpen ? <ResourcesHub onClose={closeFocusedView} onOpenChat={() => setIsChatOpen(true)} onOpenToolkits={openToolkits} onOpenLearn={() => openLearn()} onOpenWeekly={() => navigateHome('weekly')} /> : isSoftwareOpen ? <SoftwareHub onClose={closeFocusedView} /> : isCareerOpen ? <CareerHub onClose={closeFocusedView} onOpenResources={openResources} /> : isLearnOpen ? <LearnHub onClose={closeFocusedView} onOpenTools={openToolkits} onOpenPractice={openPractice} /> : <>
     <main id="content" tabIndex={-1}>
     <span id="top" aria-hidden="true" />
-    <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={openCareer} onOpenPractice={openPractice} onOpenStory={openStory} onOpenToolkits={openToolkits} onOpenResources={openResources} onOpenSoftware={openSoftware} />
+    <div className="hero-glow"></div><Navbar onOpenChat={() => setIsChatOpen(true)} onOpenLearn={openLearn} onOpenCareer={openCareer} onOpenPractice={openPractice} onOpenStory={openStory} onOpenToolkits={openToolkits} onOpenResources={openResources} onOpenSoftware={openSoftware} theme={theme} onToggleTheme={toggleTheme} />
     <section className="hero education-hero">
       <div className="hero-grid" aria-hidden="true"></div><div className="orb orb-one"></div><div className="orb orb-two"></div>
       <div className="hero-content"><p className="eyebrow hero-eyebrow"><span></span> AUTOMATION · AI · QUALITY ENGINEERING</p><h1>Practical QA education<br />for the <em>AI era.</em></h1><p className="hero-copy">Learn the testing habits, automation patterns, and AI workflows that help you build software people can trust.</p><div className="hero-actions"><button type="button" className="button primary" onClick={() => openLearn('learning-levels')}>Start learning <span>↓</span></button><button type="button" className="button quiet" onClick={openToolkits}>Open QA Toolkits <span>↗</span></button></div></div>
