@@ -21,7 +21,15 @@ const employees = [
 
 const state = { cart: [], promo: '', signedIn: false, search: '', category: 'all' }
 let selectedEmployeeId = 'jordan-ellis'
-const bankProfile = { name: 'Casey Morgan', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', password: 'DemoPass123!' }
+const initialBankUsers = [
+  { id: 'casey-morgan', name: 'Casey Morgan', type: 'Everyday customer', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', password: 'DemoPass123!', checking: 4280.18, savings: 760 },
+  { id: 'alex-johnson', name: 'Alex Johnson', type: 'Overdraft-risk customer', email: 'alex@itswatts.demo', phone: '555-0191', address: '8 Practice Court', password: 'DemoPass123!', checking: 42.18, savings: 0 },
+  { id: 'jordan-ellis-bank', name: 'Jordan Ellis', type: 'Joint-account holder', email: 'jordan@itswatts.demo', phone: '555-0116', address: '91 Shared Way', password: 'DemoPass123!', checking: 1260.44, savings: 3800 },
+  { id: 'riley-chen-bank', name: 'Riley Chen', type: 'Small-business owner', email: 'riley@itswatts.demo', phone: '555-0188', address: '300 Market Street', password: 'DemoPass123!', checking: 12850.62, savings: 3400 },
+]
+let bankUsers = initialBankUsers.map((user) => ({ ...user }))
+const bankSession = { signedIn: false, userId: null }
+const bankProfile = { ...bankUsers[0] }
 const advancedState = {
   checking: 4280.18,
   savings: 760,
@@ -53,15 +61,39 @@ function openView(viewId, updateHash = true) {
   const nextView = viewIds.includes(viewId) ? viewId : 'lab-directory'
   document.querySelectorAll('.demo-view').forEach((view) => { view.hidden = view.id !== nextView })
   if (updateHash) window.location.hash = nextView === 'lab-directory' ? '' : nextView
-  if (nextView === 'banking-view') showBankPanel('bank-dashboard')
+  if (nextView === 'banking-view') setBankExperienceVisibility()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 function showBankPanel(panelId) {
+  if (!bankSession.signedIn) return
   const panel = byId(panelId)
   if (!panel) return
   document.querySelectorAll('[data-bank-panel]').forEach((item) => { item.hidden = (item.dataset.bankPanel || item.id) !== panelId })
   document.querySelectorAll('[data-bank-target]').forEach((button) => button.classList.toggle('active', button.dataset.bankTarget === panelId))
+}
+
+function currentBankUser() {
+  return bankUsers.find((user) => user.id === bankSession.userId)
+}
+
+function setBankExperienceVisibility() {
+  byId('bank-login-panel').hidden = bankSession.signedIn
+  byId('bank-workspace').hidden = !bankSession.signedIn
+  byId('bank-logout').hidden = !bankSession.signedIn
+  if (bankSession.signedIn) showBankPanel('bank-dashboard')
+}
+
+function applyBankUser(user) {
+  if (!user) return
+  bankSession.signedIn = true
+  bankSession.userId = user.id
+  Object.assign(bankProfile, user)
+  advancedState.checking = user.checking
+  advancedState.savings = user.savings
+  renderAdvancedApps()
+  renderBankProfile()
+  setBankExperienceVisibility()
 }
 
 function totals() {
@@ -148,6 +180,8 @@ function renderAdvancedApps() {
   byId('bank-net-change').textContent = `${netChange >= 0 ? '+' : '−'}${money(Math.abs(netChange))}`
   byId('bank-income').textContent = `+${money(transactionTotals.income)}`
   byId('bank-expenses').textContent = `−${money(transactionTotals.expenses)}`
+  const user = currentBankUser()
+  if (user) Object.assign(user, { checking: advancedState.checking, savings: advancedState.savings })
   renderEmployeeProfile()
 }
 
@@ -157,6 +191,7 @@ function renderBankProfile() {
   byId('bank-profile-email').value = bankProfile.email
   byId('bank-profile-phone').value = bankProfile.phone
   byId('bank-profile-address').value = bankProfile.address
+  byId('bank-profile-type').textContent = bankProfile.type
   byId('banking-title').textContent = `Welcome back, ${bankProfile.name.split(' ')[0]}.`
 }
 
@@ -179,6 +214,11 @@ function addBankTransaction(status, detail) {
 }
 
 const bankTestCases = {
+  'valid-login': { name: 'Valid credentials unlock the workspace', skipSignIn: true, steps: "await signIn(page);\n  await expect(page.getByText('Quick actions')).toBeVisible();" },
+  'invalid-login': { name: 'Invalid credentials keep the workspace protected', skipSignIn: true, steps: "await page.locator('#bank-login-email').fill('not-a-user@itswatts.demo');\n  await page.locator('#bank-login-password').fill('incorrect');\n  await page.getByTestId('bank-sign-in').click();\n  await expect(page.locator('#bank-login-message')).toContainText('do not match');\n  await expect(page.locator('#bank-workspace')).toBeHidden();" },
+  'profile-switch': { name: 'Different profiles display their banking scenarios', skipSignIn: true, steps: "await page.getByRole('button', { name: /Alex Johnson/ }).click();\n  await page.getByTestId('bank-sign-in').click();\n  await expect(page.getByRole('heading', { name: 'Welcome back, Alex.' })).toBeVisible();" },
+  logout: { name: 'Logout protects the workspace', steps: "await page.getByRole('button', { name: 'Log out' }).click();\n  await expect(page.locator('#bank-login-panel')).toBeVisible();\n  await expect(page.locator('#bank-workspace')).toBeHidden();" },
+  'password-login': { name: 'Updated password works after sign out', steps: "await page.getByRole('button', { name: 'Profile' }).click();\n  await page.locator('#bank-current-password').fill('DemoPass123!');\n  await page.locator('#bank-new-password').fill('UpdatedDemo123!');\n  await page.locator('#bank-confirm-password').fill('UpdatedDemo123!');\n  await page.getByTestId('save-profile').click();\n  await page.getByRole('button', { name: 'Log out' }).click();\n  await signIn(page, 'casey@itswatts.demo', 'UpdatedDemo123!');\n  await expect(page.getByText('Quick actions')).toBeVisible();" },
   'dashboard-summary': { name: 'Dashboard shows account totals', steps: "await page.getByRole('button', { name: 'Dashboard' }).click();\n  await expect(page.getByText('TOTAL NET WORTH')).toBeVisible();\n  await expect(page.locator('#bank-net-worth')).toContainText('$');" },
   'account-balances': { name: 'Account balances update after a posted transfer', steps: "await page.getByRole('button', { name: 'Transfer' }).click();\n  await page.locator('#bank-amount').fill('25');\n  await page.getByTestId('bank-transfer').click();\n  await page.getByTestId('confirm-transfer').click();\n  await expect(page.locator('#bank-transactions')).toContainText('Checking → Savings');" },
   'activity-filter': { name: 'Activity filter shows matching status', steps: "await page.getByRole('button', { name: 'Transactions' }).click();\n  await page.locator('#bank-activity-filter').selectOption('pending');\n  await expect(page.locator('#bank-transactions')).toContainText('Pending');" },
@@ -209,9 +249,9 @@ function downloadBankTests() {
   if (!selected.length) return
   const tests = selected.map((id) => {
     const scenario = bankTestCases[id]
-    return `test(${JSON.stringify(scenario.name)}, async ({ page }) => {\n  await page.goto(baseUrl);\n  ${scenario.steps}\n});`
+    return `test(${JSON.stringify(scenario.name)}, async ({ page }) => {\n  await page.goto(baseUrl);\n  ${scenario.skipSignIn ? '' : 'await signIn(page);\n  '}${scenario.steps}\n});`
   }).join('\n\n')
-  const file = `import { test, expect } from '@playwright/test';\n\nconst baseUrl = process.env.DEMO_BANK_URL ?? 'https://demo.itswatts.com/#banking-view';\n\n// Generated by It’s Watts Demo Bank. All flows use fictional data only.\n\n${tests}\n`
+  const file = `import { test, expect } from '@playwright/test';\n\nconst baseUrl = process.env.DEMO_BANK_URL ?? 'https://demo.itswatts.com/#banking-view';\n\nasync function signIn(page, email = 'casey@itswatts.demo', password = 'DemoPass123!') {\n  await page.locator('#bank-login-email').fill(email);\n  await page.locator('#bank-login-password').fill(password);\n  await page.getByTestId('bank-sign-in').click();\n}\n\n// Generated by It’s Watts Demo Bank. All flows use fictional data only.\n\n${tests}\n`
   const url = URL.createObjectURL(new Blob([file], { type: 'text/plain' }))
   const link = document.createElement('a')
   link.href = url
@@ -236,7 +276,10 @@ function resetAdvancedApps() {
     ],
     bills: [{ status: 'Scheduled', detail: '$62.44 · City Electric · Aug 15' }],
   })
-  Object.assign(bankProfile, { name: 'Casey Morgan', email: 'casey@itswatts.demo', phone: '555-0142', address: '142 Demo Lane', password: 'DemoPass123!' })
+  bankUsers = initialBankUsers.map((user) => ({ ...user }))
+  bankSession.signedIn = false
+  bankSession.userId = null
+  Object.assign(bankProfile, bankUsers[0])
   byId('claim-list').innerHTML = '<li><b>CLM-10482</b><span>Vehicle damage · Evidence requested</span></li><li><b>CLM-10491</b><span>Water damage · Manager review</span></li><li><b>CLM-10503</b><span>Property loss · New</span></li>'
   byId('time-off-list').innerHTML = '<li><b>Pending</b><span>Aug 18–20 · Vacation</span></li>'
   document.querySelectorAll('[data-system-form]').forEach((form) => {
@@ -248,6 +291,7 @@ function resetAdvancedApps() {
   byId('bank-card-message').textContent = 'Card is ready for simulated purchases.'
   renderAdvancedApps()
   renderBankProfile()
+  setBankExperienceVisibility()
 }
 
 function resetDemo() {
@@ -269,6 +313,15 @@ document.addEventListener('click', (event) => {
   const viewButton = target.closest('[data-open-view]')
   if (viewButton instanceof HTMLElement) {
     openView(viewButton.dataset.openView)
+    return
+  }
+  const demoUser = target.closest('[data-demo-user]')
+  if (demoUser instanceof HTMLElement) {
+    const user = bankUsers.find((item) => item.id === demoUser.dataset.demoUser)
+    if (!user) return
+    byId('bank-login-email').value = user.email
+    byId('bank-login-password').value = user.password
+    byId('bank-login-message').textContent = `${user.name}'s fictional credentials are ready. Select Sign in to continue.`
     return
   }
   const bankTarget = target.closest('[data-bank-target]')
@@ -310,6 +363,23 @@ byId('login-form').addEventListener('submit', (event) => {
   byId('login-message').textContent = state.signedIn ? 'Signed in. The shop is now unlocked.' : 'Use the documented demo credentials.'
   setExperienceVisibility()
   if (state.signedIn) byId('catalog').scrollIntoView({ behavior: 'smooth', block: 'start' })
+})
+byId('bank-show-password').addEventListener('change', (event) => { byId('bank-login-password').type = event.target.checked ? 'text' : 'password' })
+byId('bank-login-form').addEventListener('submit', (event) => {
+  event.preventDefault()
+  const email = byId('bank-login-email').value.trim().toLowerCase()
+  const password = byId('bank-login-password').value
+  const user = bankUsers.find((item) => item.email === email && item.password === password)
+  if (!user) { byId('bank-login-message').textContent = 'Those fictional credentials do not match a Demo Bank profile.'; return }
+  byId('bank-login-message').textContent = ''
+  applyBankUser(user)
+})
+byId('bank-logout').addEventListener('click', () => {
+  bankSession.signedIn = false
+  bankSession.userId = null
+  byId('bank-login-form').reset()
+  byId('bank-login-message').textContent = 'You have signed out of the fictional Demo Bank.'
+  setBankExperienceVisibility()
 })
 byId('apply-promo').addEventListener('click', () => { state.promo = byId('promo').value.trim().toUpperCase() === 'WELCOME10' ? 'WELCOME10' : ''; byId('promo-message').textContent = state.promo ? 'WELCOME10 applied: 10% off.' : 'That demo code is not available.'; renderCart() })
 byId('checkout-form').addEventListener('submit', (event) => { event.preventDefault(); byId('checkout-message').textContent = state.cart.length ? `Demo order placed for ${money(totals().total)}. No payment was processed.` : 'Add at least one item before checkout.' })
@@ -423,6 +493,7 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
       bankProfile.password = newPassword
     }
     Object.assign(bankProfile, { name, email, phone, address })
+    Object.assign(currentBankUser(), bankProfile)
     byId('bank-current-password').value = ''
     byId('bank-new-password').value = ''
     byId('bank-confirm-password').value = ''
