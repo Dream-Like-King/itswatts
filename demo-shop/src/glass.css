@@ -1,7 +1,7 @@
 /* Shared visual language with itswatts.com: softly layered, translucent surfaces. */
 body {
   background:
-    radial-gradient(circle at 16% 8%, rgba(63, 185, 80, .16), transparent 26%),
+    radial-gradient(circle at 16% 8%, rgba(125,211,252, .16), transparent 26%),
     radial-gradient(circle at 92% 24%, rgba(88, 166, 255, .1), transparent 24%),
     #0d1016;
 }
@@ -38,7 +38,7 @@ body {
 
 :root[data-theme="light"] .site-header {
   background: rgba(255, 255, 255, .86);
-  border-color: #c9d4cc;
+  border-color: #cad9e6;
   box-shadow: 0 12px 28px rgba(23, 35, 27, .14), inset 0 1px rgba(255, 255, 255, .92);
 }
 
@@ -58,8 +58,8 @@ body {
 .product-card button:hover,
 .cart-heading button:hover,
 .promo button:hover {
-  border-color: rgba(63, 185, 80, .72);
-  background: rgba(63, 185, 80, .12);
+  border-color: rgba(125,211,252, .72);
+  background: rgba(125,211,252, .12);
 }
 
 .login-panel,
@@ -73,8 +73,8 @@ body {
 
 .product-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(63, 185, 80, .62);
-  background: linear-gradient(135deg, rgba(37, 69, 49, .68), rgba(18, 26, 34, .62));
+  border-color: rgba(125,211,252, .62);
+  background: linear-gradient(135deg, rgba(26,80,107, .68), rgba(18, 26, 34, .62));
 }
 
 .filters {
@@ -96,13 +96,13 @@ body {
 .checkout-form button {
   border: 1px solid rgba(112, 232, 133, .76);
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(63, 185, 80, .94), rgba(32, 137, 70, .84));
-  box-shadow: inset 0 1px rgba(255, 255, 255, .25), 0 9px 22px rgba(63, 185, 80, .18);
+  background: linear-gradient(135deg, rgba(125,211,252, .94), rgba(2,132,199, .84));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .25), 0 9px 22px rgba(125,211,252, .18);
 }
 
 .automation-notes article:first-child { border-left: 1px solid rgba(139, 148, 158, .34); }
 .automation-notes article:last-child { border-radius: 0 0 14px 0; }
-.brand span { display: inline-block; margin-left: 1px; transform: rotate(10deg); text-shadow: 0 0 18px rgba(63, 185, 80, .72); }
+.brand span { display: inline-block; margin-left: 1px; transform: rotate(10deg); text-shadow: 0 0 18px rgba(125,211,252, .72); }
 
 @media (max-width: 700px) {
   .site-header { width: min(1180px, calc(100% - 24px)); padding: 0 12px; }

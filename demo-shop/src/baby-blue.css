@@ -34,4 +34,4 @@ body { background:radial-gradient(circle at 16% 8%,rgba(125,211,252,.18),transpa
 :root[data-theme] .hero p,:root[data-theme] .hero em,:root[data-theme] .product-card p,:root[data-theme] .product-icon,:root[data-theme] .filters>p,:root[data-theme] .catalog-heading p,:root[data-theme] .cart-heading p,:root[data-theme] .automation-notes>p,:root[data-theme] .brand span,:root[data-theme] .footer-bolt { color:var(--demo-accent); }
 :root[data-theme] .login-panel form button,:root[data-theme] .checkout-form button,:root[data-theme] .system-card button[type="submit"],:root[data-theme] .bank-login-form button { border-color:rgba(186,230,253,.8); background:linear-gradient(135deg,rgba(14,165,233,.94),rgba(2,132,199,.84)); color:var(--demo-accent-ink); }
 :root[data-theme] .toggle-row span { background:rgba(125,211,252,.58); }:root[data-theme] .signal-ledger-lockup svg,:root[data-theme] .bank-brand svg { background:linear-gradient(135deg,#7dd3fc,#38bdf8); }
-:root[data-theme] .automation-notes a[style*="#38c85a"] { color:var(--demo-accent) !important; }
+:root[data-theme] .automation-notes a[style] { color:var(--demo-accent) !important; }

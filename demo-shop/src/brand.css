@@ -26,7 +26,7 @@
 }
 
 .demo-lab-link:hover {
-  color: #38c85a;
+  color: #7dd3fc;
   background: transparent;
   transform: translateY(-1px);
 }
@@ -36,7 +36,7 @@
 }
 
 :root[data-theme="light"] .demo-lab-link:hover {
-  color: #16843a;
+  color: #0284c7;
   background: transparent;
 }
 
