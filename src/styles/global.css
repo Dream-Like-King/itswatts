@@ -231,3 +231,15 @@
 
 .theme-toggle { display:grid; place-items:center; width:34px; height:34px; margin-left:14px; border:1px solid rgba(139,148,158,.42); border-radius:50%; background:rgba(255,255,255,.04); color:var(--text); font-size:17px; line-height:1; transition:transform .2s,border-color .2s,background .2s; }.theme-toggle:hover { transform:translateY(-2px); border-color:rgba(63,185,80,.72); background:rgba(63,185,80,.12); }
 @media (max-width:800px) { .theme-toggle { margin-left:auto; margin-right:8px; } }
+
+/* Manual choices take precedence over the device appearance preference. */
+:root[data-theme="light"] { color-scheme:light; --bg:#f5f8f5; --panel:#ffffff; --line:#d5ddd7; --text:#17231b; --dim:#59665d; --green:#16843a; --blue:#196fca; --amber:#9a6200; }
+:root[data-theme="light"] body { background:radial-gradient(circle at 18% 4%,rgba(63,185,80,.14),transparent 28%),radial-gradient(circle at 88% 14%,rgba(96,165,250,.13),transparent 26%),#f5f8f5; }
+:root[data-theme="light"] .hero-glow { opacity:.07; }:root[data-theme="light"] .hero-grid { opacity:.44; }:root[data-theme="light"] .orb { opacity:.16; }
+:root[data-theme="light"] .nav,:root[data-theme="light"] .learn-hub-nav { border-color:#c9d4cc; background:rgba(255,255,255,.86); box-shadow:0 12px 28px rgba(23,35,27,.14); }
+:root[data-theme="light"] .nav-links,:root[data-theme="light"] .learning-card,:root[data-theme="light"] .resource-grid article,:root[data-theme="light"] .system-card,:root[data-theme="light"] .note-dialog,:root[data-theme="light"] .path-dialog,:root[data-theme="light"] .resource-dialog,:root[data-theme="light"] .chat-shell { background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(242,248,244,.78)); border-color:#c9d4cc; color:#17231b; }
+:root[data-theme="light"] .learning-card:hover,:root[data-theme="light"] .resource-grid article:hover,:root[data-theme="light"] .toolkit-list article:hover,:root[data-theme="light"] .queue-list article:hover { background:#e8f3eb; }
+:root[data-theme="light"] .nav-links a,:root[data-theme="light"] .nav-links .nav-link-button,:root[data-theme="light"] .quiet,:root[data-theme="light"] .availability { color:#324137; }
+:root[data-theme="light"] .menu,:root[data-theme="light"] .theme-toggle,:root[data-theme="light"] .desktop-chat-fab,:root[data-theme="light"] .mobile-dock,:root[data-theme="light"] .dock-more-menu { background:rgba(255,255,255,.9); border-color:#c9d4cc; color:#17231b; box-shadow:0 12px 28px rgba(23,35,27,.14); }
+:root[data-theme="light"] .menu i { background:#17231b; }:root[data-theme="light"] .desktop-chat-fab:hover,:root[data-theme="light"] .theme-toggle:hover { background:#e8f3eb; }
+:root[data-theme="light"] .case-card textarea,:root[data-theme="light"] .subscribe input,:root[data-theme="light"] .chat-input input { background:#fbfdfb; border-color:#aebbb1; color:#17231b; }
