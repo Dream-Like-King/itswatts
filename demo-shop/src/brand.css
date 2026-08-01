@@ -1,0 +1,18 @@
+/* Display accent for the Demo Lab label beside the It’s Watts lockup. */
+.demo-lab-link {
+  color: #8e99a7;
+  font: italic 600 18px/1.05 Georgia, 'Times New Roman', serif;
+  letter-spacing: -.04em;
+}
+
+.demo-lab-link:hover {
+  color: #38c85a;
+}
+
+:root[data-theme="light"] .demo-lab-link {
+  color: #526458;
+}
+
+:root[data-theme="light"] .demo-lab-link:hover {
+  color: #16843a;
+}

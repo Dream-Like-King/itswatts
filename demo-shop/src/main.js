@@ -3,6 +3,7 @@ import './glass.css'
 import './systems.css'
 import './complexity.css'
 import './theme.css'
+import './brand.css'
 
 const products = [
   { id: 'focus-lamp', name: 'Focus Desk Lamp', category: 'desk', price: 89.99, detail: 'Adjustable warm-white light for focused work.' },
