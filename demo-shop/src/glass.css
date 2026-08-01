@@ -21,17 +21,25 @@ body {
 
 .site-header {
   position: sticky;
-  top: 12px;
+  top: 14px;
   z-index: 10;
-  width: min(1180px, calc(100% - 40px));
-  padding: 0 18px;
+  width: min(1280px, calc(100% - 48px));
+  padding: 0 20px;
   border: 1px solid rgba(139, 148, 158, .28);
-  border-radius: 18px;
+  border-radius: 999px;
+  background: rgba(14, 17, 22, .82);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .07);
 }
 
 /* Match the compact 62px navigation height used on the main It’s Watts site. */
 @media (min-width: 701px) {
   .site-header { height: 62px; }
+}
+
+:root[data-theme="light"] .site-header {
+  background: rgba(255, 255, 255, .86);
+  border-color: #c9d4cc;
+  box-shadow: 0 12px 28px rgba(23, 35, 27, .14), inset 0 1px rgba(255, 255, 255, .92);
 }
 
 .site-header nav a,
