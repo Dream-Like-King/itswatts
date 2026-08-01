@@ -1,0 +1,19 @@
+/* Shared baby-blue accent system for the Demo Lab. */
+:root { --demo-accent:#7dd3fc; --demo-accent-bright:#38bdf8; --demo-accent-deep:#0284c7; --demo-accent-ink:#062236; }
+:root[data-theme="light"] { --demo-accent:#0284c7; --demo-accent-bright:#0369a1; --demo-accent-deep:#075985; --demo-accent-ink:#fff; }
+button:focus-visible,input:focus-visible,a:focus-visible { outline-color:var(--demo-accent); }
+body { background:radial-gradient(circle at 16% 8%,rgba(125,211,252,.18),transparent 26%),radial-gradient(circle at 92% 24%,rgba(56,189,248,.12),transparent 24%),#0d1016; }
+.brand span,.footer-bolt,.demo-lab-link:hover,.hero p,.hero em,.product-card p,.product-icon,.filters>p,.catalog-heading p,.cart-heading p,.automation-notes>p,.directory-hero > p,.system-heading > p,.system-card > p,.app-card p,.bank-intro > p,.bank-dashboard p,.bank-test-cases p,.bank-login-intro > p,.bank-login-form > p,.directory-hero em,.system-heading em,.bank-login-intro em,.bank-brand span { color:var(--demo-accent); }
+.hero-grid,.directory-hero { background-image:radial-gradient(circle at 78% 18%,rgba(125,211,252,.18),transparent 28%); }
+.login-panel,.app-card:hover,.app-card.featured,.bank-login-panel,.bank-test-cases { background:linear-gradient(135deg,rgba(14,116,144,.22),rgba(14,17,22,.6)); }
+.login-panel form button,.checkout-form button,.system-card button[type="submit"],.bank-login-form button { border-color:rgba(186,230,253,.8); background:linear-gradient(135deg,rgba(14,165,233,.94),rgba(2,132,199,.84)); color:var(--demo-accent-ink); }
+.product-card button,.promo button,.app-card button,.system-heading button,.bank-section-heading button,.lab-footer button:hover,.lab-footer a:hover,.lab-legal-content a { color:var(--demo-accent); }
+.app-card li::before,.complexity span.active,.bank-overview b,.work-list b,.bank-test-list legend,.bank-test-cases li::marker,.bank-stats article:nth-child(2) strong,.bank-stats article:nth-child(3) strong,.transaction-table .positive,.quick-actions b,.bank-section-heading button { color:var(--demo-accent); }
+.complexity span.active,.employee-result:hover,.employee-result.selected,.quick-actions button:hover,.demo-user-grid button:hover { border-color:rgba(125,211,252,.75); background:rgba(125,211,252,.13); }
+.toggle-row input,.bank-login-form .bank-show-password input,.bank-test-list input,.select-all-row input { accent-color:var(--demo-accent); }.toggle-row span { background:rgba(125,211,252,.58); }
+.bank-sidebar button:hover,.bank-sidebar button.active { background:linear-gradient(135deg,rgba(14,165,233,.9),rgba(2,132,199,.72)); color:var(--demo-accent-ink); }.bank-sidebar .return-link:hover { color:var(--demo-accent-ink); }
+.quick-actions b { background:rgba(125,211,252,.18); }.transaction-category.income { background:rgba(125,211,252,.16); color:var(--demo-accent); }
+.signal-ledger-lockup svg,.bank-brand svg { background:linear-gradient(135deg,#7dd3fc,#38bdf8); filter:drop-shadow(0 5px 11px rgba(125,211,252,.28)); }.signal-ledger-lockup path,.bank-brand path { stroke:#062236; }
+.lab-legal-head p,.lab-legal-head button:hover,.lab-legal-content a,.lab-footer button:hover,.lab-footer a:hover { color:var(--demo-accent); }.lab-legal-head button:hover { border-color:var(--demo-accent); }.lab-legal-note { border-left-color:var(--demo-accent); background:rgba(125,211,252,.1); }
+:root[data-theme="light"] body { background:radial-gradient(circle at 18% 4%,rgba(125,211,252,.18),transparent 28%),radial-gradient(circle at 88% 14%,rgba(56,189,248,.13),transparent 26%),#f4f7f4; }
+:root[data-theme="light"] .app-card:hover,:root[data-theme="light"] .app-card.featured { background:linear-gradient(135deg,rgba(224,242,254,.95),rgba(245,250,252,.88)); }
