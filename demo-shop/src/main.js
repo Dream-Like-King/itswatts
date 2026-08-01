@@ -37,6 +37,7 @@ const advancedState = {
 }
 const byId = (id) => document.getElementById(id)
 const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
+const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character])
 const viewIds = ['lab-directory', 'banking-view', 'claims-view', 'hr-view', 'retail-view']
 
 function openView(viewId, updateHash = true) {
@@ -118,6 +119,18 @@ function renderAdvancedApps() {
   byId('bank-alert-toggle').checked = advancedState.purchaseAlerts
   renderBankTransactions()
   byId('bank-bill-list').innerHTML = advancedState.bills.map((bill) => `<li><b>${bill.status}</b><span>${bill.detail}</span></li>`).join('')
+  const netWorth = advancedState.checking + advancedState.savings
+  const netChange = netWorth - 5040.18
+  const transactionTotals = advancedState.transactions.reduce((totals, transaction) => {
+    const amount = Number(transaction.detail.match(/\$([\d,.]+)/)?.[1]?.replace(',', '') || 0)
+    if (transaction.detail.startsWith('+')) totals.income += amount
+    if (transaction.detail.startsWith('−')) totals.expenses += amount
+    return totals
+  }, { income: 0, expenses: 0 })
+  byId('bank-net-worth').textContent = money(netWorth)
+  byId('bank-net-change').textContent = `${netChange >= 0 ? '+' : '−'}${money(Math.abs(netChange))}`
+  byId('bank-income').textContent = `+${money(transactionTotals.income)}`
+  byId('bank-expenses').textContent = `−${money(transactionTotals.expenses)}`
   renderEmployeeProfile()
 }
 
@@ -125,8 +138,14 @@ function renderBankTransactions() {
   const filter = byId('bank-activity-filter').value
   const items = advancedState.transactions.filter((item) => filter === 'all' || item.status.toLowerCase() === filter)
   byId('bank-transactions').innerHTML = items.length
-    ? items.map((item) => `<li><b>${item.status}</b><span>${item.detail}</span></li>`).join('')
+    ? items.map((item) => `<li><b>${item.status}</b><span>${escapeHtml(item.detail)}</span></li>`).join('')
     : '<li><span>No matching activity.</span></li>'
+  byId('bank-dashboard-transactions').innerHTML = advancedState.transactions.slice(0, 5).map((item, index) => {
+    const amount = item.detail.match(/[+−]\$[\d,.]+/)?.[0] || '—'
+    const description = item.detail.replace(/[+−]\$[\d,.]+ ·\s*/, '')
+    const category = item.status === 'Pending' ? 'Scheduled' : amount.startsWith('+') ? 'Income' : 'Spending'
+    return `<tr><td>${index === 0 ? 'Today' : `${index + 1} days ago`}</td><td>${escapeHtml(description)}</td><td><span class="transaction-category ${category.toLowerCase()}">${category}</span></td><td class="${amount.startsWith('+') ? 'positive' : 'negative'}">${amount}</td></tr>`
+  }).join('')
 }
 
 function addBankTransaction(status, detail) {
@@ -180,6 +199,15 @@ document.addEventListener('click', (event) => {
   const viewButton = target.closest('[data-open-view]')
   if (viewButton instanceof HTMLElement) {
     openView(viewButton.dataset.openView)
+    return
+  }
+  const bankTarget = target.closest('[data-bank-target]')
+  if (bankTarget instanceof HTMLElement) {
+    const destination = byId(bankTarget.dataset.bankTarget)
+    if (!destination) return
+    document.querySelectorAll('[data-bank-target]').forEach((button) => button.classList.remove('active'))
+    bankTarget.classList.add('active')
+    destination.scrollIntoView({ behavior: 'smooth', block: 'start' })
     return
   }
   const employeeButton = target.closest('[data-select-employee]')
@@ -277,6 +305,32 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
     form.reset()
     status.textContent = `${money(amount)} payment scheduled for ${formattedDate}.`
     renderAdvancedApps()
+    return
+  }
+
+  if (form.dataset.systemForm === 'send-money') {
+    const amount = Number(byId('bank-send-amount').value)
+    const recipient = byId('bank-recipient').value.trim()
+    if (!recipient) { status.textContent = 'Enter a recipient name.'; return }
+    if (!Number.isFinite(amount) || amount <= 0) { status.textContent = 'Enter a payment amount greater than $0.00.'; return }
+    if (advancedState.cardFrozen) { status.textContent = 'Payment blocked: the simulated debit card is frozen.'; return }
+    if (advancedState.checking < amount) { status.textContent = 'Payment declined: insufficient available balance.'; return }
+    advancedState.checking -= amount
+    addBankTransaction('Posted', `−${money(amount)} · Payment sent to ${recipient}`)
+    form.reset()
+    status.textContent = `${money(amount)} sent to ${recipient} in this simulated environment.`
+    renderAdvancedApps()
+    return
+  }
+
+  if (form.dataset.systemForm === 'loan-application') {
+    const amount = Number(byId('bank-loan-amount').value)
+    const purpose = byId('bank-loan-purpose').value.trim()
+    if (!Number.isFinite(amount) || amount < 500) { status.textContent = 'Enter a requested amount of at least $500.00.'; return }
+    if (!purpose) { status.textContent = 'Describe the loan purpose.'; return }
+    const loanType = byId('bank-loan-type').value
+    form.reset()
+    status.textContent = `${loanType} application for ${money(amount)} received for simulated review.`
     return
   }
 
