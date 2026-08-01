@@ -52,6 +52,19 @@ const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', cur
 const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character])
 const viewIds = ['lab-directory', 'banking-view', 'claims-view', 'hr-view', 'retail-view']
 
+function setUpStateSelector() {
+  const stateInput = byId('bank-profile-state')
+  if (!(stateInput instanceof HTMLInputElement)) return
+  const states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+  const stateSelect = document.createElement('select')
+  stateSelect.id = stateInput.id
+  stateSelect.autocomplete = stateInput.autocomplete
+  stateSelect.setAttribute('aria-label', 'State')
+  stateSelect.innerHTML = states.map((state) => `<option value="${state}">${state}</option>`).join('')
+  stateSelect.value = stateInput.value || 'TX'
+  stateInput.replaceWith(stateSelect)
+}
+
 function setDemoTheme(theme, save = true) {
   document.documentElement.dataset.theme = theme
   byId('demo-theme-toggle').textContent = theme === 'dark' ? '☼' : '☾'
@@ -578,6 +591,7 @@ document.querySelectorAll('[data-system-form]').forEach((form) => form.addEventL
 
 window.addEventListener('hashchange', () => openView(window.location.hash.slice(1), false))
 
+setUpStateSelector()
 setDemoTheme(document.documentElement.dataset.theme || 'dark', false)
 addJointAccountTestOption()
 setExperienceVisibility(); renderProducts(); renderCart(); renderAdvancedApps(); renderEmployeeProfile(); renderEmployeeDirectory()
