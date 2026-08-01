@@ -1,18 +1,39 @@
 /* Display accent for the Demo Lab label beside the It’s Watts lockup. */
 .demo-lab-link {
-  color: #8e99a7;
-  font: italic 600 18px/1.05 Georgia, 'Times New Roman', serif;
-  letter-spacing: -.04em;
+  padding: 8px 12px;
+  border: 1px solid rgba(139, 148, 158, .38);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(31, 39, 49, .72), rgba(14, 17, 22, .56));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .18), inset 0 1px rgba(255, 255, 255, .08);
+  color: #c8d1dc;
+  font: italic 600 15px/1 Georgia, 'Times New Roman', serif;
+  letter-spacing: -.03em;
+  text-decoration: none;
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  transition: transform .2s, border-color .2s, background .2s, color .2s;
 }
 
 .demo-lab-link:hover {
   color: #38c85a;
+  border-color: rgba(56, 200, 90, .66);
+  background: rgba(37, 74, 48, .72);
+  transform: translateY(-1px);
 }
 
 :root[data-theme="light"] .demo-lab-link {
-  color: #526458;
+  border-color: #c9d4cc;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .88), rgba(238, 247, 240, .74));
+  box-shadow: 0 8px 20px rgba(23, 35, 27, .1), inset 0 1px rgba(255, 255, 255, .95);
+  color: #324137;
 }
 
 :root[data-theme="light"] .demo-lab-link:hover {
   color: #16843a;
+  border-color: rgba(22, 132, 58, .62);
+  background: rgba(232, 243, 235, .95);
+}
+
+@media (max-width: 700px) {
+  .demo-lab-link { padding: 7px 10px; font-size: 14px; }
 }
