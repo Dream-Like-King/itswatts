@@ -1,4 +1,14 @@
 /* Display accent for the Demo Lab label beside the It’s Watts lockup. */
+.brand-lockup {
+  align-items: baseline;
+  gap: 16px;
+}
+
+.brand,
+.demo-lab-link {
+  display: inline-block;
+}
+
 .demo-lab-link {
   padding: 0;
   border: 0;
@@ -11,13 +21,14 @@
   text-decoration: none;
   backdrop-filter: blur(14px) saturate(130%);
   -webkit-backdrop-filter: blur(14px) saturate(130%);
+  transform: translateY(-1px);
   transition: transform .2s, border-color .2s, background .2s, color .2s;
 }
 
 .demo-lab-link:hover {
   color: #38c85a;
   background: transparent;
-  transform: none;
+  transform: translateY(-1px);
 }
 
 :root[data-theme="light"] .demo-lab-link {
@@ -30,5 +41,6 @@
 }
 
 @media (max-width: 700px) {
-  .demo-lab-link { padding: 7px 10px; font-size: 11px; }
+  .brand-lockup { align-items: flex-start; gap: 5px; }
+  .demo-lab-link { padding: 0; font-size: 11px; transform: none; }
 }
