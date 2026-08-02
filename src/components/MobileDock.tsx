@@ -5,7 +5,7 @@ type MobileDockProps = { onOpenChat: () => void; onOpenLearn: (target?: string) 
 
 const primaryItems = [
   ['Learn', 'learn', '⌁'],
-  ['Tools', 'tools', '⌘'],
+  ['Toolkits', 'tools', '⌘'],
   ['Resources', 'resources', '▦'],
 ] as const
 

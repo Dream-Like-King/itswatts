@@ -81,3 +81,24 @@
 :root[data-theme="light"] .post-card button:hover,
 :root[data-theme="light"] .download-grid article:hover,
 :root[data-theme="light"] .learn-next .learn-next-link:hover { color:#075985 !important; }
+
+/* Light-mode controls retain the pale blue glass treatment without losing contrast. */
+:root[data-theme="light"] .resource-summary .button.outline,
+:root[data-theme="light"] .orientation-guide .button.primary {
+  border-color:#7aa8c6;
+  background:linear-gradient(135deg,#ffffff,#dff2ff);
+  color:#075985 !important;
+  box-shadow:0 10px 24px rgba(2,132,199,.12),inset 0 1px rgba(255,255,255,.95);
+}
+:root[data-theme="light"] .resource-summary .button.outline:hover,
+:root[data-theme="light"] .orientation-guide .button.primary:hover { border-color:#0284c7; background:#cfeeff; color:#062236 !important; }
+
+/* Keep code exercises legible against their pale glass panels. */
+:root[data-theme="light"] .fix-code .code-problem,
+:root[data-theme="light"] .fix-code .code-choices { background:#ffffff; border-color:#c9d4cc; }
+:root[data-theme="light"] .fix-code .code-problem pre,
+:root[data-theme="light"] .fix-code .code-choices pre { background:#edf6fc; color:#163a56; }
+:root[data-theme="light"] .fix-code .code-error { color:#8a4b00; }
+:root[data-theme="light"] .fix-code .code-choices > button { color:#17231b; }
+:root[data-theme="light"] .fix-code .code-choices > button small { color:#354c61; }
+:root[data-theme="light"] .fix-code .code-next { color:#075985; }

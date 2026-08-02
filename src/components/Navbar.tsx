@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Logo } from './Logo'
 import { ThemeToggle } from './ThemeToggle'
 
-const links = [['Learn', 'learn'], ['Career paths', 'career-paths'], ['Practice Labs', 'practice'], ['Tools', 'tools'], ['Resources', 'resources'], ['QA software', 'focus-tools'], ['Weekly notes', 'weekly'], ['My story', 'my-story']]
+const links = [['Learn', 'learn'], ['Career paths', 'career-paths'], ['Practice Labs', 'practice'], ['Toolkits', 'tools'], ['Resources', 'resources'], ['QA software', 'focus-tools'], ['Weekly notes', 'weekly'], ['My story', 'my-story']]
 
 type NavbarProps = { onOpenChat: () => void; onOpenLearn: () => void; onOpenCareer: () => void; onOpenPractice: () => void; onOpenStory: () => void; onOpenToolkits: () => void; onOpenResources: () => void; onOpenSoftware: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 

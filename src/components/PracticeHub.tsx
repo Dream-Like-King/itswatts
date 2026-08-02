@@ -75,12 +75,19 @@ const templates = [
 
 export function PracticeHub({ onClose, onOpenTools, onOpenLearn, theme, onToggleTheme }: PracticeHubProps) {
   const [activeTab, setActiveTab] = useState<'roadmap' | 'scenarios' | 'bug-hunt' | 'fix-code'>('roadmap')
+  const [bugHuntIndex, setBugHuntIndex] = useState(0)
   const [answers, setAnswers] = useState<number[]>([])
   const [scenarioIndex, setScenarioIndex] = useState(0)
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null)
   const score = answers.reduce((total, answer) => total + answer, 0)
   const recommendation = useMemo(() => score <= 3 ? ['Beginner route', 'Start with the QA foundations, then practice describing behavior and reporting what you learn.'] : score <= 8 ? ['Intermediate route', 'Build risk-based test design, integration thinking, and confident automation decisions.'] : ['Advanced route', 'Focus on quality strategy, technical influence, and AI-assisted ways of working.'], [score])
   const scenario = scenarios[scenarioIndex]
+  const bugHuntScenarios = [
+    { label: 'Checkout', level: 'BEGINNER' },
+    { label: 'Password recovery', level: 'INTERMEDIATE' },
+    { label: 'Payment incident', level: 'ADVANCED' },
+  ]
+  const activeBugHunt = bugHuntScenarios[bugHuntIndex]
 
   return <main className="practice-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
@@ -98,7 +105,13 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn, theme, onToggle
 
       {activeTab === 'scenarios' && <div className="scenario-panel"><div><p className="eyebrow">PRACTICE SCENARIO · {String(scenarioIndex + 1).padStart(2, '0')}/{String(scenarios.length).padStart(2, '0')}</p><h2>{scenario.title}</h2><p>{scenario.situation}</p></div><div className="scenario-choices">{scenario.choices.map(([choice, isBest, feedback], index) => <button key={choice} type="button" className={selectedChoice === index ? (isBest ? 'correct' : 'incorrect') : ''} onClick={() => setSelectedChoice(index)}><span>{String.fromCharCode(65 + index)}</span><b>{choice}</b>{selectedChoice === index && <small>{feedback}</small>}</button>)}</div><div className="scenario-controls"><button type="button" disabled={scenarioIndex === 0} onClick={() => { setScenarioIndex((index) => index - 1); setSelectedChoice(null) }}>← Previous</button><button type="button" disabled={scenarioIndex === scenarios.length - 1} onClick={() => { setScenarioIndex((index) => index + 1); setSelectedChoice(null) }}>Next scenario →</button></div></div>}
 
-      {activeTab === 'bug-hunt' && <><BugHunt /><AdvancedBugHunts /></>}
+      {activeTab === 'bug-hunt' && <div className="bug-hunt-sequence">
+        <div className="bug-hunt-sequence-nav">
+          <div><p className="eyebrow">BUG HUNT · {activeBugHunt.level}</p><p>Test {String(bugHuntIndex + 1).padStart(2, '0')}/{String(bugHuntScenarios.length).padStart(2, '0')} · {activeBugHunt.label}</p></div>
+          <div className="bug-hunt-sequence-controls"><button type="button" disabled={bugHuntIndex === 0} onClick={() => setBugHuntIndex((index) => index - 1)}>← Previous</button><button type="button" disabled={bugHuntIndex === bugHuntScenarios.length - 1} onClick={() => setBugHuntIndex((index) => index + 1)}>Next test →</button></div>
+        </div>
+        {bugHuntIndex === 0 ? <BugHunt /> : <AdvancedBugHunts key={bugHuntIndex} challengeIndex={bugHuntIndex - 1} />}
+      </div>}
       {activeTab === 'fix-code' && <FixCodeChallenges />}
     </section>
 
