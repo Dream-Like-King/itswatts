@@ -1,6 +1,6 @@
 # Demo Lab Playwright automation
 
-This example automates the it’s wattϟ Demo Lab from sign-in through a safe fake checkout. It does not process payments or use real customer data.
+This example automates the it’s Wattϟ Demo Lab from sign-in through a safe fake checkout. It does not process payments or use real customer data.
 
 ## Setup
 

@@ -205,7 +205,7 @@ add_heading(doc, "3. Design direction")
 add_body(doc, "The visual system intentionally resembles a focused engineering toolkit: dark charcoal foundations, clear hierarchy, technical grid details, green electric accents, thin borders, and light glass-like surfaces. The light theme preserves the same structure while using white panels, darker copy, and softer green accents.")
 add_labeled_bullet(doc, "Core palette", "Dark #0E1116, panel #1B222B, accent green #3FB950, blue #58A6FF, and accessible light-theme equivalents.")
 add_labeled_bullet(doc, "Typography", "Manrope for modern utility and readability, DM Mono for technical labels, and Playfair Display for selective editorial emphasis.")
-add_labeled_bullet(doc, "Logo", "The displayed mark is it’s wattϟ. The lightning bolt acts as the stylized final “s,” while written brand references use It’s Watts.")
+add_labeled_bullet(doc, "Logo", "The displayed mark is it’s Wattϟ. The lightning bolt acts as the stylized final “s,” while written brand references use It’s Watts.")
 add_labeled_bullet(doc, "Interaction", "Cards lift subtly on hover, dialogs support Escape to close, focus states are visible, and reduced-motion preferences are respected.")
 
 add_heading(doc, "4. Representative prompts and direction used")

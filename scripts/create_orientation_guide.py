@@ -32,7 +32,7 @@ def header_footer(canvas, doc):
     canvas.line(doc.leftMargin, letter[1] - 0.54 * inch, letter[0] - doc.rightMargin, letter[1] - 0.54 * inch)
     canvas.setFont("Helvetica-Bold", 8)
     canvas.setFillColor(MUTED)
-    brand = "it’s watt"
+    brand = "it’s Watt"
     brand_x = doc.leftMargin
     brand_y = letter[1] - 0.4 * inch
     canvas.drawString(brand_x, brand_y, brand)
@@ -107,7 +107,7 @@ story = [
     Paragraph("There is no single route into QA. People enter from customer support, development, business analysis, design, and many other backgrounds. The strongest evidence of growth is a combination of practice, communication, product understanding, and a willingness to keep learning.", styles["Body"]),
     card("Certifications", "A foundation-testing credential can provide structure and shared terminology. Treat it as optional evidence of learning, not a replacement for hands-on practice or a guarantee of employment."),
     Paragraph("Your next useful step", styles["Section"]),
-    bullet("Use the it’s watt Knowledge Base when a QA term is unfamiliar."),
+    bullet("Use the it’s Watt Knowledge Base when a QA term is unfamiliar."),
     bullet("Choose the Beginner, Intermediate, or Advanced route that best fits your current experience."),
     bullet("Try the QA Toolkits to decide what to automate or generate test ideas from a user story."),
     Paragraph("Keep learning in public. Test with purpose.", styles["GuideSubtitle"]),
@@ -115,6 +115,6 @@ story = [
 
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
-doc = SimpleDocTemplate(str(OUT), pagesize=letter, leftMargin=0.82 * inch, rightMargin=0.82 * inch, topMargin=0.82 * inch, bottomMargin=0.7 * inch, title="it’s wattϟ QA Orientation Guide", author="Derrick Watson")
+doc = SimpleDocTemplate(str(OUT), pagesize=letter, leftMargin=0.82 * inch, rightMargin=0.82 * inch, topMargin=0.82 * inch, bottomMargin=0.7 * inch, title="it’s Wattϟ QA Orientation Guide", author="Derrick Watson")
 doc.build(story, onFirstPage=header_footer, onLaterPages=header_footer)
 print(OUT)

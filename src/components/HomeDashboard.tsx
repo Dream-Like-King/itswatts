@@ -10,7 +10,7 @@ const nextSteps = [
 export function HomeDashboard({ onOpenLearn, onOpenPractice, onOpenToolkits, onOpenCareer }: HomeDashboardProps) {
   const actions = [onOpenLearn, onOpenPractice, onOpenToolkits, onOpenCareer]
   return <section className="home-dashboard section" id="about">
-    <div className="dashboard-heading"><p className="eyebrow">YOUR QA HUB</p><h2>Choose one<br /><em>useful next step.</em></h2><p>it’s wattϟ turns real quality-engineering practice into approachable lessons, tools, and experiments you can use in your next sprint.</p></div>
+    <div className="dashboard-heading"><p className="eyebrow">YOUR QA HUB</p><h2>Choose one<br /><em>useful next step.</em></h2><p>it’s Wattϟ turns real quality-engineering practice into approachable lessons, tools, and experiments you can use in your next sprint.</p></div>
     <div className="dashboard-grid">{nextSteps.map(([number, title, copy, action], index) => <article key={title}><span>{number}</span><h3>{title}</h3><p>{copy}</p><button type="button" onClick={actions[index]}>{action} <b aria-hidden="true">↗</b></button></article>)}</div>
   </section>
 }

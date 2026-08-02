@@ -12,7 +12,7 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'PRIVACY',
     title: 'Privacy notice',
     body: <>
-      <p><strong>Last updated: August 1, 2026.</strong> it’s wattϟ is an educational QA website. We collect only the information needed to operate the site and improve its learning resources.</p>
+      <p><strong>Last updated: August 1, 2026.</strong> it’s Wattϟ is an educational QA website. We collect only the information needed to operate the site and improve its learning resources.</p>
       <h3>What may be collected</h3>
       <ul><li>Questions and recent chat context you send to Ask Watt.</li><li>A random browser safety identifier used to apply the Ask Watt question limit.</li><li>Basic usage information through Google Analytics, such as page views, device/browser information, and referral information.</li><li>Information you choose to send to <a href="mailto:contact@itswatts.com">contact@itswatts.com</a>.</li></ul>
       <h3>How it is used</h3>
@@ -26,11 +26,11 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'TERMS',
     title: 'Terms of use',
     body: <>
-      <p><strong>Last updated: August 1, 2026.</strong> it’s wattϟ provides educational QA resources, practice activities, and fictional demonstrations for learning purposes.</p>
+      <p><strong>Last updated: August 1, 2026.</strong> it’s Wattϟ provides educational QA resources, practice activities, and fictional demonstrations for learning purposes.</p>
       <h3>Use the site responsibly</h3>
       <p>You may use the content for personal learning and professional development. Do not misuse the site, interfere with its services, attempt to bypass usage limits, or submit harmful content through Ask Watt.</p>
       <h3>Educational—not professional advice</h3>
-      <p>Content from it’s wattϟ and Ask Watt is general education. It is not legal, financial, security, employment, accessibility compliance, or other professional advice. Apply your own judgment and your organization’s policies.</p>
+      <p>Content from it’s Wattϟ and Ask Watt is general education. It is not legal, financial, security, employment, accessibility compliance, or other professional advice. Apply your own judgment and your organization’s policies.</p>
       <h3>External services</h3>
       <p>Links to third-party sites are provided for convenience. Their content and privacy practices are their own.</p>
       <p className="legal-note">These starter terms should be reviewed by a qualified legal professional before relying on them as formal legal terms.</p>
@@ -40,7 +40,7 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'ACCESSIBILITY',
     title: 'Accessibility statement',
     body: <>
-      <p>it’s wattϟ aims to make its QA education and practice resources usable by as many people as possible. We work toward clear structure, keyboard-friendly interactions, readable color contrast, responsive layouts, and reduced friction across devices.</p>
+      <p>it’s Wattϟ aims to make its QA education and practice resources usable by as many people as possible. We work toward clear structure, keyboard-friendly interactions, readable color contrast, responsive layouts, and reduced friction across devices.</p>
       <h3>Feedback is welcome</h3>
       <p>If something is difficult to use, hard to read, or unavailable with your assistive technology, please tell us what happened and which page or device you were using.</p>
       <p><a className="legal-contact" href="mailto:contact@itswatts.com?subject=Accessibility%20feedback%20for%20It%27s%20Watts">Send accessibility feedback →</a></p>
@@ -51,7 +51,7 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'DEMO LAB',
     title: 'Demo Lab notice',
     body: <>
-      <p>The it’s wattϟ Demo Lab is a fictional QA practice environment. Its shopping, claims, HR, and banking experiences are designed for learning, exploratory testing, and automation practice.</p>
+      <p>The it’s Wattϟ Demo Lab is a fictional QA practice environment. Its shopping, claims, HR, and banking experiences are designed for learning, exploratory testing, and automation practice.</p>
       <h3>No real services or records</h3>
       <p>Do not enter real passwords, financial information, personal data, or confidential information. The demo environments do not provide real banking, employment, insurance, or purchasing services. Displayed people, accounts, balances, and records are fictional.</p>
       <p>Practice data and UI behavior may change or reset without notice as the lab evolves.</p>

@@ -5,7 +5,7 @@ type SiteFooterProps = { onOpenLegal: (document: LegalDocument) => void }
 
 export function SiteFooter({ onOpenLegal }: SiteFooterProps) {
   return <footer className="site-footer">
-    <div className="site-footer-brand"><Logo compact /><p>© {new Date().getFullYear()} it’s wattϟ. Built for better software.</p></div>
+    <div className="site-footer-brand"><Logo compact /><p>© {new Date().getFullYear()} it’s Wattϟ. Built for better software.</p></div>
     <nav className="site-footer-links" aria-label="Footer navigation">
       <button type="button" onClick={() => onOpenLegal('privacy')}>Privacy</button>
       <button type="button" onClick={() => onOpenLegal('terms')}>Terms</button>

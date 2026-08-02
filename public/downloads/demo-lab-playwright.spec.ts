@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test'
 // You can override this when testing a preview deployment or a local copy.
 const baseUrl = process.env.DEMO_BASE_URL ?? 'https://demo.itswatts.com'
 
-test.describe('it’s wattϟ Demo Lab', () => {
+test.describe('it’s Wattϟ Demo Lab', () => {
   test('a learner can sign in and complete a demo purchase flow', async ({ page }) => {
     await page.goto(`${baseUrl}#retail-view`)
 
