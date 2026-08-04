@@ -1,0 +1,32 @@
+import { useState } from 'react'
+import { Logo } from './Logo'
+import { ThemeToggle } from './ThemeToggle'
+
+const lessons = [
+  { number: '01', label: 'The distinction', title: 'Automation repeats checks. AI assists thinking.', copy: 'Automation follows defined instructions and gives repeatable results. AI can help generate ideas, summarize evidence, and spot patterns—but it needs review and clear boundaries.', points: ['Automation is deterministic when its inputs and environment are stable.', 'AI output can vary and should be reviewed for accuracy.', 'Human QA owns context, risk, and release judgment.'] },
+  { number: '02', label: 'Use automation', title: 'Automate stable, repeatable behavior.', copy: 'A strong automation candidate is common, valuable, predictable, and expensive to repeat by hand. Start with the checks that give reliable feedback every release.', points: ['Regression checks with known expected results.', 'Critical user journeys and API contracts.', 'Fast feedback in CI after a code change.'] },
+  { number: '03', label: 'Use AI support', title: 'Use AI to speed up preparation and investigation.', copy: 'AI is useful for turning requirements into test ideas, drafting test data, summarizing logs, explaining unfamiliar code, and finding themes in feedback. Review the result before treating it as fact.', points: ['Draft test ideas from a user story.', 'Summarize a long error log or defect trend.', 'Create a first pass at documentation or test data.'] },
+  { number: '04', label: 'Keep humans central', title: 'Use judgment where consequences are unclear.', copy: 'Exploratory testing, accessibility, user experience, ethical concerns, and release risk benefit from human perspective. AI can support that work, but it should not silently make the final call.', points: ['Explore behavior that is ambiguous or changing.', 'Assess whether an experience is understandable and accessible.', 'Decide whether remaining risk is acceptable.'] },
+  { number: '05', label: 'Combine them', title: 'The strongest workflow uses all three.', copy: 'Human QA defines the intent and risk. AI helps accelerate research and preparation. Automation protects stable checks continuously. Each part has a job—and evidence moves between them.', points: ['Human: define questions and evaluate consequences.', 'AI: draft, summarize, and highlight patterns.', 'Automation: execute repeatable checks and report results.'] },
+] as const
+
+type Choice = 'automation' | 'ai' | 'human' | 'hybrid'
+const recommendations: Record<Choice, { title: string; copy: string }> = {
+  automation: { title: 'Start with automation', copy: 'This is stable, repeatable behavior with a clear expected result. Create a reliable automated check and run it continuously.' },
+  ai: { title: 'Use AI as an assistant', copy: 'This is a good place for AI to accelerate a draft, analysis, or first pass. Review the output and keep a human accountable for the decision.' },
+  human: { title: 'Lead with human exploration', copy: 'The behavior or impact is too ambiguous for a script alone. Explore the experience, ask questions, and capture useful evidence.' },
+  hybrid: { title: 'Use a combined approach', copy: 'Use human QA to frame the risk, AI to speed up investigation or design, and automation for the stable checks that emerge.' },
+}
+
+export function AutomationAiGuide({ onBack, theme, onToggleTheme }: { onBack: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [choice, setChoice] = useState<Choice>('hybrid')
+  const lesson = lessons[activeIndex]
+  const recommendation = recommendations[choice]
+  return <main className="api-guide-hub automation-ai-guide" id="top" tabIndex={-1}>
+    <header className="learn-hub-nav"><Logo onHome={onBack} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onBack}>← Back to Learn</button></div></header>
+    <section className="api-guide-hero"><p className="eyebrow">AUTOMATION + AI FOR QA</p><h1>Use the right<br /><em>kind of help.</em></h1><p>A practical guide for knowing when to automate, when to use AI assistance, and when human judgment should lead.</p></section>
+    <section className="api-guide-main" aria-label="Automation and AI training lessons"><aside className="api-guide-tabs" role="tablist" aria-label="Automation and AI topics">{lessons.map((item, index) => <button type="button" key={item.label} className={activeIndex === index ? 'active' : ''} onClick={() => setActiveIndex(index)} role="tab" aria-selected={activeIndex === index}><span>{item.number}</span>{item.label}<b>↗</b></button>)}</aside><article className="api-guide-lesson" aria-live="polite"><p className="eyebrow">{lesson.number} · {lesson.label.toUpperCase()}</p><h2>{lesson.title}</h2><p>{lesson.copy}</p><div className="learning-diagram"><div className="learning-diagram-head"><p className="eyebrow">WORKFLOW</p><span>shared responsibility</span></div><div className="learning-diagram-flow"><div className="learning-diagram-node">Human judgment</div><i>→</i><div className="learning-diagram-node">AI assistance</div><i>→</i><div className="learning-diagram-node">Automated check</div><i>→</i><div className="learning-diagram-node">CI feedback</div></div></div><ul>{lesson.points.map((point) => <li key={point}>{point}</li>)}</ul><div className="api-guide-controls"><button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← Previous</button><button type="button" disabled={activeIndex === lessons.length - 1} onClick={() => setActiveIndex((index) => index + 1)}>Next lesson →</button></div></article></section>
+    <section className="automation-ai-picker"><p className="eyebrow">QUICK DECISION GUIDE</p><h2>What kind of support<br /><em>does this work need?</em></h2><p>Choose the situation that is closest to your work. This is a starting conversation, not an automatic decision.</p><div className="automation-ai-options">{([{ key: 'automation', label: 'Stable regression check' }, { key: 'ai', label: 'Draft or investigate' }, { key: 'human', label: 'Unclear user risk' }, { key: 'hybrid', label: 'Changing workflow' }] as const).map((item) => <button type="button" className={choice === item.key ? 'active' : ''} key={item.key} onClick={() => setChoice(item.key)}>{item.label}</button>)}</div><article><p className="eyebrow">RECOMMENDATION</p><h3>{recommendation.title}</h3><p>{recommendation.copy}</p></article></section>
+  </main>
+}
