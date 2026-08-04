@@ -124,3 +124,7 @@
 :root[data-theme="light"] .learning-diagram { border-color:#c9d4cc; background:#f7fcff; }
 :root[data-theme="light"] .learning-diagram-head { border-color:#c9d4cc; }
 :root[data-theme="light"] .learning-diagram-node { border-color:#9cc5dd; background:#eaf6ff; color:#163a56; }
+:root[data-theme="light"] .automation-ai-picker { border-color:#c9d4cc; background:linear-gradient(120deg,#eff9ff,transparent 62%); }
+:root[data-theme="light"] .automation-ai-options button { border-color:#c9d4cc; background:#fff; color:#354c61; }
+:root[data-theme="light"] .automation-ai-options button.active { border-color:#5da7ce; background:#eaf6ff; color:#163a56; }
+:root[data-theme="light"] .automation-ai-picker article { border-color:#c9d4cc; background:#fff; }
