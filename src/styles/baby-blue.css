@@ -128,3 +128,7 @@
 :root[data-theme="light"] .automation-ai-options button { border-color:#c9d4cc; background:#fff; color:#354c61; }
 :root[data-theme="light"] .automation-ai-options button.active { border-color:#5da7ce; background:#eaf6ff; color:#163a56; }
 :root[data-theme="light"] .automation-ai-picker article { border-color:#c9d4cc; background:#fff; }
+:root[data-theme="light"] .field-guides-grid { border-color:#c9d4cc; }
+:root[data-theme="light"] .field-guides-grid article { border-color:#c9d4cc; background:linear-gradient(135deg,#f3fbff,transparent 72%); }
+:root[data-theme="light"] .field-guides-grid article > p:not(.eyebrow),
+:root[data-theme="light"] .field-guides-heading > p { color:#354c61; }
