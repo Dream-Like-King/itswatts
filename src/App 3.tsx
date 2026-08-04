@@ -23,7 +23,7 @@ function App() {
 
     <section className="labs section" id="labs"><SectionHeading eyebrow="IN THE LAB" title="Experiments with an edge." copy="Small, useful ideas where QA, accessibility, and AI have room to meet." /><div className="labs-list">{labItems.map(([number, title, copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p><a href="#contact">↗</a></article>)}</div></section>
 
-    <section className="contact section" id="contact"><p className="eyebrow">LET’S MAKE SOMETHING BETTER</p><h2>Have a question,<br />project, or <em>bright idea?</em></h2><a href="mailto:hello@itswatt.com" className="contact-email">hello@itswatt.com <span>↗</span></a></section>
+    <section className="contact section" id="contact"><p className="eyebrow">LET’S MAKE SOMETHING BETTER</p><h2>Have a question,<br />project, or <em>bright idea?</em></h2><a href="mailto:contact@itswatts.com" className="contact-email">contact@itswatts.com <span>↗</span></a></section>
     <footer><Logo compact /><p>© {new Date().getFullYear()} It’s Watt. Built with intent.</p><div><a href="#top">Back to top ↑</a><a href="https://github.com/Dream-Like-King" target="_blank" rel="noreferrer">GitHub ↗</a></div></footer>
   </main>
 }

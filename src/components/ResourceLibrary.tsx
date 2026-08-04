@@ -53,7 +53,7 @@ export function ResourceLibrary({ onOpenChat, onOpenToolkits, onOpenLearn, onOpe
       <div><p>A compact collection of templates, tools, and guides for the work in front of you.</p><button type="button" className="button outline" onClick={() => setIsOpen(true)}>Browse all {resources.length} resources <span aria-hidden="true">↗</span></button></div>
     </div>
     <div className="resource-grid resource-featured">{featuredResources.map((resource) => <ResourceCard key={resource.title} resource={resource} onOpenChat={onOpenChat} onOpenToolkits={onOpenToolkits} onOpenLearn={onOpenLearn} onOpenWeekly={onOpenWeekly} />)}</div>
-    <p className="resource-request">Have a QA topic you want covered? <a href="mailto:watson.derrick@outlook.com?subject=It%E2%80%99s%20Watts%20resource%20idea">Suggest a resource ↗</a></p>
+    <p className="resource-request">Have a QA topic you want covered? <a href="mailto:contact@itswatts.com?subject=QA%20resource%20idea">Suggest a resource ↗</a></p>
     {isOpen && <div className="resource-overlay" role="presentation" onMouseDown={() => setIsOpen(false)}>
       <article className="resource-dialog" role="dialog" aria-modal="true" aria-labelledby="resource-library-title" onMouseDown={(event) => event.stopPropagation()}>
         <button className="resource-close" type="button" onClick={() => setIsOpen(false)} aria-label="Close resource library">×</button>
