@@ -18,8 +18,10 @@ type LearningToolsProps = {
 
 function readProgress() {
   return guides.map((guide) => {
-    const lesson = Number(localStorage.getItem(guide.storageKey))
-    const updated = Number(localStorage.getItem(`${guide.storageKey}-updated`))
+    const storedLesson = localStorage.getItem(guide.storageKey)
+    const storedUpdated = localStorage.getItem(`${guide.storageKey}-updated`)
+    const lesson = storedLesson === null ? Number.NaN : Number(storedLesson)
+    const updated = storedUpdated === null ? 0 : Number(storedUpdated)
     return { ...guide, lesson: Number.isInteger(lesson) && lesson >= 0 && lesson < guide.lessons ? lesson : null, updated: Number.isFinite(updated) ? updated : 0 }
   })
 }
