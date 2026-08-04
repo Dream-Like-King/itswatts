@@ -4,9 +4,9 @@ import { LearningLevels } from './LearningLevels'
 import { LearningPaths } from './LearningPaths'
 import { ThemeToggle } from './ThemeToggle'
 
-type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenPractice: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
+type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenPractice: () => void; onOpenApiGuide: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
-export function LearnHub({ onClose, onOpenTools, onOpenPractice, theme, onToggleTheme }: LearnHubProps) {
+export function LearnHub({ onClose, onOpenTools, onOpenPractice, onOpenApiGuide, theme, onToggleTheme }: LearnHubProps) {
   return <main className="learn-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="learn-hero"><p className="eyebrow">LEARN</p><h1>Quality starts<br />before <em>testing.</em></h1><p>Build a clear picture of what QA is, where it belongs in the delivery process, and what to explore next.</p><a href="#what-is-qa">Start with QA <span>↓</span></a></section>
@@ -16,6 +16,7 @@ export function LearnHub({ onClose, onOpenTools, onOpenPractice, theme, onToggle
     <LearningLevels onOpenTools={onOpenTools} />
     <LearningPaths />
     <KnowledgeBase />
+    <section className="learn-api-preview"><div><p className="eyebrow">NEW · API TESTING</p><h2>Learn the system<br /><em>behind the screen.</em></h2><p>Work through a compact field guide on requests, responses, validation, authorization, and failure behavior.</p></div><button type="button" onClick={onOpenApiGuide}>Open API Testing Field Guide <span>↗</span></button></section>
     <section className="learn-next"><p className="eyebrow">KEEP GOING</p><h2>Choose your next<br /><em>useful step.</em></h2><p>Explore the current Automation, AI for QA, and Quality Essentials paths. Use the Knowledge Base as you learn, then take a focused idea into your next sprint.</p><div><button type="button" onClick={onOpenPractice}>Open the Practice Lab <span>↗</span></button><button type="button" className="learn-next-link" onClick={() => document.getElementById('learning-paths')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Explore learning paths <span>↗</span></button></div></section>
   </main>
 }

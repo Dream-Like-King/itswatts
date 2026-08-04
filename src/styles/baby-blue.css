@@ -102,3 +102,15 @@
 :root[data-theme="light"] .fix-code .code-choices > button { color:#17231b; }
 :root[data-theme="light"] .fix-code .code-choices > button small { color:#354c61; }
 :root[data-theme="light"] .fix-code .code-next { color:#075985; }
+
+:root[data-theme="light"] .api-guide-hub { background:#f5f8f5; color:#17231b; }
+:root[data-theme="light"] .api-guide-main,
+:root[data-theme="light"] .api-guide-lesson,
+:root[data-theme="light"] .api-guide-tabs,
+:root[data-theme="light"] .api-guide-example { background:#ffffff; border-color:#c9d4cc; }
+:root[data-theme="light"] .api-guide-tabs button { color:#354c61; border-color:#c9d4cc; }
+:root[data-theme="light"] .api-guide-tabs button.active { background:#eaf6ff; color:#17231b; }
+:root[data-theme="light"] .api-guide-lesson > p:not(.eyebrow),
+:root[data-theme="light"] .api-guide-lesson li,
+:root[data-theme="light"] .api-guide-checklist > div p { color:#354c61; }
+:root[data-theme="light"] .api-guide-example code { color:#163a56; }
