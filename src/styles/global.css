@@ -318,6 +318,19 @@ button:focus-visible,a:focus-visible,[role="tab"]:focus-visible { outline:3px so
 /* Visible lesson position keeps short guides easy to resume. */
 .guide-progress { float:right; color:var(--dim); font:9px 'DM Mono',monospace; letter-spacing:.07em; }
 @media (max-width:800px) { .guide-progress { display:block; float:none; margin-top:7px; } }
+
+/* Choose your level and Explore a path use the compact Field Guides card language. */
+.learning-levels,.field-guide-paths { padding-top:105px; padding-bottom:105px; }
+.learning-levels .level-heading,.field-guide-paths .section-heading { align-items:end; grid-template-columns:1fr minmax(0,420px); gap:42px; margin-bottom:30px; }
+.learning-levels .level-heading p,.field-guide-paths .section-copy { margin:0; max-width:420px; }
+.learning-levels .level-grid,.field-guide-paths .learning-grid { grid-template-columns:repeat(3,1fr); border:1px solid var(--line); }
+.learning-levels .level-grid button,.field-guide-paths .learning-card { min-height:255px; padding:26px; border:0; border-right:1px solid var(--line); background:linear-gradient(135deg,rgba(125,211,252,.07),transparent 70%); }
+.learning-levels .level-grid button:last-child,.field-guide-paths .learning-card:last-child { border-right:0; }
+.learning-levels .level-grid button:hover,.learning-levels .level-grid button.active,.field-guide-paths .learning-card:hover { background:rgba(125,211,252,.14); transform:none; box-shadow:inset 0 -2px var(--green); }
+.learning-levels .level-grid h3,.field-guide-paths .learning-card h3 { margin:38px 0 13px; font-size:clamp(1.4rem,2.1vw,1.85rem); }
+.learning-levels .level-grid b { padding-top:24px; }.field-guide-paths .learning-card button { margin-top:auto; padding-top:24px; }
+.learning-levels .level-detail { margin-top:20px; }
+@media (max-width:800px) { .learning-levels,.field-guide-paths { padding-top:60px; padding-bottom:60px; }.learning-levels .level-heading,.field-guide-paths .section-heading { display:flex; align-items:flex-start; flex-direction:column; gap:16px; margin-bottom:22px; }.learning-levels .level-grid,.field-guide-paths .learning-grid { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; }.learning-levels .level-grid button,.field-guide-paths .learning-card { min-width:245px; min-height:225px; box-sizing:border-box; flex:0 0 245px; scroll-snap-align:start; border-right:1px solid var(--line); }.learning-levels .level-grid button:last-child,.field-guide-paths .learning-card:last-child { border-right:1px solid var(--line); }.learning-levels .level-grid h3,.field-guide-paths .learning-card h3 { margin-top:32px; } }
 :root[data-theme="dark"] .learn-hub p,:root[data-theme="dark"] .story-hub p,:root[data-theme="dark"] .practice-hub p,:root[data-theme="dark"] .toolkits-hub p,:root[data-theme="dark"] .resources-hub p,:root[data-theme="dark"] .software-hub p,:root[data-theme="dark"] .career-hub p { color:#8b98a8; }
 :root[data-theme="dark"] .learn-hub .eyebrow,:root[data-theme="dark"] .story-hub .eyebrow,:root[data-theme="dark"] .practice-hub .eyebrow,:root[data-theme="dark"] .toolkits-hub .eyebrow,:root[data-theme="dark"] .resources-hub .eyebrow,:root[data-theme="dark"] .software-hub .eyebrow,:root[data-theme="dark"] .career-hub .eyebrow,:root[data-theme="dark"] .learn-hub a,:root[data-theme="dark"] .story-hub a,:root[data-theme="dark"] .practice-hub a,:root[data-theme="dark"] .toolkits-hub a,:root[data-theme="dark"] .resources-hub a,:root[data-theme="dark"] .software-hub a,:root[data-theme="dark"] .career-hub a { color:#7dd3fc; }
 :root[data-theme="dark"] .learn-hub-nav button { background:rgba(27,34,43,.72); border-color:rgba(139,148,158,.42); color:#e6edf5; }

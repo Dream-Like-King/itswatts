@@ -132,3 +132,10 @@
 :root[data-theme="light"] .field-guides-grid article { border-color:#c9d4cc; background:linear-gradient(135deg,#f3fbff,transparent 72%); }
 :root[data-theme="light"] .field-guides-grid article > p:not(.eyebrow),
 :root[data-theme="light"] .field-guides-heading > p { color:#354c61; }
+:root[data-theme="light"] .learning-levels .level-grid,
+:root[data-theme="light"] .field-guide-paths .learning-grid { border-color:#c9d4cc; }
+:root[data-theme="light"] .learning-levels .level-grid button,
+:root[data-theme="light"] .field-guide-paths .learning-card { border-color:#c9d4cc; background:linear-gradient(135deg,#f3fbff,transparent 72%); }
+:root[data-theme="light"] .learning-levels .level-grid button.active,
+:root[data-theme="light"] .learning-levels .level-grid button:hover,
+:root[data-theme="light"] .field-guide-paths .learning-card:hover { background:#eaf6ff; }
