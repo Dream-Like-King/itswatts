@@ -356,6 +356,13 @@ button:focus-visible,a:focus-visible,[role="tab"]:focus-visible { outline:3px so
 /* Demo Lab is a primary navigation action, not a plain text link. */
 .practice-hero .button.primary { border-radius:999px; padding:14px 18px; border:1px solid rgba(112,232,133,.78); background:linear-gradient(135deg,rgba(125,211,252,.92),rgba(32,137,70,.84)); box-shadow:0 12px 30px rgba(125,211,252,.24),inset 0 1px rgba(255,255,255,.25); color:#fff !important; }
 .practice-hero .button.primary:hover { transform:translateY(-2px); border-color:#a5f4b1; background:linear-gradient(135deg,rgba(79,210,99,.96),rgba(37,154,77,.9)); }
+
+/* Compact library and career details: keep the first view short; reveal depth on demand. */
+.knowledge-actions,.career-actions { display:flex; margin-top:22px; }
+.certifications-action { margin-top:28px; }
+.knowledge-actions .button,.career-actions .button { min-height:42px; }
+:root[data-theme="light"] .knowledge-actions .button.outline,:root[data-theme="light"] .career-actions .button.outline { color:#075c90; border-color:rgba(2,132,199,.42); background:rgba(255,255,255,.74); }
+:root[data-theme="light"] .knowledge-actions .button.outline:hover,:root[data-theme="light"] .career-actions .button.outline:hover { color:#062236; border-color:#0284c7; background:#e0f2fe; }
 @media (max-width:800px) { .learn-hub-nav { width:calc(100% - 40px); height:62px; margin-top:10px; padding:0 14px; }.learn-hub-nav .logo { font-size:16px; } }
 
 /* Ask Watt follows the explicit site theme instead of only the device preference. */
