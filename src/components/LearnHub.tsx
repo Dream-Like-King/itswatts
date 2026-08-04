@@ -4,7 +4,6 @@ import { LearningLevels } from './LearningLevels'
 import { LearningPaths } from './LearningPaths'
 import { ThemeToggle } from './ThemeToggle'
 import { LearningPacks, LearningProgress, LearningSearch } from './LearningTools'
-import { PageDetails } from './PageDetails'
 
 type LearnHubProps = { onClose: () => void; onOpenTools: () => void; onOpenPractice: () => void; onOpenApiGuide: () => void; onOpenRagTraining: () => void; onOpenTestDesign: () => void; onOpenAutomationAi: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
@@ -19,8 +18,6 @@ export function LearnHub({ onClose, onOpenTools, onOpenPractice, onOpenApiGuide,
   return <main className="learn-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="learn-hero"><p className="eyebrow">LEARN</p><h1>Quality starts<br />before <em>testing.</em></h1><p>Build a clear picture of what QA is, where it belongs in the delivery process, and what to explore next.</p><a href="#what-is-qa" onClick={(event) => { event.preventDefault(); document.getElementById('what-is-qa')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>Start with QA <span>↓</span></a></section>
-    <PageDetails title="Learn in small, useful steps." summary="You do not need to read this page in order. Start with your current question, then use the guides, practice, and downloads to keep moving." items={['Start with QA for a shared foundation.', 'Choose a level or learning path when you want direction.', 'Use Field Guides for focused lessons, examples, and practice prompts.']} />
-
     <div className="learning-utility-grid">
       <LearningSearch onOpenGuide={openGuide} onOpenPractice={onOpenPractice} onOpenToolkits={onOpenTools} onJumpToKnowledge={jumpToKnowledge} />
       <LearningProgress onOpenGuide={openGuide} />
