@@ -4,6 +4,7 @@ import { BugHunt } from './BugHunt'
 import { AdvancedBugHunts } from './AdvancedBugHunts'
 import { FixCodeChallenges } from './FixCodeChallenges'
 import { ThemeToggle } from './ThemeToggle'
+import { PageDetails } from './PageDetails'
 
 type PracticeHubProps = { onClose: () => void; onOpenTools: () => void; onOpenLearn: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }
 
@@ -93,6 +94,7 @@ export function PracticeHub({ onClose, onOpenTools, onOpenLearn, theme, onToggle
   return <main className="practice-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onClose} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onClose}>← Back to home</button></div></header>
     <section className="practice-hero"><p className="eyebrow">PRACTICE LAB</p><h1>Learn by making<br /><em>small decisions.</em></h1><p>Build confidence through short QA exercises, realistic scenarios, and reusable templates for your next sprint.</p><p>The Demo Lab is a safe, realistic storefront for hands-on testing. Sign in with demo credentials, search products, manage a cart, apply a promo code, and complete a no-payment checkout—manually or with automation.</p><div className="hero-actions"><a className="button primary" href="https://demo.itswatts.com" target="_blank" rel="noreferrer">Open the Demo Lab <span aria-hidden="true">↗</span></a></div></section>
+    <PageDetails title="Practice one skill at a time." summary="The lab is designed to reward evidence and reasoning, not guesswork. There is no required order." items={['Use Your Roadmap for a suggested learning direction.', 'Choose Practice Scenarios for short risk-based decisions.', 'Use Bug Hunt and Fix the Code when you want more hands-on investigation.']} />
 
     <div className="practice-tabs" role="tablist" aria-label="Practice Lab sections">
       <button type="button" className={activeTab === 'roadmap' ? 'active' : ''} onClick={() => setActiveTab('roadmap')} role="tab" aria-selected={activeTab === 'roadmap'}><span className="practice-tab-number">01 ·</span><span className="practice-tab-label">Your roadmap</span></button>

@@ -18,6 +18,7 @@ import { HomeDashboard } from './components/HomeDashboard'
 import { LegalDialog } from './components/LegalDialog'
 import type { LegalDocument } from './components/LegalDialog'
 import { SiteFooter } from './components/SiteFooter'
+import { PageDetails } from './components/PageDetails'
 
 type Theme = 'light' | 'dark'
 
@@ -92,6 +93,7 @@ function App() {
       <div className="hero-content"><p className="eyebrow hero-eyebrow"><span></span> AUTOMATION · AI · QUALITY ENGINEERING</p><h1>Practical QA education<br />for the <em>AI era.</em></h1><p className="hero-copy">Learn the testing habits, automation patterns, and AI workflows that help you build software people can trust.</p><div className="hero-actions"><button type="button" className="button primary" onClick={() => openLearn('learning-levels')}>Start learning <span>↓</span></button><button type="button" className="button quiet" onClick={openToolkits}>Open QA Toolkits <span>↗</span></button></div></div>
       <div className="hero-footer"><span>LEARN IN PUBLIC. TEST WITH PURPOSE.</span><span className="scroll-mark">EXPLORE THE HUB <i></i></span></div>
     </section>
+    <PageDetails title="A practical QA learning hub, not a traditional portfolio." summary="Start with the area that fits your current goal. The deeper content lives in focused destinations so the home page stays quick to scan." items={['Learn for foundations, Field Guides, and downloads.', 'Practice for scenarios, Bug Hunt, and code challenges.', 'Toolkits for focused helpers you can use in a sprint.']} />
 
     <HomeDashboard onOpenLearn={() => openLearn()} onOpenPractice={openPractice} onOpenToolkits={openToolkits} onOpenCareer={openCareer} />
 
