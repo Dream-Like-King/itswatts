@@ -319,6 +319,14 @@ button:focus-visible,a:focus-visible,[role="tab"]:focus-visible { outline:3px so
 .guide-progress { float:right; color:var(--dim); font:9px 'DM Mono',monospace; letter-spacing:.07em; }
 @media (max-width:800px) { .guide-progress { display:block; float:none; margin-top:7px; } }
 
+/* Keep lesson names and controls readable within narrow mobile guide panels. */
+@media (max-width:800px) {
+  .api-guide-tabs button { min-width:168px; white-space:normal; line-height:1.35; }
+  .api-guide-controls { gap:16px; }
+  .api-guide-controls button { min-width:0; flex:1 1 0; white-space:normal; line-height:1.45; }
+  .api-guide-controls button:last-child { text-align:right; }
+}
+
 /* Choose your level and Explore a path use the compact Field Guides card language. */
 .learning-levels,.field-guide-paths { padding-top:105px; padding-bottom:105px; }
 .learning-levels .level-heading,.field-guide-paths .section-heading { align-items:end; grid-template-columns:1fr minmax(0,420px); gap:42px; margin-bottom:30px; }
