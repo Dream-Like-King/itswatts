@@ -17,6 +17,7 @@ export function CareerPaths({ onOpenResources }: CareerPathsProps) {
   return <section className="learn-section career-paths" id="career-paths">
     <p className="eyebrow">CHOOSE A DIRECTION</p>
     <div className="level-heading"><h2>Find the work<br />you want to <em>grow into.</em></h2><p>Roles and titles differ from team to team. Use these paths as a way to choose skills to develop, not as a single required route.</p></div>
+    <p className="career-swipe-hint" aria-hidden="true">Swipe to compare paths <span>→</span></p>
     <div className="career-grid">{careers.map((career, index) => <button key={career.role} type="button" className={selectedIndex === index ? 'active' : ''} onClick={() => { setSelectedIndex(index); setShowDetails(false) }} aria-pressed={selectedIndex === index}><span>{career.number}</span><h3>{career.role}</h3><p>{career.summary}</p></button>)}</div>
     <div className="career-actions"><button type="button" className="button outline" onClick={() => setShowDetails((current) => !current)} aria-expanded={showDetails}>{showDetails ? 'Hide path details' : `View ${selected.role} details`} <span aria-hidden="true">↗</span></button></div>
     {showDetails && <article className="career-detail" aria-live="polite"><p className="eyebrow">{selected.number} · {selected.role.toUpperCase()}</p><h3>Build toward the work you want to do.</h3><p>{selected.practice}</p><div>{selected.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></article>}

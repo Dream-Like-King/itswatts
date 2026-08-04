@@ -363,6 +363,16 @@ button:focus-visible,a:focus-visible,[role="tab"]:focus-visible { outline:3px so
 .knowledge-actions .button,.career-actions .button { min-height:42px; }
 :root[data-theme="light"] .knowledge-actions .button.outline,:root[data-theme="light"] .career-actions .button.outline { color:#075c90; border-color:rgba(2,132,199,.42); background:rgba(255,255,255,.74); }
 :root[data-theme="light"] .knowledge-actions .button.outline:hover,:root[data-theme="light"] .career-actions .button.outline:hover { color:#062236; border-color:#0284c7; background:#e0f2fe; }
+
+.career-swipe-hint { display:none; }
+@media (max-width:800px) {
+  .career-swipe-hint { display:flex; justify-content:space-between; margin:0 0 13px; color:var(--dim); font:10px 'DM Mono',monospace; letter-spacing:.08em; }
+  .career-swipe-hint span { color:var(--green); font-size:15px; line-height:.7; }
+  .career-grid { display:flex; width:100vw; margin-left:calc((100% - 100vw) / 2); padding:0 20px 10px; overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; border-left:0; scrollbar-width:none; }
+  .career-grid::-webkit-scrollbar { display:none; }
+  .career-grid button { box-sizing:border-box; flex:0 0 min(82vw,340px); min-height:245px; scroll-snap-align:start; }
+  .career-grid button:first-child { border-left:1px solid var(--line); }
+}
 @media (max-width:800px) { .learn-hub-nav { width:calc(100% - 40px); height:62px; margin-top:10px; padding:0 14px; }.learn-hub-nav .logo { font-size:16px; } }
 
 /* Ask Watt follows the explicit site theme instead of only the device preference. */
