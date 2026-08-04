@@ -1,3 +1,5 @@
+import { GuideLessonArticle } from './GuideLessonArticle'
+
 type Guide = 'automation-ai' | 'test-design' | 'api-testing' | 'rag-training'
 
 const notes: Record<Guide, Record<string, { remember: string; tryIt: string }>> = {
@@ -37,5 +39,5 @@ const notes: Record<Guide, Record<string, { remember: string; tryIt: string }>> 
 export function GuideLessonNotes({ guide, lesson }: { guide: Guide; lesson: string }) {
   const note = notes[guide][lesson]
   if (!note) return null
-  return <aside className="guide-lesson-notes"><div><p className="eyebrow">REMEMBER</p><p>{note.remember}</p></div><div><p className="eyebrow">TRY IT</p><p>{note.tryIt}</p></div></aside>
+  return <><aside className="guide-lesson-notes"><div><p className="eyebrow">REMEMBER</p><p>{note.remember}</p></div><div><p className="eyebrow">TRY IT</p><p>{note.tryIt}</p></div></aside><GuideLessonArticle guide={guide} lesson={lesson} title={lesson} copy={note.remember} points={[note.tryIt]} /></>
 }
