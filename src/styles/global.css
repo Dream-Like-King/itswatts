@@ -292,6 +292,16 @@
 .api-guide-example .api-code-response > span { color:#86efac; }
 .api-guide-example .api-code-payload > span { color:#fcd34d; }
 .api-guide-example .api-code-assertion > span { color:#f9a8d4; }
+
+/* Compact visual explainers for concepts that are easier to see as a flow. */
+.learning-diagram { margin:25px 0; overflow:hidden; border:1px solid var(--line); background:rgba(125,211,252,.045); }
+.learning-diagram-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 16px; border-bottom:1px solid var(--line); }
+.learning-diagram-head .eyebrow { margin:0; }
+.learning-diagram-head > span { color:var(--dim); font-size:10px; text-transform:uppercase; }
+.learning-diagram-flow { display:flex; align-items:stretch; padding:18px; }
+.learning-diagram-node { display:grid; flex:1; min-height:54px; place-items:center; border:1px solid rgba(125,211,252,.35); background:rgba(125,211,252,.08); color:var(--text); font-size:11px; line-height:1.45; text-align:center; }
+.learning-diagram-flow i { display:grid; width:38px; flex:0 0 38px; place-items:center; color:var(--green); font-style:normal; }
+@media (max-width:800px) { .learning-diagram-flow { align-items:center; flex-direction:column; padding:15px; }.learning-diagram-node { box-sizing:border-box; width:100%; min-height:46px; }.learning-diagram-flow i { width:auto; height:28px; flex:0 0 28px; transform:rotate(90deg); }.learning-diagram-head { align-items:flex-start; flex-direction:column; gap:4px; } }
 :root[data-theme="dark"] .learn-hub p,:root[data-theme="dark"] .story-hub p,:root[data-theme="dark"] .practice-hub p,:root[data-theme="dark"] .toolkits-hub p,:root[data-theme="dark"] .resources-hub p,:root[data-theme="dark"] .software-hub p,:root[data-theme="dark"] .career-hub p { color:#8b98a8; }
 :root[data-theme="dark"] .learn-hub .eyebrow,:root[data-theme="dark"] .story-hub .eyebrow,:root[data-theme="dark"] .practice-hub .eyebrow,:root[data-theme="dark"] .toolkits-hub .eyebrow,:root[data-theme="dark"] .resources-hub .eyebrow,:root[data-theme="dark"] .software-hub .eyebrow,:root[data-theme="dark"] .career-hub .eyebrow,:root[data-theme="dark"] .learn-hub a,:root[data-theme="dark"] .story-hub a,:root[data-theme="dark"] .practice-hub a,:root[data-theme="dark"] .toolkits-hub a,:root[data-theme="dark"] .resources-hub a,:root[data-theme="dark"] .software-hub a,:root[data-theme="dark"] .career-hub a { color:#7dd3fc; }
 :root[data-theme="dark"] .learn-hub-nav button { background:rgba(27,34,43,.72); border-color:rgba(139,148,158,.42); color:#e6edf5; }

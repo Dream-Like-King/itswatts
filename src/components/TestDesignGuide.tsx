@@ -13,13 +13,29 @@ const lessons: Lesson[] = [
   { number: '06', label: 'Pairwise', title: 'Cover interactions without testing every combination.', copy: 'Pairwise testing is useful when many options can interact. It aims to cover each important pair of values while avoiding the cost of every possible combination.', points: ['List the factors and their possible values.', 'Flag risky combinations that need extra coverage.', 'Use pairwise coverage as a starting point, not a substitute for judgment.'], example: [{ label: 'factors', value: 'Browser · role · payment type · region', hint: 'Inputs that may interact.' }, { label: 'pair', value: 'Safari + admin · EU + card', hint: 'Examples of pair coverage.' }, { label: 'risk add-on', value: 'Add known fraud and accessibility cases separately.', hint: 'High-risk cases may need explicit coverage.' }] },
 ]
 
+function TestDesignDiagram({ lesson }: { lesson: Lesson }) {
+  const diagrams: Record<string, string[]> = {
+    'Start with risk': ['User goal', 'Risk', 'Focused check'],
+    Boundaries: ['7', '8–64 allowed', '65'],
+    Partitions: ['Invalid group', 'Valid group', 'Invalid group'],
+    Decisions: ['Conditions', 'Rule combination', 'Outcome'],
+    'State changes': ['Pending', 'Paid', 'Shipped'],
+    Pairwise: ['Factors', 'Useful pairs', 'Risk add-ons'],
+  }
+  const nodes = diagrams[lesson.label]
+  return <div className="learning-diagram" aria-label={`${lesson.label} visual explainer`}>
+    <div className="learning-diagram-head"><p className="eyebrow">VISUAL EXPLAINER</p><span>{lesson.label}</span></div>
+    <div className="learning-diagram-flow">{nodes.map((node, index) => <><div className="learning-diagram-node" key={node}>{node}</div>{index < nodes.length - 1 && <i key={`${node}-arrow`} aria-hidden="true">→</i>}</>)}</div>
+  </div>
+}
+
 export function TestDesignGuide({ onBack, theme, onToggleTheme }: { onBack: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const lesson = lessons[activeIndex]
   return <main className="api-guide-hub test-design-guide" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onBack} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onBack}>← Back to Learn</button></div></header>
     <section className="api-guide-hero"><p className="eyebrow">TEST DESIGN FIELD GUIDE</p><h1>Choose checks<br /><em>with purpose.</em></h1><p>Build stronger coverage with practical techniques for boundaries, rules, states, and risk—not more random test cases.</p></section>
-    <section className="api-guide-main" aria-label="Test design lessons"><aside className="api-guide-tabs" role="tablist" aria-label="Test design topics">{lessons.map((item, index) => <button type="button" key={item.label} className={activeIndex === index ? 'active' : ''} onClick={() => setActiveIndex(index)} role="tab" aria-selected={activeIndex === index}><span>{item.number}</span>{item.label}<b>↗</b></button>)}</aside><article className="api-guide-lesson" aria-live="polite"><p className="eyebrow">{lesson.number} · {lesson.label.toUpperCase()}</p><h2>{lesson.title}</h2><p>{lesson.copy}</p><ul>{lesson.points.map((point) => <li key={point}>{point}</li>)}</ul><div className="api-guide-example"><div className="api-example-heading"><p className="eyebrow">WORKED EXAMPLE</p><span>Hover a line for context.</span></div>{lesson.example.map((line) => <code key={line.value} title={line.hint}><span>{line.label}</span>{line.value}</code>)}</div><div className="api-guide-controls"><button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← Previous</button><button type="button" disabled={activeIndex === lessons.length - 1} onClick={() => setActiveIndex((index) => index + 1)}>Next lesson →</button></div></article></section>
+    <section className="api-guide-main" aria-label="Test design lessons"><aside className="api-guide-tabs" role="tablist" aria-label="Test design topics">{lessons.map((item, index) => <button type="button" key={item.label} className={activeIndex === index ? 'active' : ''} onClick={() => setActiveIndex(index)} role="tab" aria-selected={activeIndex === index}><span>{item.number}</span>{item.label}<b>↗</b></button>)}</aside><article className="api-guide-lesson" aria-live="polite"><p className="eyebrow">{lesson.number} · {lesson.label.toUpperCase()}</p><h2>{lesson.title}</h2><p>{lesson.copy}</p><TestDesignDiagram lesson={lesson} /><ul>{lesson.points.map((point) => <li key={point}>{point}</li>)}</ul><div className="api-guide-example"><div className="api-example-heading"><p className="eyebrow">WORKED EXAMPLE</p><span>Hover a line for context.</span></div>{lesson.example.map((line) => <code key={line.value} title={line.hint}><span>{line.label}</span>{line.value}</code>)}</div><div className="api-guide-controls"><button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← Previous</button><button type="button" disabled={activeIndex === lessons.length - 1} onClick={() => setActiveIndex((index) => index + 1)}>Next lesson →</button></div></article></section>
     <section className="api-guide-checklist"><p className="eyebrow">DESIGN CHECKLIST</p><h2>Before writing a test case,<br /><em>choose the reason for it.</em></h2><div>{['What user risk or business rule does this check cover?', 'Which boundary, state, or combination could change behavior?', 'What evidence would show that the result is correct?', 'What is the smallest useful set of checks for this risk?'].map((item, index) => <p key={item}><span>{String(index + 1).padStart(2, '0')}</span>{item}</p>)}</div></section>
   </main>
 }

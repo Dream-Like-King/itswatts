@@ -121,3 +121,6 @@
 :root[data-theme="light"] .api-guide-example .api-code-response > span { color:#047857; }
 :root[data-theme="light"] .api-guide-example .api-code-payload > span { color:#a16207; }
 :root[data-theme="light"] .api-guide-example .api-code-assertion > span { color:#be185d; }
+:root[data-theme="light"] .learning-diagram { border-color:#c9d4cc; background:#f7fcff; }
+:root[data-theme="light"] .learning-diagram-head { border-color:#c9d4cc; }
+:root[data-theme="light"] .learning-diagram-node { border-color:#9cc5dd; background:#eaf6ff; color:#163a56; }

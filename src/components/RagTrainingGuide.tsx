@@ -20,6 +20,22 @@ const lessons: Lesson[] = [
   { number: '06', label: 'Evaluate', title: 'Measure usefulness, not just fluent writing.', copy: 'Evaluation connects RAG behavior to real user needs. Use a representative question set, define what a good answer needs, and review both retrieval quality and answer quality over time.', points: ['Create a small, reviewed set of real questions.', 'Score relevance, grounding, completeness, and safety.', 'Track regressions when sources or retrieval settings change.'], example: [{ label: 'test set', value: '50 reviewed questions across common user tasks', hint: 'A stable evaluation set.' }, { label: 'metrics', value: 'Retrieval relevance · groundedness · safe fallback rate', hint: 'Measures that reveal where the system is weak.' }, { label: 'release', value: 'Compare the new version against the baseline.', hint: 'Use evaluations before releasing changes.' }] },
 ]
 
+function RagDiagram({ lesson }: { lesson: Lesson }) {
+  const diagrams: Record<string, string[]> = {
+    'The idea': ['Question', 'Retrieve sources', 'Grounded answer'],
+    'Prepare content': ['Source', 'Chunk', 'Metadata'],
+    'Retrieve well': ['Question', 'Rank passages', 'Relevant context'],
+    'Ground answers': ['Evidence', 'Answer', 'Safe fallback'],
+    'Test risks': ['User role', 'Access check', 'Safe result'],
+    Evaluate: ['Question set', 'Score results', 'Improve release'],
+  }
+  const nodes = diagrams[lesson.label]
+  return <div className="learning-diagram" aria-label={`${lesson.label} RAG visual explainer`}>
+    <div className="learning-diagram-head"><p className="eyebrow">VISUAL EXPLAINER</p><span>{lesson.label}</span></div>
+    <div className="learning-diagram-flow">{nodes.map((node, index) => <><div className="learning-diagram-node" key={node}>{node}</div>{index < nodes.length - 1 && <i key={`${node}-arrow`} aria-hidden="true">→</i>}</>)}</div>
+  </div>
+}
+
 export function RagTrainingGuide({ onBack, theme, onToggleTheme }: { onBack: () => void; theme: 'light' | 'dark'; onToggleTheme: () => void }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const lesson = lessons[activeIndex]
@@ -27,7 +43,7 @@ export function RagTrainingGuide({ onBack, theme, onToggleTheme }: { onBack: () 
   return <main className="api-guide-hub rag-guide-hub" id="top" tabIndex={-1}>
     <header className="learn-hub-nav"><Logo onHome={onBack} /><div className="hub-nav-actions"><ThemeToggle theme={theme} onToggle={onToggleTheme} /><button type="button" onClick={onBack}>← Back to Learn</button></div></header>
     <section className="api-guide-hero"><p className="eyebrow">RAG TRAINING</p><h1>Make AI answers<br /><em>evidence-led.</em></h1><p>A practical introduction to retrieval-augmented generation for QA: source quality, retrieval, grounded answers, safety, and evaluation.</p></section>
-    <section className="api-guide-main" aria-label="RAG training lessons"><aside className="api-guide-tabs" role="tablist" aria-label="RAG training topics">{lessons.map((item, index) => <button type="button" key={item.label} className={activeIndex === index ? 'active' : ''} onClick={() => setActiveIndex(index)} role="tab" aria-selected={activeIndex === index}><span>{item.number}</span>{item.label}<b>↗</b></button>)}</aside><article className="api-guide-lesson" aria-live="polite"><p className="eyebrow">{lesson.number} · {lesson.label.toUpperCase()}</p><h2>{lesson.title}</h2><p>{lesson.copy}</p><ul>{lesson.points.map((point) => <li key={point}>{point}</li>)}</ul><div className="api-guide-example"><div className="api-example-heading"><p className="eyebrow">EXAMPLE FLOW</p><span>Hover a line for context.</span></div>{lesson.example.map((line) => <code key={line.value} title={line.hint}><span>{line.label}</span>{line.value}</code>)}</div><div className="api-guide-controls"><button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← Previous</button><button type="button" disabled={activeIndex === lessons.length - 1} onClick={() => setActiveIndex((index) => index + 1)}>Next lesson →</button></div></article></section>
+    <section className="api-guide-main" aria-label="RAG training lessons"><aside className="api-guide-tabs" role="tablist" aria-label="RAG training topics">{lessons.map((item, index) => <button type="button" key={item.label} className={activeIndex === index ? 'active' : ''} onClick={() => setActiveIndex(index)} role="tab" aria-selected={activeIndex === index}><span>{item.number}</span>{item.label}<b>↗</b></button>)}</aside><article className="api-guide-lesson" aria-live="polite"><p className="eyebrow">{lesson.number} · {lesson.label.toUpperCase()}</p><h2>{lesson.title}</h2><p>{lesson.copy}</p><RagDiagram lesson={lesson} /><ul>{lesson.points.map((point) => <li key={point}>{point}</li>)}</ul><div className="api-guide-example"><div className="api-example-heading"><p className="eyebrow">EXAMPLE FLOW</p><span>Hover a line for context.</span></div>{lesson.example.map((line) => <code key={line.value} title={line.hint}><span>{line.label}</span>{line.value}</code>)}</div><div className="api-guide-controls"><button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← Previous</button><button type="button" disabled={activeIndex === lessons.length - 1} onClick={() => setActiveIndex((index) => index + 1)}>Next lesson →</button></div></article></section>
     <section className="api-guide-checklist"><p className="eyebrow">RAG QA CHECKLIST</p><h2>Before releasing a RAG feature,<br /><em>test the evidence path.</em></h2><div>{['Can this user access every source used in the answer?', 'Are the returned passages relevant, current, and complete?', 'Does the answer make claims that the evidence supports?', 'Does the system fail safely when it cannot find enough evidence?'].map((item, index) => <p key={item}><span>{String(index + 1).padStart(2, '0')}</span>{item}</p>)}</div></section>
   </main>
 }
