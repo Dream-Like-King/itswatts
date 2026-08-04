@@ -10,6 +10,7 @@ export function useGuideProgress(storageKey: string, lessonCount: number) {
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, String(activeIndex))
+    window.localStorage.setItem(`${storageKey}-updated`, String(Date.now()))
   }, [activeIndex, storageKey])
 
   return [activeIndex, setActiveIndex] as const
