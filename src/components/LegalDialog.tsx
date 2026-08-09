@@ -12,7 +12,7 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'PRIVACY',
     title: 'Privacy notice',
     body: <>
-      <p><strong>Last updated: August 1, 2026.</strong> it’s Wattϟ is an educational QA website. We collect only the information needed to operate the site and improve its learning resources.</p>
+      <p><strong>Last updated: August 8, 2026.</strong> it’s Wattϟ is an educational QA website operated by ITS WATTS, LLC, a Mississippi limited liability company. We collect only the information needed to operate the site and improve its learning resources.</p>
       <h3>What may be collected</h3>
       <ul><li>Questions and recent chat context you send to Ask Watt.</li><li>A random browser safety identifier used to apply the Ask Watt question limit.</li><li>Basic usage information through Google Analytics, such as page views, device/browser information, and referral information.</li><li>Information you choose to send to <a href="mailto:contact@itswatts.com">contact@itswatts.com</a>.</li></ul>
       <h3>How it is used</h3>
@@ -26,13 +26,15 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'TERMS',
     title: 'Terms of use',
     body: <>
-      <p><strong>Last updated: August 1, 2026.</strong> it’s Wattϟ provides educational QA resources, practice activities, and fictional demonstrations for learning purposes.</p>
+      <p><strong>Last updated: August 8, 2026.</strong> it’s Wattϟ is operated by ITS WATTS, LLC, a Mississippi limited liability company, and provides educational QA resources, practice activities, and fictional demonstrations for learning purposes.</p>
       <h3>Use the site responsibly</h3>
       <p>You may use the content for personal learning and professional development. Do not misuse the site, interfere with its services, attempt to bypass usage limits, or submit harmful content through Ask Watt.</p>
       <h3>Educational—not professional advice</h3>
       <p>Content from it’s Wattϟ and Ask Watt is general education. It is not legal, financial, security, employment, accessibility compliance, or other professional advice. Apply your own judgment and your organization’s policies.</p>
       <h3>External services</h3>
       <p>Links to third-party sites are provided for convenience. Their content and privacy practices are their own.</p>
+      <h3>Governing law</h3>
+      <p>These terms are governed by the laws of the State of Mississippi, without regard to conflict-of-law principles.</p>
       <p className="legal-note">These starter terms should be reviewed by a qualified legal professional before relying on them as formal legal terms.</p>
     </>,
   },
@@ -51,7 +53,7 @@ const legalContent: Record<LegalDocument, { label: string; title: string; body: 
     label: 'DEMO LAB',
     title: 'Demo Lab notice',
     body: <>
-      <p>The it’s Wattϟ Demo Lab is a fictional QA practice environment. Its shopping, claims, HR, and banking experiences are designed for learning, exploratory testing, and automation practice.</p>
+      <p>The it’s Wattϟ Demo Lab, operated by ITS WATTS, LLC, is a fictional QA practice environment. Its shopping, claims, HR, and banking experiences are designed for learning, exploratory testing, and automation practice.</p>
       <h3>No real services or records</h3>
       <p>Do not enter real passwords, financial information, personal data, or confidential information. The demo environments do not provide real banking, employment, insurance, or purchasing services. Displayed people, accounts, balances, and records are fictional.</p>
       <p>Practice data and UI behavior may change or reset without notice as the lab evolves.</p>
